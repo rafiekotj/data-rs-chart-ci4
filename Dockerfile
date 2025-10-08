@@ -18,8 +18,6 @@ WORKDIR /var/www/html
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-COPY .env /var/www/html/.env
-
 # Jalankan composer install
 RUN composer install --no-interaction --no-progress --prefer-dist
 
