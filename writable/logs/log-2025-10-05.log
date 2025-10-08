@@ -1,0 +1,1446 @@
+CRITICAL - 2025-10-05 06:15:42 --> TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given
+[Method: GET, Route: /]
+in APPPATH\Views\dashboard\dashboard.php on line 145.
+ 1 SYSTEMPATH\View\View.php(226): include()
+ 2 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/dashboard', [], true)
+ 4 APPPATH\Controllers\Dashboard.php(52): view('dashboard/dashboard', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:15:42 --> [Caused by] ErrorException: Undefined variable $fixedColors
+in APPPATH\Views\dashboard\dashboard.php on line 145.
+ 1 APPPATH\Views\dashboard\dashboard.php(145): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $fixedColors', 'C:\\xampp\\htdocs\\chartsci\\app\\Views\\dashboard\\dashboard.php', 145)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\chartsci\\app\\Views\\dashboard\\dashboard.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/dashboard', [], true)
+ 5 APPPATH\Controllers\Dashboard.php(52): view('dashboard/dashboard', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:49:10 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 06:53:43 --> ErrorException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= 'undefined'
+                         ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "tahun",...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "tahun",...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "tahun",...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "tahun",...', Array, false)
+#5 C:\xampp\htdocs\chartsci\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#7 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(164): CodeIgniter\BaseModel->findAll()
+#8 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(97): App\Models\ModelDashboard->getDataPerJenis('undefined', 'undefined', 'undefined', 'undefined')
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartData()
+#10 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#11 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#16 {main}
+CRITICAL - 2025-10-05 06:53:43 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= 'undefined'
+                         ^
+[Method: GET, Route: dashboard/getLineChartData]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= :tahun:
+AND "tahun" <= :tahun.1:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\ModelDashboard.php(164): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Dashboard.php(97): App\Models\ModelDashboard->getDataPerJenis('undefined', 'undefined', 'undefined', 'undefined')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartData()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:53:43 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= 'undefined'
+                         ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= :tahun:
+AND "tahun" <= :tahun.1:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\ModelDashboard.php(164): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Dashboard.php(97): App\Models\ModelDashboard->getDataPerJenis('undefined', 'undefined', 'undefined', 'undefined')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartData()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:53:43 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= 'undefined'
+                         ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= \'undefined\'
+                         ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= :tahun:
+AND "tahun" <= :tahun.1:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC', [...], false)
+ 6 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 7 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 8 APPPATH\Models\ModelDashboard.php(164): CodeIgniter\BaseModel->findAll()
+ 9 APPPATH\Controllers\Dashboard.php(97): App\Models\ModelDashboard->getDataPerJenis('undefined', 'undefined', 'undefined', 'undefined')
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartData()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 06:53:44 --> ErrorException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = 'undefined'
+                        ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "jenis_r...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "jenis_r...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "jenis_r...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "jenis_r...', Array, false)
+#5 C:\xampp\htdocs\chartsci\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#7 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(77): CodeIgniter\BaseModel->findAll()
+#8 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(78): App\Models\ModelDashboard->getJumlahJenisRs('undefined', 'undefined', 'undefined')
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartData()
+#10 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#11 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#16 {main}
+CRITICAL - 2025-10-05 06:53:44 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = 'undefined'
+                        ^
+[Method: GET, Route: dashboard/getBarChartData]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = :tahun:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\ModelDashboard.php(77): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Dashboard.php(78): App\Models\ModelDashboard->getJumlahJenisRs('undefined', 'undefined', 'undefined')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartData()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:53:44 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = 'undefined'
+                        ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = :tahun:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\ModelDashboard.php(77): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Dashboard.php(78): App\Models\ModelDashboard->getJumlahJenisRs('undefined', 'undefined', 'undefined')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartData()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:53:44 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = 'undefined'
+                        ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = \'undefined\'
+                        ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = :tahun:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC', [...], false)
+ 6 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 7 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 8 APPPATH\Models\ModelDashboard.php(77): CodeIgniter\BaseModel->findAll()
+ 9 APPPATH\Controllers\Dashboard.php(78): App\Models\ModelDashboard->getJumlahJenisRs('undefined', 'undefined', 'undefined')
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartData()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 06:53:51 --> ErrorException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= 'undefined'
+                         ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "tahun",...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "tahun",...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "tahun",...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "tahun",...', Array, false)
+#5 C:\xampp\htdocs\chartsci\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#7 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(164): CodeIgniter\BaseModel->findAll()
+#8 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(97): App\Models\ModelDashboard->getDataPerJenis('undefined', 'undefined', 'undefined', 'undefined')
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartData()
+#10 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#11 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#16 {main}
+CRITICAL - 2025-10-05 06:53:51 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= 'undefined'
+                         ^
+[Method: GET, Route: dashboard/getLineChartData]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= :tahun:
+AND "tahun" <= :tahun.1:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\ModelDashboard.php(164): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Dashboard.php(97): App\Models\ModelDashboard->getDataPerJenis('undefined', 'undefined', 'undefined', 'undefined')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartData()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:53:51 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= 'undefined'
+                         ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= :tahun:
+AND "tahun" <= :tahun.1:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\ModelDashboard.php(164): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Dashboard.php(97): App\Models\ModelDashboard->getDataPerJenis('undefined', 'undefined', 'undefined', 'undefined')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartData()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:53:51 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= 'undefined'
+                         ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; &gt;= \'undefined\'
+                         ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= \'undefined\'
+AND "tahun" <= \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "tahun", "jenis_rs", COUNT(*) as jumlah
+FROM "data_rs"
+WHERE "tahun" >= :tahun:
+AND "tahun" <= :tahun.1:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "tahun", "jenis_rs"
+ORDER BY "tahun" ASC', [...], false)
+ 6 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 7 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 8 APPPATH\Models\ModelDashboard.php(164): CodeIgniter\BaseModel->findAll()
+ 9 APPPATH\Controllers\Dashboard.php(97): App\Models\ModelDashboard->getDataPerJenis('undefined', 'undefined', 'undefined', 'undefined')
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartData()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 06:53:53 --> ErrorException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = 'undefined'
+                        ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "jenis_r...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "jenis_r...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "jenis_r...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "jenis_r...', Array, false)
+#5 C:\xampp\htdocs\chartsci\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#7 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(77): CodeIgniter\BaseModel->findAll()
+#8 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(78): App\Models\ModelDashboard->getJumlahJenisRs('undefined', 'undefined', 'undefined')
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartData()
+#10 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#11 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#16 {main}
+CRITICAL - 2025-10-05 06:53:53 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = 'undefined'
+                        ^
+[Method: GET, Route: dashboard/getBarChartData]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = :tahun:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\ModelDashboard.php(77): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Dashboard.php(78): App\Models\ModelDashboard->getJumlahJenisRs('undefined', 'undefined', 'undefined')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartData()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:53:53 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = 'undefined'
+                        ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = :tahun:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\ModelDashboard.php(77): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Dashboard.php(78): App\Models\ModelDashboard->getJumlahJenisRs('undefined', 'undefined', 'undefined')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartData()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:53:53 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = 'undefined'
+                        ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  invalid input syntax for type bigint: &quot;undefined&quot;
+LINE 3: WHERE &quot;tahun&quot; = \'undefined\'
+                        ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = \'undefined\'
+AND "provinsi" = \'undefined\'
+AND "kabupaten_kota" = \'undefined\'
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "jenis_rs", COUNT(*) as total
+FROM "data_rs"
+WHERE "tahun" = :tahun:
+AND "provinsi" = :provinsi:
+AND "kabupaten_kota" = :kabupaten_kota:
+GROUP BY "jenis_rs"
+ORDER BY "total" DESC', [...], false)
+ 6 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 7 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 8 APPPATH\Models\ModelDashboard.php(77): CodeIgniter\BaseModel->findAll()
+ 9 APPPATH\Controllers\Dashboard.php(78): App\Models\ModelDashboard->getJumlahJenisRs('undefined', 'undefined', 'undefined')
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartData()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 06:59:54 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:07 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:08 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:14 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:15 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:20 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:20 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:24 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:24 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:31 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:32 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:17:44 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:19 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:21 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:22 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:23 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:23 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:25 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:25 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:27 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:27 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:28 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:29 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:31 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:35 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:36 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:37 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:40 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:41 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendPenyelenggaraRs
+[Method: GET, Route: dashboard/getLineChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(195): CodeIgniter\Model->__call('getTrendPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:24:42 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getJumlahPenyelenggaraRs
+[Method: GET, Route: dashboard/getBarChartDataPenyelenggara]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(185): CodeIgniter\Model->__call('getJumlahPenyelenggaraRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getBarChartDataPenyelenggara()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:27:22 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:27:24 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:30:34 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:30:36 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ModelDashboard::getTrendKelasRs
+[Method: GET, Route: dashboard/getLineChartDataKelas]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Dashboard.php(176): CodeIgniter\Model->__call('getTrendKelasRs', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getLineChartDataKelas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 07:42:35 --> ErrorException: pg_query(): Query failed: ERROR:  relation &quot;rumah_sakit&quot; does not exist
+LINE 2: FROM &quot;rumah_sakit&quot;
+             ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 C:\xampp\htdocs\chartsci\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#7 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(29): CodeIgniter\BaseModel->findAll()
+#8 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(19): App\Models\ModelDashboard->getListProvinsi()
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+#10 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#11 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#16 {main}
+CRITICAL - 2025-10-05 07:42:35 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  relation &quot;rumah_sakit&quot; does not exist
+LINE 2: FROM &quot;rumah_sakit&quot;
+             ^
+[Method: GET, Route: /]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT "provinsi"
+FROM "rumah_sakit"
+ORDER BY "provinsi" ASC', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\ModelDashboard.php(29): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Dashboard.php(19): App\Models\ModelDashboard->getListProvinsi()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:42:35 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  relation &quot;rumah_sakit&quot; does not exist
+LINE 2: FROM &quot;rumah_sakit&quot;
+             ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT "provinsi"
+FROM "rumah_sakit"
+ORDER BY "provinsi" ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT "provinsi"
+FROM "rumah_sakit"
+ORDER BY "provinsi" ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT "provinsi"
+FROM "rumah_sakit"
+ORDER BY "provinsi" ASC', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\ModelDashboard.php(29): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Dashboard.php(19): App\Models\ModelDashboard->getListProvinsi()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:42:35 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  relation &quot;rumah_sakit&quot; does not exist
+LINE 2: FROM &quot;rumah_sakit&quot;
+             ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  relation &quot;rumah_sakit&quot; does not exist
+LINE 2: FROM &quot;rumah_sakit&quot;
+             ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT "provinsi"
+FROM "rumah_sakit"
+ORDER BY "provinsi" ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT "provinsi"
+FROM "rumah_sakit"
+ORDER BY "provinsi" ASC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT "provinsi"
+FROM "rumah_sakit"
+ORDER BY "provinsi" ASC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT "provinsi"
+FROM "rumah_sakit"
+ORDER BY "provinsi" ASC', [], false)
+ 6 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 7 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 8 APPPATH\Models\ModelDashboard.php(29): CodeIgniter\BaseModel->findAll()
+ 9 APPPATH\Controllers\Dashboard.php(19): App\Models\ModelDashboard->getListProvinsi()
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:51:20 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dashboard.php"
+[Method: GET, Route: /]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dashboard.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard', [], true)
+ 3 APPPATH\Controllers\Dashboard.php(26): view('dashboard', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:52:33 --> ErrorException: Undefined variable $selectedProvinsi
+[Method: GET, Route: /]
+in APPPATH\Views\dashboard\dashboard.php on line 40.
+ 1 APPPATH\Views\dashboard\dashboard.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $selectedProvinsi', 'C:\\xampp\\htdocs\\chartsci\\app\\Views\\dashboard\\dashboard.php', 40)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\chartsci\\app\\Views\\dashboard\\dashboard.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/dashboard', [], true)
+ 5 APPPATH\Controllers\Dashboard.php(26): view('dashboard/dashboard', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 07:52:38 --> ErrorException: Undefined variable $selectedProvinsi
+[Method: GET, Route: /]
+in APPPATH\Views\dashboard\dashboard.php on line 40.
+ 1 APPPATH\Views\dashboard\dashboard.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $selectedProvinsi', 'C:\\xampp\\htdocs\\chartsci\\app\\Views\\dashboard\\dashboard.php', 40)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\chartsci\\app\\Views\\dashboard\\dashboard.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/dashboard', [], true)
+ 5 APPPATH\Controllers\Dashboard.php(26): view('dashboard/dashboard', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 08:21:59 --> ErrorException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "DISTINC...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINC...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINC...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINC...', Array, false)
+#5 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('Banten')
+#7 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+#8 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#14 {main}
+CRITICAL - 2025-10-05 08:21:59 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 2 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('Banten')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 08:21:59 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Banten\'
+ORDER BY "kabupaten_kota" ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Banten\'
+ORDER BY "kabupaten_kota" ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 4 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('Banten')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 08:21:59 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Banten\'
+ORDER BY "kabupaten_kota" ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Banten\'
+ORDER BY "kabupaten_kota" ASC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Banten\'
+ORDER BY "kabupaten_kota" ASC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 6 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 7 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('Banten')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 08:22:02 --> ErrorException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "DISTINC...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINC...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINC...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINC...', Array, false)
+#5 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('Bengkulu')
+#7 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+#8 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#14 {main}
+CRITICAL - 2025-10-05 08:22:02 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 2 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('Bengkulu')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 08:22:02 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Bengkulu\'
+ORDER BY "kabupaten_kota" ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Bengkulu\'
+ORDER BY "kabupaten_kota" ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 4 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('Bengkulu')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 08:22:02 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Bengkulu\'
+ORDER BY "kabupaten_kota" ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Bengkulu\'
+ORDER BY "kabupaten_kota" ASC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'Bengkulu\'
+ORDER BY "kabupaten_kota" ASC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 6 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 7 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('Bengkulu')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 08:22:10 --> ErrorException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "DISTINC...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINC...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINC...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINC...', Array, false)
+#5 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('DI Yogyakarta')
+#7 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+#8 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#14 {main}
+CRITICAL - 2025-10-05 08:22:10 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 2 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('DI Yogyakarta')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 08:22:10 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 4 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('DI Yogyakarta')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 08:22:10 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 6 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 7 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('DI Yogyakarta')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+ERROR - 2025-10-05 08:23:50 --> ErrorException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^ in C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\chartsci\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "DISTINC...')
+#2 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINC...')
+#3 C:\xampp\htdocs\chartsci\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINC...')
+#4 C:\xampp\htdocs\chartsci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINC...', Array, false)
+#5 C:\xampp\htdocs\chartsci\app\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\chartsci\app\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('DI Yogyakarta')
+#7 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+#8 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#9 C:\xampp\htdocs\chartsci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\chartsci\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\chartsci\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\chartsci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\xampp\htdocs\chartsci\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#14 {main}
+CRITICAL - 2025-10-05 08:23:50 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 2 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('DI Yogyakarta')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 08:23:50 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 4 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('DI Yogyakarta')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
+CRITICAL - 2025-10-05 08:23:50 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  column &quot;DISTINCT&quot; does not exist
+LINE 1: SELECT &quot;DISTINCT&quot; &quot;kabupaten_kota&quot;
+               ^', 'C:\\xampp\\htdocs\\chartsci\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = \'DI Yogyakarta\'
+ORDER BY "kabupaten_kota" ASC')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT "DISTINCT" "kabupaten_kota"
+FROM "data_rs"
+WHERE "provinsi" = :provinsi:
+ORDER BY "kabupaten_kota" ASC', [...], false)
+ 6 APPPATH\Models\ModelDashboard.php(67): CodeIgniter\Database\BaseBuilder->get()
+ 7 APPPATH\Controllers\Dashboard.php(92): App\Models\ModelDashboard->getKabupatenByProvinsi('DI Yogyakarta')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\chartsci\\public\\index.php')
