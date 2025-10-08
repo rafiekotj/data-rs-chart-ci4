@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
-    && docker-php-ext-enable intl
+    && docker-php-ext-enable intl pgsql pdo_pgsql
 
 # Salin semua file ke dalam container
 COPY . /var/www/html
