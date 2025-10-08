@@ -1,0 +1,80 @@
+CRITICAL - 2025-10-08 06:54:41 --> ErrorException: Constant expression contains invalid operations
+[Method: GET, Route: /]
+in APPPATH/Config/Database.php on line 27.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+ERROR - 2025-10-08 06:58:09 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;db.sxlhygcxwwujmdpmzaob.supabase.co&quot; (2406:da18:243:741a:ea2:13ab:56c0:28bc), port 5432 failed: Network is unreachable
+	Is the server running on that host and accepting TCP/IP connections? in /var/www/html/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_connect(): U...', '/var/www/html/s...', 78)
+#1 /var/www/html/system/Database/Postgre/Connection.php(78): pg_connect('host=db.sxlhygc...')
+#2 /var/www/html/system/Database/BaseConnection.php(419): CodeIgniter\Database\Postgre\Connection->connect(false)
+#3 /var/www/html/system/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#4 /var/www/html/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 /var/www/html/system/Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#6 /var/www/html/system/BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#7 /var/www/html/app/Models/ModelDashboard.php(29): CodeIgniter\BaseModel->findAll()
+#8 /var/www/html/app/Controllers/Dashboard.php(24): App\Models\ModelDashboard->getListProvinsi()
+#9 /var/www/html/system/CodeIgniter.php(933): App\Controllers\Dashboard->index()
+#10 /var/www/html/system/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#11 /var/www/html/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 /var/www/html/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#13 /var/www/html/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 /var/www/html/public/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2025-10-08 06:58:10 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;db.sxlhygcxwwujmdpmzaob.supabase.co&quot; (2406:da18:243:741a:ea2:13ab:56c0:28bc), port 5432 failed: Network is unreachable
+	Is the server running on that host and accepting TCP/IP connections?
+[Method: GET, Route: /]
+in SYSTEMPATH/Database/BaseConnection.php on line 465.
+ 1 SYSTEMPATH/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT "provinsi"
+FROM "data_rs"
+ORDER BY "provinsi" ASC', [], false)
+ 3 SYSTEMPATH/Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/ModelDashboard.php(29): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Dashboard.php(24): App\Models\ModelDashboard->getListProvinsi()
+ 7 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 8 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-10-08 07:00:07 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;db.sxlhygcxwwujmdpmzaob.supabase.co&quot; (2406:da18:243:741a:ea2:13ab:56c0:28bc), port 5432 failed: Network is unreachable
+	Is the server running on that host and accepting TCP/IP connections? in /var/www/html/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_connect(): U...', '/var/www/html/s...', 78)
+#1 /var/www/html/system/Database/Postgre/Connection.php(78): pg_connect('host=db.sxlhygc...')
+#2 /var/www/html/system/Database/BaseConnection.php(419): CodeIgniter\Database\Postgre\Connection->connect(false)
+#3 /var/www/html/system/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#4 /var/www/html/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 /var/www/html/system/Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#6 /var/www/html/system/BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#7 /var/www/html/app/Models/ModelDashboard.php(29): CodeIgniter\BaseModel->findAll()
+#8 /var/www/html/app/Controllers/Dashboard.php(24): App\Models\ModelDashboard->getListProvinsi()
+#9 /var/www/html/system/CodeIgniter.php(933): App\Controllers\Dashboard->index()
+#10 /var/www/html/system/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+#11 /var/www/html/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 /var/www/html/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#13 /var/www/html/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 /var/www/html/public/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2025-10-08 07:00:07 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;db.sxlhygcxwwujmdpmzaob.supabase.co&quot; (2406:da18:243:741a:ea2:13ab:56c0:28bc), port 5432 failed: Network is unreachable
+	Is the server running on that host and accepting TCP/IP connections?
+[Method: GET, Route: /]
+in SYSTEMPATH/Database/BaseConnection.php on line 465.
+ 1 SYSTEMPATH/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT "provinsi"
+FROM "data_rs"
+ORDER BY "provinsi" ASC', [], false)
+ 3 SYSTEMPATH/Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/ModelDashboard.php(29): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Dashboard.php(24): App\Models\ModelDashboard->getListProvinsi()
+ 7 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Dashboard->index()
+ 8 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

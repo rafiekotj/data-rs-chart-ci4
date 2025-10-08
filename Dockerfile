@@ -10,8 +10,13 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
     && docker-php-ext-enable intl pgsql pdo_pgsql
 
+RUN apt-get install -y ca-certificates && update-ca-certificates
+
 # Salin semua file ke dalam container
 COPY . /var/www/html
+
+# Copy .env agar CodeIgniter bisa membaca konfigurasi environment
+COPY .env /var/www/html/.env
 
 # Set working directory
 WORKDIR /var/www/html
