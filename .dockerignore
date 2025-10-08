@@ -1,0 +1,6 @@
+.git
+vendor
+node_modules
+writable/cache/*
+writable/logs/*
+.env
