@@ -1,12 +1,13 @@
 # Gunakan image PHP resmi dengan Apache
 FROM php:8.2-apache
 
-# Install ekstensi yang dibutuhkan oleh CI4
+# Install ekstensi yang dibutuhkan oleh CI4 + PostgreSQL
 RUN apt-get update && apt-get install -y \
     libicu-dev \
+    libpq-dev \
     zip \
     unzip \
-    && docker-php-ext-install intl mysqli pdo pdo_mysql \
+    && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
     && docker-php-ext-enable intl
 
 # Salin semua file ke dalam container
