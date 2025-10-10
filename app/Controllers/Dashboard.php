@@ -40,13 +40,14 @@ class Dashboard extends BaseController
     }
 
     // === Hitung min & max tahun ===
-    $minTahun = !empty($listTahun)
-      ? min(array_column($listTahun, 'tahun'))
-      : date('Y');
-
-    $maxTahun = !empty($listTahun)
-      ? max(array_column($listTahun, 'tahun'))
-      : date('Y');
+    if (!empty($listTahun) && count($listTahun) > 0) {
+      $tahunArray = array_column($listTahun, 'tahun');
+      $minTahun = min($tahunArray);
+      $maxTahun = max($tahunArray);
+    } else {
+      // fallback default jika tidak ada data
+      $minTahun = $maxTahun = date('Y');
+    }
 
     // === Data dikirim ke view ===
     $data = [
