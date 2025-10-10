@@ -6,96 +6,57 @@ use CodeIgniter\Model;
 
 class ModelDashboard extends Model
 {
-  protected $table = 'data_rs';
-  protected $primaryKey = 'id';
-  protected $allowedFields = [
-    'tahun',
-    'rumah_sakit',
-    'jenis_rs',
-    'kelas_rs',
-    'alamat',
-    'kabupaten_kota',
-    'provinsi',
-    'penyelenggara_grup',
-    'penyelenggara_kategori'
-  ];
+  protected $supabase;
+
+  public function __construct()
+  {
+    parent::__construct();
+    $this->supabase = service('supabase');
+  }
 
   // === Ambil daftar Provinsi ===
   public function getListProvinsi(): array
   {
-    return $this->select('provinsi')
-      ->distinct()
-      ->orderBy('provinsi', 'ASC')
-      ->findAll();
+    return $this->supabase->getAll('data_rs', 'select=provinsi&distinct=provinsi&order=provinsi.asc');
   }
 
   // === Ambil daftar Kabupaten/Kota ===
   public function getListKabupatenKota(): array
   {
-    return $this->select('kabupaten_kota')
-      ->distinct()
-      ->orderBy('kabupaten_kota', 'ASC')
-      ->findAll();
+    return $this->supabase->getAll('data_rs', 'select=kabupaten_kota&distinct=kabupaten_kota&order=kabupaten_kota.asc');
   }
 
   // === Ambil daftar Tahun ===
   public function getListTahun(): array
   {
-    return $this->select('tahun')
-      ->distinct()
-      ->orderBy('tahun', 'DESC')
-      ->findAll();
+    return $this->supabase->getAll('data_rs', 'select=tahun&distinct=tahun&order=tahun.desc');
   }
 
   // === Data untuk Bar Chart ===
   public function getBarData(string $kolom, string $tahun, string $provinsi = '', string $kabupaten = ''): array
   {
-    $builder = $this->select("$kolom, COUNT(*) AS total")
-      ->where('tahun', $tahun);
+    $filter = "select={$kolom},count:id&tahun=eq.{$tahun}";
+    if ($provinsi) $filter .= "&provinsi=eq.{$provinsi}";
+    if ($kabupaten) $filter .= "&kabupaten_kota=eq.{$kabupaten}";
+    $filter .= "&groupby={$kolom}";
 
-    if (!empty($provinsi)) {
-      $builder->where('provinsi', $provinsi);
-    }
-
-    if (!empty($kabupaten)) {
-      $builder->where('kabupaten_kota', $kabupaten);
-    }
-
-    return $builder->groupBy($kolom)
-      ->orderBy($kolom, 'ASC')
-      ->findAll();
+    return $this->supabase->getAll('data_rs', $filter);
   }
 
   // === Data untuk Line Chart ===
   public function getLineData(string $kolom, string $tahunAwal, string $tahunAkhir, string $provinsi = '', string $kabupaten = ''): array
   {
-    $builder = $this->select("tahun, $kolom, COUNT(*) AS total")
-      ->where('tahun >=', $tahunAwal)
-      ->where('tahun <=', $tahunAkhir);
+    $filter = "select=tahun,{$kolom},count:id&tahun=gte.{$tahunAwal}&tahun=lte.{$tahunAkhir}";
+    if ($provinsi) $filter .= "&provinsi=eq.{$provinsi}";
+    if ($kabupaten) $filter .= "&kabupaten_kota=eq.{$kabupaten}";
+    $filter .= "&order=tahun.asc,{$kolom}.asc";
 
-    if (!empty($provinsi)) {
-      $builder->where('provinsi', $provinsi);
-    }
-
-    if (!empty($kabupaten)) {
-      $builder->where('kabupaten_kota', $kabupaten);
-    }
-
-    return $builder->groupBy(['tahun', $kolom])
-      ->orderBy('tahun', 'ASC')
-      ->orderBy($kolom, 'ASC')
-      ->findAll();
+    return $this->supabase->getAll('data_rs', $filter);
   }
 
   // === Ambil Kabupaten berdasarkan Provinsi ===
   public function getKabupatenByProvinsi(string $provinsi): array
   {
-    return $this->db->table($this->table)
-      ->distinct()
-      ->select('kabupaten_kota')
-      ->where('provinsi', $provinsi)
-      ->orderBy('kabupaten_kota', 'ASC')
-      ->get()
-      ->getResultArray();
+    return $this->supabase->getAll('data_rs', "select=kabupaten_kota&provinsi=eq.{$provinsi}&distinct=kabupaten_kota&order=kabupaten_kota.asc");
   }
 }
