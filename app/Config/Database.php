@@ -66,26 +66,37 @@ class Database extends Config
             $this->defaultGroup = 'tests';
         }
 
-        // ✅ Pindahkan semua panggilan env() ke sini
+        /**
+         * Fallback helper — prioritizes `database.default.*` first, then checks `database_default_*`
+         * (Render environment variables cannot use dots)
+         */
+        $env = static function (string $dotKey, string $underscoreKey, $default = null) {
+            return env($dotKey, getenv($underscoreKey) ?: $default);
+        };
+
         $this->default = [
-            'DSN'          => env('database.default.DSN'),
-            'hostname'     => env('database.default.hostname', 'db.sxlhygcxwwujmdpmzaob.supabase.co'),
-            'username'     => env('database.default.username', 'postgres'),
-            'password'     => env('database.default.password', 'Rafie*1987'),
-            'database'     => env('database.default.database', 'postgres'),
-            'DBDriver'     => env('database.default.DBDriver', 'Postgre'),
+            'DSN'          => $env(
+                'database.default.DSN',
+                'database_default_DSN',
+                'pgsql:host=aws-1-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres;user=postgres.sxlhygcxwwujmdpmzaob;password=Rafie*1987;sslmode=require'
+            ),
+            'hostname'     => $env('database.default.hostname', 'database_default_hostname', 'aws-1-ap-southeast-1.pooler.supabase.com'),
+            'username'     => $env('database.default.username', 'database_default_username', 'postgres.sxlhygcxwwujmdpmzaob'),
+            'password'     => $env('database.default.password', 'database_default_password', 'Rafie*1987'),
+            'database'     => $env('database.default.database', 'database_default_database', 'postgres'),
+            'DBDriver'     => $env('database.default.DBDriver', 'database_default_DBDriver', 'Postgre'),
             'DBPrefix'     => '',
             'pConnect'     => false,
             'DBDebug'      => (ENVIRONMENT !== 'production'),
-            'charset'      => env('database.default.charset', 'utf8'),
-            'DBCollat'     => env('database.default.DBCollat', 'utf8_general_ci'),
+            'charset'      => $env('database.default.charset', 'database_default_charset', 'utf8'),
+            'DBCollat'     => $env('database.default.DBCollat', 'database_default_DBCollat', 'utf8_general_ci'),
             'swapPre'      => '',
-            'encrypt'      => env('database.default.encrypt', true),
+            'encrypt'      => $env('database.default.encrypt', 'database_default_encrypt', true),
             'sslmode'      => 'require',
             'compress'     => false,
             'strictOn'     => false,
             'failover'     => [],
-            'port'         => env('database.default.port', 5432),
+            'port'         => $env('database.default.port', 'database_default_port', 6543),
             'numberNative' => false,
             'foundRows'    => false,
             'dateFormat'   => [
