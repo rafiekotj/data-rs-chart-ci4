@@ -16,7 +16,13 @@ class Home extends BaseController
             if ($db->connID) {
                 echo "✅ Koneksi ke Supabase berhasil!";
             } else {
-                echo "❌ Gagal konek ke database.";
+                echo "❌ Gagal konek ke database.<br>";
+
+                // Tambahkan debug detail
+                $lastError = error_get_last();
+                echo "<pre>";
+                print_r($lastError);
+                echo "</pre>";
             }
         } catch (\Throwable $e) {
             echo "⚠️ Error: " . $e->getMessage();
