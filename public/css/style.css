@@ -142,3 +142,14 @@ body {
   font-size: 14px;
   padding: 6px 10px;
 }
+
+.chart-wrapper {
+  position: relative;
+  min-height: 420px !important;
+  height: 420px !important;
+}
+
+.chart-wrapper canvas {
+  height: 400px !important;
+  min-height: 400px !important;
+}

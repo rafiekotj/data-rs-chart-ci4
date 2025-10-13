@@ -1,5 +1,7 @@
 .git
-vendor
+.gitignore
 node_modules
-writable/cache/*
+vendor
 writable/logs/*
+Dockerfile
+docker-compose.yml

@@ -37,7 +37,7 @@
             <option value="">Semua</option>
             <?php foreach ($listProvinsi as $prov): ?>
             <option value="<?= esc($prov['provinsi']) ?>"
-              <?= $prov['provinsi'] == $selectedProvinsi ? 'selected' : '' ?>>
+              <?= $prov['provinsi'] == ($selectedProvinsi ?? '') ? 'selected' : '' ?>>
               <?= esc($prov['provinsi']) ?>
             </option>
             <?php endforeach; ?>
@@ -285,8 +285,6 @@
 
 
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script>
@@ -318,18 +316,21 @@ async function getData(tipe, jenisChart) {
 }
 
 function toggleLoading(tipe, chartType, show = true) {
-  const canvas = document.getElementById(
-    `${chartType}chart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`);
+  const chartId = `${chartType}chart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`;
   const loader = document.getElementById(`${chartType}Loading_${tipe}`);
+  const canvas = document.getElementById(chartId);
+  const emptyMsg = document.getElementById(`${chartId}_empty`);
 
   if (!canvas || !loader) return;
 
   if (show) {
     loader.classList.remove('d-none');
     canvas.style.filter = 'blur(4px)';
+    if (emptyMsg) emptyMsg.style.display = 'none';
   } else {
     loader.classList.add('d-none');
     canvas.style.filter = 'none';
+    if (emptyMsg) emptyMsg.style.display = '';
   }
 }
 
@@ -340,7 +341,6 @@ document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tab => {
   });
 });
 
-// --- Plugin garis vertikal (hover line) ---
 const verticalLinePlugin = {
   id: 'verticalLine',
   beforeDatasetsDraw(chart) {
@@ -377,37 +377,63 @@ Chart.Tooltip.positioners.middleLine = function(elements) {
 };
 
 function renderBarChart(tipe, data) {
-  let sortedData;
+  const ctxId = `barchart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`;
+  const ctx = document.getElementById(ctxId);
 
+  if (ctx.chartInstance) {
+    ctx.chartInstance.destroy();
+    ctx.chartInstance = null;
+  }
+
+  const oldMsg = document.getElementById(`${ctxId}_empty`);
+  if (oldMsg) oldMsg.remove();
+
+  if (!Array.isArray(data) || data.length === 0) {
+    const msg = document.createElement('div');
+    msg.id = `${ctxId}_empty`;
+    msg.className = "text-center text-muted fw-semibold position-absolute top-50 start-50 translate-middle";
+    msg.textContent = "📭 Data tidak tersedia untuk tahun dan wilayah yang dipilih.";
+    ctx.parentNode.appendChild(msg);
+    ctx.style.display = "none";
+    return;
+  }
+
+  const validData = data.filter(d => d.total > 0);
+
+  if (!Array.isArray(data) || data.length === 0) {
+    const msg = document.createElement('div');
+    msg.id = `${ctxId}_empty`;
+    msg.className = "text-center text-muted fw-semibold position-absolute top-50 start-50 translate-middle";
+    msg.textContent = "Data tidak tersedia untuk wilayah yang dipilih.";
+    ctx.parentNode.appendChild(msg);
+
+    const ctxParent = ctx.getContext("2d");
+    ctxParent.clearRect(0, 0, ctx.width, ctx.height);
+
+    return;
+  }
+
+  ctx.style.display = "block";
+
+  // 🔹 Urutkan data
+  let sortedData;
   if (tipe === 'kelas') {
     const urutanKelas = ["A", "B", "C", "D", "D PRATAMA", "Belum Ditetapkan"];
-    sortedData = [...data].sort((a, b) => {
-      const kelasA = Object.values(a)[0];
-      const kelasB = Object.values(b)[0];
-      const indexA = urutanKelas.indexOf(kelasA);
-      const indexB = urutanKelas.indexOf(kelasB);
-      return indexA - indexB;
-    });
+    sortedData = [...validData].sort((a, b) => urutanKelas.indexOf(Object.values(a)[0]) - urutanKelas.indexOf(Object
+      .values(b)[0]));
   } else {
-    sortedData = [...data].sort((a, b) => b.total - a.total);
+    sortedData = [...validData].sort((a, b) => b.total - a.total);
   }
 
   const labels = sortedData.map(d => Object.values(d)[0]);
   const values = sortedData.map(d => d.total);
-
-  const ctxId = `barchart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`;
-  const ctx = document.getElementById(ctxId);
-  if (ctx.chartInstance) ctx.chartInstance.destroy();
-
-  const globalMax = Math.max(...values);
-  const suggestedMax = Math.ceil(globalMax * 1.1);
 
   ctx.chartInstance = new Chart(ctx, {
     type: 'bar',
     data: {
       labels,
       datasets: [{
-        label: `Jumlah`,
+        label: 'Jumlah',
         data: values,
         borderWidth: 1,
         backgroundColor: fixedColors.slice(0, labels.length)
@@ -438,15 +464,13 @@ function renderBarChart(tipe, data) {
           font: {
             weight: 'bold'
           },
-          formatter: function(value) {
-            return value.toLocaleString();
-          }
+          formatter: v => v.toLocaleString()
         }
       },
       scales: {
         x: {
           display: false,
-          beginAtZero: true
+          beginAtZero: true,
         },
         y: {
           grid: {
@@ -460,57 +484,60 @@ function renderBarChart(tipe, data) {
 }
 
 function renderLineChart(tipe, data) {
-  const tahunList = [...new Set(data.map(d => d.tahun))].sort();
-  const kategoriList = [...new Set(data.map(d => Object.values(d)[1]))];
+  if (!data || !Array.isArray(data.datasets) || data.datasets.length === 0) {
+    const ctx = document.getElementById(`linechart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`);
+    if (!ctx) return;
 
-  let datasets = kategoriList.map((kategori, i) => {
-    const nilaiPerTahun = tahunList.map(t => {
-      const found = data.find(d => d.tahun == t && Object.values(d)[1] == kategori);
-      return found ? found.total : 0;
-    });
-    const totalKeseluruhan = nilaiPerTahun.reduce((a, b) => a + b, 0);
-    return {
-      label: kategori,
-      data: nilaiPerTahun,
-      total: totalKeseluruhan,
-      borderColor: fixedColors[i % fixedColors.length],
-      backgroundColor: fixedColors[i % fixedColors.length],
-      borderWidth: 2,
-      tension: 0.3,
-      fill: false,
-      pointRadius: 4,
-      pointHoverRadius: 6
-    };
-  });
+    if (ctx.chartInstance) ctx.chartInstance.destroy();
 
-  datasets.sort((a, b) => b.total - a.total);
+    const msgId = `${ctx.id}_empty`;
+    document.getElementById(msgId)?.remove();
 
-  datasets.forEach((ds, i) => {
-    ds.borderColor = fixedColors[i % fixedColors.length];
-    ds.backgroundColor = fixedColors[i % fixedColors.length];
-  });
+    const msg = document.createElement("div");
+    msg.id = msgId;
+    msg.className =
+      "text-center text-muted fw-semibold position-absolute top-50 start-50 translate-middle";
+    msg.textContent = "Data tidak tersedia untuk rentang tahun ini.";
+    ctx.parentNode.appendChild(msg);
+    ctx.style.display = "none";
+    return;
+  }
+
+  const labels = data.labels;
+  const datasets = data.datasets.map((ds, i) => ({
+    ...ds,
+    borderColor: fixedColors[i % fixedColors.length],
+    backgroundColor: fixedColors[i % fixedColors.length],
+    borderWidth: 2,
+    tension: 0.3,
+    pointRadius: 4,
+    pointHoverRadius: 6,
+    fill: false
+  }));
 
   const ctxId = `linechart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`;
   const ctx = document.getElementById(ctxId);
   if (ctx.chartInstance) ctx.chartInstance.destroy();
 
+  ctx.style.display = "block";
+
   ctx.chartInstance = new Chart(ctx, {
-    type: 'line',
+    type: "line",
     data: {
-      labels: tahunList,
+      labels,
       datasets
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       interaction: {
-        mode: 'index',
+        mode: "index",
         intersect: false,
-        axis: 'x'
+        axis: "x"
       },
       plugins: {
         legend: {
-          position: 'right',
+          position: "right",
           labels: {
             generateLabels: chart => {
               const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
@@ -523,13 +550,13 @@ function renderLineChart(tipe, data) {
           }
         },
         tooltip: {
-          mode: 'index',
+          mode: "index",
           intersect: false,
-          position: 'middleLine',
-          backgroundColor: '#ffffff',
-          titleColor: '#1e293b',
-          bodyColor: '#1e293b',
-          borderColor: '#e5e7eb',
+          position: "middleLine",
+          backgroundColor: "#ffffff",
+          titleColor: "#1e293b",
+          bodyColor: "#1e293b",
+          borderColor: "#e5e7eb",
           borderWidth: 1,
           xAlign: 'center',
           yAlign: 'center',
@@ -540,8 +567,6 @@ function renderLineChart(tipe, data) {
             left: 12
           },
           boxPadding: 8,
-          // boxWidth: 12,
-          // boxHeight: 12,
           callbacks: {
             beforeBody(tooltipItems) {
               tooltipItems.sort((a, b) => b.parsed.y - a.parsed.y);
@@ -579,6 +604,7 @@ function renderLineChart(tipe, data) {
   });
 }
 
+
 async function loadBothCharts(tipe) {
   try {
     toggleLoading(tipe, 'bar', true);
@@ -599,7 +625,6 @@ async function loadBothCharts(tipe) {
       getData(tipe, 'line')
     ]);
 
-    // Render ulang setelah tab aktif dan DOM stabil
     requestAnimationFrame(() => {
       renderBarChart(tipe, barData);
       renderLineChart(tipe, lineData);
