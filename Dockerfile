@@ -43,5 +43,8 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 # Expose port 80
 EXPOSE 80
 
+# Tambahkan ServerName agar Apache tidak menampilkan warning
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 # Jalankan Apache
 CMD ["apache2-foreground"]
