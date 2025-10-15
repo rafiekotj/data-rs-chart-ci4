@@ -1,50 +1,53 @@
-# Gunakan image PHP resmi dengan Apache
+# Base image
 FROM php:8.2-apache
 
-# Install ekstensi yang dibutuhkan oleh CI4 + PostgreSQL
+# Install PHP extensions
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libpq-dev \
     zip \
     unzip \
+    git \
     && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
-    && docker-php-ext-enable intl pgsql pdo_pgsql
+    && docker-php-ext-enable intl pgsql pdo_pgsql \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -y ca-certificates && update-ca-certificates
-
-# Salin semua file ke dalam container
-COPY . /var/www/html
-
-# Copy .env agar CodeIgniter bisa membaca konfigurasi environment
-COPY .env /var/www/html/.env
-
-# Set working directory
+# Working directory
 WORKDIR /var/www/html
 
-# Install composer
+# Copy composer files
+COPY composer.json composer.lock ./
+
+# Copy composer binary
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Jalankan composer install
-RUN composer install --no-interaction --no-progress --prefer-dist
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-# Atur permission untuk folder writable
-RUN chmod -R 777 writable
+# Copy project files
+COPY . .
 
-# Aktifkan mod_rewrite Apache (agar route CI4 berfungsi)
+# Copy environment configuration file
+COPY .env /var/www/html/.env
+
+# Set correct permissions
+RUN chmod -R 775 writable && chown -R www-data:www-data writable
+
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Konfigurasi Apache DocumentRoot ke public/
+# Configure Apache DocumentRoot
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/sites-available/*.conf && \
+    sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Update konfigurasi Apache
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf && \
-    sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Tambahkan ServerName agar Apache tidak menampilkan warning
+# Set ServerName
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Jalankan Apache
+# Expose HTTP port
+EXPOSE 80
+
+# Start Apache in the foreground
 CMD ["apache2-foreground"]

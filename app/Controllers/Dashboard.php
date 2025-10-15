@@ -14,35 +14,27 @@ class Dashboard extends BaseController
     $this->dashboardModel = new ModelDashboard();
     $this->cache = cache();
   }
-
-  /**
-   * === Halaman utama dashboard ===
-   */
   public function index()
   {
     try {
-      // Ambil data provinsi
       $listProvinsi = $this->cache->get('listProvinsi');
       if (!is_array($listProvinsi) || empty($listProvinsi)) {
         $listProvinsi = $this->dashboardModel->getListProvinsi();
         $this->cache->save('listProvinsi', $listProvinsi, 3600);
       }
 
-      // Ambil data kabupaten/kota
       $listKabupatenKota = $this->cache->get('listKabupatenKota');
       if (!is_array($listKabupatenKota) || empty($listKabupatenKota)) {
         $listKabupatenKota = $this->dashboardModel->getListKabupatenKota();
         $this->cache->save('listKabupatenKota', $listKabupatenKota, 3600);
       }
 
-      // Ambil data tahun
       $listTahun = $this->cache->get('listTahun');
       if (!is_array($listTahun) || empty($listTahun)) {
         $listTahun = $this->dashboardModel->getListTahun();
         $this->cache->save('listTahun', $listTahun, 3600);
       }
 
-      // Tentukan range tahun
       $tahunArray = array_filter(array_map(fn($t) => $t['tahun'] ?? null, $listTahun));
       $minTahun = !empty($tahunArray) ? min($tahunArray) : date('Y');
       $maxTahun = !empty($tahunArray) ? max($tahunArray) : date('Y');
@@ -69,9 +61,6 @@ class Dashboard extends BaseController
     }
   }
 
-  /**
-   * === API: Data untuk Bar Chart ===
-   */
   public function getBarData($tipe)
   {
     $tahun = $this->request->getGet('tahun');
@@ -104,9 +93,6 @@ class Dashboard extends BaseController
     }
   }
 
-  /**
-   * === API: Data untuk Line Chart ===
-   */
   public function getLineData($tipe)
   {
     $tahunAwal  = (int)($this->request->getGet('tahunAwal') ?? date('Y') - 4);
@@ -156,9 +142,6 @@ class Dashboard extends BaseController
     }
   }
 
-  /**
-   * === API: Ambil kabupaten berdasarkan provinsi ===
-   */
   public function getKabupatenByProvinsi()
   {
     $provinsi = trim($this->request->getGet('provinsi') ?? '');
@@ -176,9 +159,6 @@ class Dashboard extends BaseController
     }
   }
 
-  /**
-   * === Helper internal: Mapping tipe ke kolom DB ===
-   */
   private function getKolomByTipe(string $tipe): ?string
   {
     return match ($tipe) {

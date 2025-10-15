@@ -12,3 +12,7 @@ $routes->get('/dashboard/bar/(:segment)', 'Dashboard::getBarData/$1');
 $routes->get('/dashboard/line/(:segment)', 'Dashboard::getLineData/$1');
 $routes->get('dashboard/getKabupatenByProvinsi', 'Dashboard::getKabupatenByProvinsi');
 $routes->get('datars', 'Datars::index');
+
+$routes->get('healthz', function () {
+  return $this->response->setStatusCode(200)->setBody('OK');
+});

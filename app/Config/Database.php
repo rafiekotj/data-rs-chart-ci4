@@ -5,29 +5,28 @@ namespace Config;
 use CodeIgniter\Database\Config;
 
 /**
+ * --------------------------------------------------------------------
  * Database Configuration
- * ---------------------------------------
- * Karena kita menggunakan Supabase REST API (bukan koneksi database langsung),
- * maka konfigurasi koneksi database ini hanya bersifat dummy (tidak aktif).
- *
- * Semua query akan di-handle melalui Model khusus yang memanggil Supabase
- * menggunakan HTTP request (curl).
+ * --------------------------------------------------------------------
+ * 
+ * This project retrieves data via Supabase REST API instead of
+ * direct database connections. The configuration structure below
+ * follows CodeIgniter’s standard format.
  */
 class Database extends Config
 {
   /**
-   * The directory that holds the Migrations and Seeds directories.
+   * Path to Migrations and Seeds directories.
    */
   public string $filesPath = APPPATH . 'Database' . DIRECTORY_SEPARATOR;
 
   /**
-   * Default group name
+   * Default database connection group.
    */
   public string $defaultGroup = 'default';
 
   /**
-   * Dummy database configuration.
-   * Tidak digunakan karena data diambil dari Supabase API.
+   * Default database settings.
    */
   public array $default = [
     'DSN'          => '',
@@ -35,7 +34,7 @@ class Database extends Config
     'username'     => '',
     'password'     => '',
     'database'     => '',
-    'DBDriver'     => 'MySQLi', // placeholder
+    'DBDriver'     => 'MySQLi',
     'DBPrefix'     => '',
     'pConnect'     => false,
     'DBDebug'      => (ENVIRONMENT !== 'production'),
@@ -57,7 +56,7 @@ class Database extends Config
   ];
 
   /**
-   * Unit testing database configuration (juga dummy)
+   * Database configuration for testing environment.
    */
   public array $tests = [
     'DSN'         => '',
@@ -86,11 +85,14 @@ class Database extends Config
     ],
   ];
 
+  /**
+   * Switch to the testing configuration group when
+   * the application is running in testing mode.
+   */
   public function __construct()
   {
     parent::__construct();
 
-    // Saat mode testing, gunakan konfigurasi tests
     if (ENVIRONMENT === 'testing') {
       $this->defaultGroup = 'tests';
     }

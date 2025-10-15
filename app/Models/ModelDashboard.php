@@ -10,9 +10,6 @@ class ModelDashboard extends Model
   private string $rpcUrl = 'https://sxlhygcxwwujmdpmzaob.supabase.co/rest/v1/rpc';
   private string $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bGh5Z2N4d3d1am1kcG16YW9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NDYxODIsImV4cCI6MjA3MzIyMjE4Mn0.JzoPRL0POJn6JSqwbT7uFOH6JAIYqYzY_BmizjuIJrc';
 
-  /**
-   * Helper memanggil fungsi RPC Supabase dengan caching
-   */
   private function callRPC(string $function, array $payload = []): array
   {
     try {
@@ -50,16 +47,13 @@ class ModelDashboard extends Model
         return [];
       }
 
-      $cache->save($cacheKey, $data, 1800); // Cache 30 menit
+      $cache->save($cacheKey, $data, 1800);
       return $data;
     } catch (\Throwable $e) {
       return [];
     }
   }
 
-  /**
-   * Daftar Provinsi unik
-   */
   public function getListProvinsi(): array
   {
     $data = $this->callRPC('get_unique_provinsi');
@@ -77,9 +71,6 @@ class ModelDashboard extends Model
     return array_map(fn($p) => ['provinsi' => $p], $unique);
   }
 
-  /**
-   * Daftar Kabupaten/Kota unik
-   */
   public function getListKabupatenKota(): array
   {
     $data = $this->callRPC('get_unique_kabupaten');
@@ -97,9 +88,6 @@ class ModelDashboard extends Model
     return array_map(fn($k) => ['kabupaten_kota' => $k], $unique);
   }
 
-  /**
-   * Daftar Tahun unik (terurut dari terbaru)
-   */
   public function getListTahun(): array
   {
     $data = $this->callRPC('get_unique_tahun');
@@ -117,9 +105,6 @@ class ModelDashboard extends Model
     return array_map(fn($t) => ['tahun' => $t], $unique);
   }
 
-  /**
-   * Data untuk grafik batang
-   */
   public function getBarData(string $kolom, string $tahun, string $provinsi = '', string $kabupaten = ''): array
   {
     $tahun = (int)$tahun ?: date('Y');
@@ -149,9 +134,6 @@ class ModelDashboard extends Model
     return $mapped;
   }
 
-  /**
-   * Ambil kabupaten berdasarkan provinsi
-   */
   public function getKabupatenByProvinsi(string $provinsi): array
   {
     if (!$provinsi) return [];
@@ -174,9 +156,6 @@ class ModelDashboard extends Model
     return array_map(fn($k) => ['kabupaten_kota' => $k], $unique);
   }
 
-  /**
-   * Data untuk grafik garis (tren multi-tahun)
-   */
   public function getLineData(string $kolom, int $tahunAwal, int $tahunAkhir, string $provinsi = '', string $kabupaten = ''): array
   {
     $hasil = [];

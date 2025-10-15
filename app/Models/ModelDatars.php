@@ -9,7 +9,6 @@ class ModelDatars extends Model
   private string $rpcUrl = 'https://sxlhygcxwwujmdpmzaob.supabase.co/rest/v1/rpc';
   private string $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bGh5Z2N4d3d1am1kcG16YW9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NDYxODIsImV4cCI6MjA3MzIyMjE4Mn0.JzoPRL0POJn6JSqwbT7uFOH6JAIYqYzY_BmizjuIJrc';
 
-  // === Ambil data rumah sakit per halaman ===
   public function getUniqueLatestPage(int $page = 1, int $perPage = 100, string $search = ''): array
   {
     $url = "{$this->rpcUrl}/get_rs_unique_latest_page";
@@ -45,7 +44,6 @@ class ModelDatars extends Model
       return [];
     }
 
-    // 🔍 Filter hanya berdasarkan kolom `rumah_sakit`
     if ($search !== '') {
       $searchLower = mb_strtolower($search);
       $data = array_filter($data, function ($item) use ($searchLower) {
@@ -57,10 +55,8 @@ class ModelDatars extends Model
     return $data;
   }
 
-  // === Ambil total data rumah sakit (bisa dipengaruhi pencarian) ===
   public function getUniqueLatestTotal(string $search = ''): int
   {
-    // Jika tidak ada pencarian → ambil total dari RPC
     if ($search === '') {
       $url = "{$this->rpcUrl}/get_rs_unique_latest_count";
       $ch = curl_init($url);
@@ -87,7 +83,6 @@ class ModelDatars extends Model
       return isset($data[0]['total']) ? (int)$data[0]['total'] : 0;
     }
 
-    // Jika ada pencarian → ambil total hasil filter manual
     $allData = $this->getUniqueLatestPage(1, 999999, $search);
     return count($allData);
   }
