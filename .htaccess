@@ -1,8 +1,15 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteCond %{REQUEST_FILENAME} -f
+
+  # Jika file atau folder fisik ada, jangan rewrite
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  RewriteCond %{REQUEST_FILENAME} !-d
+  # Semua permintaan selain itu diarahkan ke index.php
   RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType text/css .css
 </IfModule>
