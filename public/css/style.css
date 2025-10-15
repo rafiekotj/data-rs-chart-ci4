@@ -153,3 +153,57 @@ body {
   height: 400px !important;
   min-height: 400px !important;
 }
+
+#rsTable {
+  border: 1px solid #e5e7eb;
+  border-collapse: collapse;
+}
+
+#rsTable thead {
+  color: #1e293b;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+#rsTable th {
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  background-color: #f1f5f9;
+}
+
+#rsTable td {
+  border: 1px solid #e5e7eb;
+  vertical-align: middle;
+  background-color: #ffffff;
+  white-space: normal;
+}
+
+#rsTable tbody tr:nth-child(even) td {
+  background-color: #f9fafb;
+}
+
+.modern-pagination .page-link {
+  color: #1e293b;
+  background-color: #f8fafc;
+  border: 1px solid #e5e7eb;
+  margin: 0 2px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.modern-pagination .page-item.active .page-link {
+  background-color: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+.modern-pagination .page-link:hover {
+  background-color: #e0e7ff;
+  color: #1e3a8a;
+}
+
+.modern-pagination .page-item.disabled .page-link {
+  color: #9ca3af;
+  background-color: #f1f5f9;
+  pointer-events: none;
+}
