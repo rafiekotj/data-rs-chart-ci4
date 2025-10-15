@@ -8,7 +8,7 @@
       <form method="get" class="d-inline-flex">
         <input type="text" name="search" class="form-control me-2" placeholder="Cari nama rumah sakit..."
           value="<?= esc($search ?? '') ?>" style="width: 300px;">
-        <button type="submit" class="btn btn-sm btn-primary">Cari</button>
+        <button type="submit" class="btn btn-sm btn-primary-light">Cari</button>
       </form>
     </div>
   </div>
