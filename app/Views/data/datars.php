@@ -3,9 +3,18 @@
     <h2 class="fs-2 fw-bolder mb-0">Data Rumah Sakit</h2>
   </div>
 
+  <div class="row mb-3">
+    <div class="col-md-12 text-end">
+      <form method="get" class="d-inline-flex">
+        <input type="text" name="search" class="form-control me-2" placeholder="Cari nama rumah sakit..."
+          value="<?= esc($search ?? '') ?>" style="width: 300px;">
+        <button type="submit" class="btn btn-sm btn-primary">Cari</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Filter jumlah baris per halaman -->
   <div class="row align-items-center mb-3">
-    <!-- Kolom kiri: dropdown tampilkan -->
     <div class="col-md-6">
       <form method="get" id="rowsForm" class="d-flex align-items-center">
         <label class="me-2 mb-0 fw-medium text-secondary">Tampilkan</label>
@@ -25,8 +34,6 @@
       Total data: <strong><?= number_format($totalData) ?></strong>
     </div>
   </div>
-
-
 
   <div class="row">
     <div class="col-12">
@@ -71,12 +78,36 @@
 
       <!-- Pagination -->
       <?php if (!empty($rs)): ?>
+      <?php
+        $maxVisible = 9; // jumlah kotak nomor halaman di tengah
+        $totalPage = ceil($totalData / $perPage);
+
+        // Range halaman tengah dinamis
+        if ($totalPage <= $maxVisible) {
+          $start = 1;
+          $end = $totalPage;
+        } else {
+          $start = max(2, $page - floor(($maxVisible - 2) / 2));
+          $end = min($totalPage - 1, $page + floor(($maxVisible - 2) / 2));
+
+          if ($start <= 2) {
+            $start = 2;
+            $end = $maxVisible - 1;
+          }
+
+          if ($end >= $totalPage - 1) {
+            $end = $totalPage - 1;
+            $start = $totalPage - ($maxVisible - 2);
+          }
+        }
+        ?>
+
       <nav aria-label="Navigasi halaman" class="mt-4">
         <ul class="pagination justify-content-center modern-pagination">
           <!-- Tombol Sebelumnya -->
           <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
             <a class="page-link" href="<?= $page > 1 ? '?page=' . ($page - 1) . '&per_page=' . $perPage : '#' ?>">
-              &laquo; Sebelumnya
+              &laquo;
             </a>
           </li>
 
@@ -86,23 +117,21 @@
           </li>
 
           <!-- Titik elipsis di awal -->
-          <?php if ($page > 5): ?>
+          <?php if ($start > 2): ?>
           <li class="page-item disabled"><span class="page-link">...</span></li>
           <?php endif; ?>
 
-          <!-- Halaman tengah (sekitar halaman aktif) -->
-          <?php
-            $start = max(2, $page - 2);
-            $end = min($totalPage - 1, $page + 2);
-            for ($i = $start; $i <= $end; $i++):
-            ?>
+          <!-- Halaman tengah -->
+          <?php for ($i = $start; $i <= $end; $i++): ?>
+          <?php if ($i != 1 && $i != $totalPage): ?>
           <li class="page-item <?= $i == $page ? 'active' : '' ?>">
             <a class="page-link" href="?page=<?= $i ?>&per_page=<?= $perPage ?>"><?= $i ?></a>
           </li>
+          <?php endif; ?>
           <?php endfor; ?>
 
           <!-- Titik elipsis di akhir -->
-          <?php if ($page < $totalPage - 4): ?>
+          <?php if ($end < $totalPage - 1): ?>
           <li class="page-item disabled"><span class="page-link">...</span></li>
           <?php endif; ?>
 
@@ -117,16 +146,17 @@
           <li class="page-item <?= $page >= $totalPage ? 'disabled' : '' ?>">
             <a class="page-link"
               href="<?= $page < $totalPage ? '?page=' . ($page + 1) . '&per_page=' . $perPage : '#' ?>">
-              Selanjutnya &raquo;
+              Next &raquo;
             </a>
           </li>
         </ul>
 
-        <p class="text-center mt-2 small text-muted">
+        <p class="text-center mt-3 mb-0 small text-muted">
           Halaman <?= $page ?> dari <?= $totalPage ?>
         </p>
       </nav>
       <?php endif; ?>
     </div>
   </div>
+</div>
 </div>

@@ -644,19 +644,20 @@ async function updateKabupatenOptions(tipe) {
   kabSelect.innerHTML = '<option value="">Semua</option>';
 
   const prov = provSelect?.value || '';
-  if (!prov) return;
 
   try {
     const url = `<?= base_url('dashboard/getKabupatenByProvinsi') ?>?provinsi=${encodeURIComponent(prov)}`;
     const res = await fetch(url);
     const data = await res.json();
 
-    data.forEach(item => {
-      const opt = document.createElement('option');
-      opt.value = item.kabupaten_kota;
-      opt.textContent = item.kabupaten_kota;
-      kabSelect.appendChild(opt);
-    });
+    if (Array.isArray(data) && data.length > 0) {
+      data.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.kabupaten_kota;
+        opt.textContent = item.kabupaten_kota;
+        kabSelect.appendChild(opt);
+      });
+    }
   } catch (err) {
     console.error('Gagal memuat kabupaten:', err);
   }
@@ -732,27 +733,38 @@ function setupFilterListeners(tipe) {
 
   if (provSelect) {
     provSelect.addEventListener('change', async () => {
+      toggleLoading(tipe, 'bar', true);
+      toggleLoading(tipe, 'line', true);
       await updateKabupatenOptions(tipe);
+      await loadBothCharts(tipe);
+    });
+  }
+  if (kabSelect) {
+    kabSelect.addEventListener('change', () => {
+      toggleLoading(tipe, 'bar', true);
+      toggleLoading(tipe, 'line', true);
       loadBothCharts(tipe);
     });
   }
 
-  if (kabSelect) {
-    kabSelect.addEventListener('change', () => loadBothCharts(tipe));
-  }
-
   if (tahunSelect) {
-    tahunSelect.addEventListener('change', () => loadBarChartOnly(tipe));
+    tahunSelect.addEventListener('change', () => {
+      toggleLoading(tipe, 'bar', true);
+      loadBarChartOnly(tipe);
+    });
   }
 
   if (tahunAwal) {
     tahunAwal.addEventListener('change', () => {
+      toggleLoading(tipe, 'line', true);
       filterTahunDropdown(tipe);
       loadLineChartOnly(tipe);
     });
   }
+
   if (tahunAkhir) {
     tahunAkhir.addEventListener('change', () => {
+      toggleLoading(tipe, 'line', true);
       filterTahunDropdown(tipe);
       loadLineChartOnly(tipe);
     });

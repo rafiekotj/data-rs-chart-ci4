@@ -17,12 +17,7 @@ class ModelDashboard extends Model
   {
     try {
       $url = "{$this->rpcUrl}/{$function}";
-      $cacheKey = "rpc_{$function}_" . md5(json_encode([
-        'kolom' => $payload['kolom'] ?? '',
-        'tahun' => $payload['tahun_filter'] ?? '',
-        'prov'  => $payload['prov_filter'] ?? '',
-        'kab'   => $payload['kab_filter'] ?? ''
-      ]));
+      $cacheKey = "rpc_{$function}_" . md5(json_encode($payload));
 
       $cache = cache();
       if ($result = $cache->get($cacheKey)) {

@@ -161,13 +161,15 @@ class Dashboard extends BaseController
    */
   public function getKabupatenByProvinsi()
   {
-    $provinsi = $this->request->getGet('provinsi');
-    if (!$provinsi) {
-      return $this->response->setJSON([]);
-    }
+    $provinsi = trim($this->request->getGet('provinsi') ?? '');
 
     try {
-      $kabupaten = $this->dashboardModel->getKabupatenByProvinsi($provinsi);
+      if ($provinsi === '' || strtolower($provinsi) === 'semua') {
+        $kabupaten = $this->dashboardModel->getListKabupatenKota();
+      } else {
+        $kabupaten = $this->dashboardModel->getKabupatenByProvinsi($provinsi);
+      }
+
       return $this->response->setJSON($kabupaten ?: []);
     } catch (\Throwable $e) {
       return $this->response->setJSON([]);
