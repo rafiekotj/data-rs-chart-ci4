@@ -13,9 +13,9 @@ class ModelDatars extends Model
   {
     $url = "{$this->rpcUrl}/get_rs_unique_latest_page";
     $payload = [
-      'page_num'  => $page,
-      'per_page'  => $perPage,
-      'search_term' => $search,
+      'page_num'   => $page,
+      'per_page'   => $perPage,
+      'search_text' => $search,
     ];
 
     $ch = curl_init($url);
@@ -50,7 +50,7 @@ class ModelDatars extends Model
   public function getUniqueLatestTotal(string $search = ''): int
   {
     $url = "{$this->rpcUrl}/get_rs_unique_latest_count";
-    $payload = ['search_term' => $search];
+    $payload = ['search_text' => $search];
 
     $ch = curl_init($url);
     curl_setopt_array($ch, [
