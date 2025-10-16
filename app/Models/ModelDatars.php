@@ -12,7 +12,11 @@ class ModelDatars extends Model
   public function getUniqueLatestPage(int $page = 1, int $perPage = 100, string $search = ''): array
   {
     $url = "{$this->rpcUrl}/get_rs_unique_latest_page";
-    $payload = ['page_num' => $page, 'per_page' => $perPage];
+    $payload = [
+      'page_num'  => $page,
+      'per_page'  => $perPage,
+      'search_term' => $search,
+    ];
 
     $ch = curl_init($url);
     curl_setopt_array($ch, [
@@ -40,50 +44,38 @@ class ModelDatars extends Model
     }
 
     $data = json_decode($response, true);
-    if (!is_array($data)) {
-      return [];
-    }
-
-    if ($search !== '') {
-      $searchLower = mb_strtolower($search);
-      $data = array_filter($data, function ($item) use ($searchLower) {
-        return isset($item['rumah_sakit']) && mb_stripos($item['rumah_sakit'], $searchLower) !== false;
-      });
-      $data = array_values($data);
-    }
-
-    return $data;
+    return is_array($data) ? $data : [];
   }
 
   public function getUniqueLatestTotal(string $search = ''): int
   {
-    if ($search === '') {
-      $url = "{$this->rpcUrl}/get_rs_unique_latest_count";
-      $ch = curl_init($url);
-      curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => [
-          "apikey: {$this->supabaseKey}",
-          "Authorization: Bearer {$this->supabaseKey}",
-          "Content-Type: application/json",
-          "Accept: application/json",
-        ],
-      ]);
+    $url = "{$this->rpcUrl}/get_rs_unique_latest_count";
+    $payload = ['search_term' => $search];
 
-      $response = curl_exec($ch);
-      $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-      curl_close($ch);
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode($payload),
+      CURLOPT_HTTPHEADER => [
+        "apikey: {$this->supabaseKey}",
+        "Authorization: Bearer {$this->supabaseKey}",
+        "Content-Type: application/json",
+        "Accept: application/json",
+      ],
+      CURLOPT_TIMEOUT => 30,
+    ]);
 
-      if ($status !== 200 || !$response) {
-        log_message('error', "RPC get_rs_unique_latest_count failed ({$status}): {$response}");
-        return 0;
-      }
+    $response = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
-      $data = json_decode($response, true);
-      return isset($data[0]['total']) ? (int)$data[0]['total'] : 0;
+    if ($status !== 200 || !$response) {
+      log_message('error', "RPC get_rs_unique_latest_count failed ({$status}): {$response}");
+      return 0;
     }
 
-    $allData = $this->getUniqueLatestPage(1, 999999, $search);
-    return count($allData);
+    $data = json_decode($response, true);
+    return isset($data[0]['total']) ? (int)$data[0]['total'] : 0;
   }
 }

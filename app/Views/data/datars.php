@@ -5,9 +5,9 @@
 
   <div class="row mb-3">
     <div class="col-md-12 text-end">
-      <form method="get" class="d-inline-flex">
+      <form method="get" class="d-inline-flex" id="searchForm">
         <input type="text" name="search" class="form-control me-2" placeholder="Cari nama rumah sakit..."
-          value="<?= esc($search ?? '') ?>" style="width: 300px;">
+          value="<?= esc($search) ?>" style="width: 300px;">
         <button type="submit" class="btn btn-sm btn-primary-light">Cari</button>
       </form>
     </div>
@@ -51,31 +51,31 @@
           </thead>
           <tbody>
             <?php if (!empty($rs)): ?>
-              <?php foreach ($rs as $item): ?>
-                <tr>
-                  <td class="text-center"><?= esc($item['jenis_rs']) ?></td>
-                  <td><?= esc($item['rumah_sakit']) ?></td>
-                  <td class="text-center"><?= esc($item['kelas_rs']) ?></td>
-                  <td><?= esc($item['alamat']) ?></td>
-                  <td class="text-center"><?= esc($item['kabupaten_kota']) ?></td>
-                  <td class="text-center"><?= esc($item['provinsi']) ?></td>
-                  <td class="text-center"><?= esc($item['penyelenggara_grup']) ?></td>
-                  <td class="text-center"><?= esc($item['penyelenggara_kategori']) ?></td>
-                </tr>
-              <?php endforeach; ?>
+            <?php foreach ($rs as $item): ?>
+            <tr>
+              <td class="text-center"><?= esc($item['jenis_rs']) ?></td>
+              <td><?= esc($item['rumah_sakit']) ?></td>
+              <td class="text-center"><?= esc($item['kelas_rs']) ?></td>
+              <td><?= esc($item['alamat']) ?></td>
+              <td class="text-center"><?= esc($item['kabupaten_kota']) ?></td>
+              <td class="text-center"><?= esc($item['provinsi']) ?></td>
+              <td class="text-center"><?= esc($item['penyelenggara_grup']) ?></td>
+              <td class="text-center"><?= esc($item['penyelenggara_kategori']) ?></td>
+            </tr>
+            <?php endforeach; ?>
             <?php else: ?>
-              <tr>
-                <td colspan="8" class="text-center text-danger py-4 fw-bold">
-                  <i class="bi bi-exclamation-triangle me-2"></i> Tidak ada data rumah sakit yang tersedia.
-                </td>
-              </tr>
+            <tr>
+              <td colspan="8" class="text-center text-danger py-4 fw-bold">
+                <i class="bi bi-exclamation-triangle me-2"></i> Tidak ada data rumah sakit yang tersedia.
+              </td>
+            </tr>
             <?php endif; ?>
           </tbody>
         </table>
       </div>
 
       <?php if (!empty($rs)): ?>
-        <?php
+      <?php
         $maxVisible = 9;
         $totalPage = ceil($totalData / $perPage);
 
@@ -98,52 +98,52 @@
         }
         ?>
 
-        <nav aria-label="Navigasi halaman" class="mt-4">
-          <ul class="pagination justify-content-center modern-pagination">
-            <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
-              <a class="page-link" href="<?= $page > 1 ? '?page=' . ($page - 1) . '&per_page=' . $perPage : '#' ?>">
-                &laquo;
-              </a>
-            </li>
+      <nav aria-label="Navigasi halaman" class="mt-4">
+        <ul class="pagination justify-content-center modern-pagination">
+          <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+            <a class="page-link" href="<?= $page > 1 ? '?page=' . ($page - 1) . '&per_page=' . $perPage : '#' ?>">
+              &laquo;
+            </a>
+          </li>
 
-            <li class="page-item <?= $page == 1 ? 'active' : '' ?>">
-              <a class="page-link" href="?page=1&per_page=<?= $perPage ?>">1</a>
-            </li>
+          <li class="page-item <?= $page == 1 ? 'active' : '' ?>">
+            <a class="page-link" href="?page=1&per_page=<?= $perPage ?>">1</a>
+          </li>
 
-            <?php if ($start > 2): ?>
-              <li class="page-item disabled"><span class="page-link">...</span></li>
-            <?php endif; ?>
+          <?php if ($start > 2): ?>
+          <li class="page-item disabled"><span class="page-link">...</span></li>
+          <?php endif; ?>
 
-            <?php for ($i = $start; $i <= $end; $i++): ?>
-              <?php if ($i != 1 && $i != $totalPage): ?>
-                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                  <a class="page-link" href="?page=<?= $i ?>&per_page=<?= $perPage ?>"><?= $i ?></a>
-                </li>
-              <?php endif; ?>
-            <?php endfor; ?>
+          <?php for ($i = $start; $i <= $end; $i++): ?>
+          <?php if ($i != 1 && $i != $totalPage): ?>
+          <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+            <a class="page-link" href="?page=<?= $i ?>&per_page=<?= $perPage ?>"><?= $i ?></a>
+          </li>
+          <?php endif; ?>
+          <?php endfor; ?>
 
-            <?php if ($end < $totalPage - 1): ?>
-              <li class="page-item disabled"><span class="page-link">...</span></li>
-            <?php endif; ?>
+          <?php if ($end < $totalPage - 1): ?>
+          <li class="page-item disabled"><span class="page-link">...</span></li>
+          <?php endif; ?>
 
-            <?php if ($totalPage > 1): ?>
-              <li class="page-item <?= $page == $totalPage ? 'active' : '' ?>">
-                <a class="page-link" href="?page=<?= $totalPage ?>&per_page=<?= $perPage ?>"><?= $totalPage ?></a>
-              </li>
-            <?php endif; ?>
+          <?php if ($totalPage > 1): ?>
+          <li class="page-item <?= $page == $totalPage ? 'active' : '' ?>">
+            <a class="page-link" href="?page=<?= $totalPage ?>&per_page=<?= $perPage ?>"><?= $totalPage ?></a>
+          </li>
+          <?php endif; ?>
 
-            <li class="page-item <?= $page >= $totalPage ? 'disabled' : '' ?>">
-              <a class="page-link"
-                href="<?= $page < $totalPage ? '?page=' . ($page + 1) . '&per_page=' . $perPage : '#' ?>">
-                Next &raquo;
-              </a>
-            </li>
-          </ul>
+          <li class="page-item <?= $page >= $totalPage ? 'disabled' : '' ?>">
+            <a class="page-link"
+              href="<?= $page < $totalPage ? '?page=' . ($page + 1) . '&per_page=' . $perPage : '#' ?>">
+              Next &raquo;
+            </a>
+          </li>
+        </ul>
 
-          <p class="text-center mt-3 mb-0 small text-muted">
-            Halaman <?= $page ?> dari <?= $totalPage ?>
-          </p>
-        </nav>
+        <p class="text-center mt-3 mb-0 small text-muted">
+          Halaman <?= $page ?> dari <?= $totalPage ?>
+        </p>
+      </nav>
       <?php endif; ?>
     </div>
   </div>
