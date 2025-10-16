@@ -6,14 +6,28 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  document.getElementById('sidebarToggle').addEventListener('click', function() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('content').classList.toggle('expanded');
-    document.querySelector('.navbar').classList.toggle('expanded');
-    document.querySelector('.footer').classList.toggle('expanded');
+document.addEventListener('DOMContentLoaded', function() {
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const navbar = document.querySelector('.navbar');
+  const content = document.getElementById('content');
+  const footer = document.querySelector('.footer');
+
+  sidebarToggle.addEventListener('click', function() {
+    if (window.innerWidth <= 992) {
+      sidebar.classList.toggle('active');
+      navbar.classList.toggle('shifted');
+      content.classList.toggle('shifted');
+      footer.classList.toggle('shifted');
+    } else {
+      sidebar.classList.toggle('collapsed');
+      navbar.classList.toggle('expanded');
+      content?.classList.toggle('expanded');
+      footer?.classList.toggle('expanded');
+    }
   });
+});
 </script>
 </body>
 
