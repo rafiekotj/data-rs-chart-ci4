@@ -14,6 +14,7 @@ class Dashboard extends BaseController
     $this->dashboardModel = new ModelDashboard();
     $this->cache = cache();
   }
+
   public function index()
   {
     try {
@@ -41,14 +42,14 @@ class Dashboard extends BaseController
       $selectedTahun = $maxTahun;
 
       $data = [
-        'listProvinsi'          => $listProvinsi ?? [],
-        'listKabupatenKota'     => $listKabupatenKota ?? [],
-        'listTahun'             => $listTahun ?? [],
-        'selectedProvinsi'      => '',
+        'listProvinsi' => $listProvinsi ?? [],
+        'listKabupatenKota' => $listKabupatenKota ?? [],
+        'listTahun' => $listTahun ?? [],
+        'selectedProvinsi' => '',
         'selectedKabupatenKota' => '',
-        'selectedTahun'         => $selectedTahun,
-        'minTahun'              => $minTahun,
-        'maxTahun'              => $maxTahun,
+        'selectedTahun' => $selectedTahun,
+        'minTahun' => $minTahun,
+        'maxTahun' => $maxTahun,
       ];
 
       return view('templates/header')
@@ -64,8 +65,8 @@ class Dashboard extends BaseController
   public function getBarData($tipe)
   {
     $tahun = $this->request->getGet('tahun');
-    $prov  = $this->request->getGet('provinsi');
-    $kab   = $this->request->getGet('kabupaten');
+    $prov = $this->request->getGet('provinsi');
+    $kab = $this->request->getGet('kabupaten');
 
     $kolom = $this->getKolomByTipe($tipe);
     if (!$kolom) {
@@ -74,7 +75,7 @@ class Dashboard extends BaseController
 
     if (!$tahun) {
       $listTahun = $this->dashboardModel->getListTahun();
-      $tahun = !empty($listTahun) ? (int)($listTahun[0]['tahun'] ?? date('Y')) : date('Y');
+      $tahun = !empty($listTahun) ? (int) ($listTahun[0]['tahun'] ?? date('Y')) : date('Y');
     }
 
     try {
@@ -95,10 +96,10 @@ class Dashboard extends BaseController
 
   public function getLineData($tipe)
   {
-    $tahunAwal  = (int)($this->request->getGet('tahunAwal') ?? date('Y') - 4);
-    $tahunAkhir = (int)($this->request->getGet('tahunAkhir') ?? date('Y'));
-    $prov       = $this->request->getGet('provinsi') ?? '';
-    $kab        = $this->request->getGet('kabupaten') ?? '';
+    $tahunAwal = (int) ($this->request->getGet('tahunAwal') ?? date('Y') - 4);
+    $tahunAkhir = (int) ($this->request->getGet('tahunAkhir') ?? date('Y'));
+    $prov = $this->request->getGet('provinsi') ?? '';
+    $kab = $this->request->getGet('kabupaten') ?? '';
 
     $kolom = $this->getKolomByTipe($tipe);
     if (!$kolom) {
@@ -125,7 +126,7 @@ class Dashboard extends BaseController
           'label' => $label,
           'data' => array_map(function ($tahunData) use ($label) {
             $item = array_values(array_filter($tahunData['data'], fn($r) => $r['nama'] === $label));
-            return count($item) ? (int)$item[0]['total'] : 0;
+            return count($item) ? (int) $item[0]['total'] : 0;
           }, $hasil),
           'borderWidth' => 2,
           'tension' => 0.3,
@@ -162,10 +163,10 @@ class Dashboard extends BaseController
   private function getKolomByTipe(string $tipe): ?string
   {
     return match ($tipe) {
-      'jenis'         => 'jenis_rs',
-      'kelas'         => 'kelas_rs',
+      'jenis' => 'jenis_rs',
+      'kelas' => 'kelas_rs',
       'penyelenggara' => 'penyelenggara_grup',
-      default         => null,
+      default => null,
     };
   }
 }

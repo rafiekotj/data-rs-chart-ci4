@@ -13,8 +13,8 @@ class ModelDatars extends Model
   {
     $url = "{$this->rpcUrl}/get_rs_unique_latest_page";
     $payload = [
-      'page_num'   => $page,
-      'per_page'   => $perPage,
+      'page_num' => $page,
+      'per_page' => $perPage,
       'search_text' => $search,
     ];
 
@@ -76,6 +76,6 @@ class ModelDatars extends Model
     }
 
     $data = json_decode($response, true);
-    return isset($data[0]['total']) ? (int)$data[0]['total'] : 0;
+    return isset($data[0]['total']) ? (int) $data[0]['total'] : 0;
   }
 }

@@ -6,7 +6,6 @@ use CodeIgniter\Model;
 
 class ModelDashboard extends Model
 {
-  private string $supabaseUrl = 'https://sxlhygcxwwujmdpmzaob.supabase.co/rest/v1';
   private string $rpcUrl = 'https://sxlhygcxwwujmdpmzaob.supabase.co/rest/v1/rpc';
   private string $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bGh5Z2N4d3d1am1kcG16YW9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NDYxODIsImV4cCI6MjA3MzIyMjE4Mn0.JzoPRL0POJn6JSqwbT7uFOH6JAIYqYzY_BmizjuIJrc';
 
@@ -35,7 +34,7 @@ class ModelDashboard extends Model
       ]);
 
       $response = curl_exec($ch);
-      $status   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
       curl_close($ch);
 
       if ($response === false || $status !== 200) {
@@ -57,7 +56,8 @@ class ModelDashboard extends Model
   public function getListProvinsi(): array
   {
     $data = $this->callRPC('get_unique_provinsi');
-    if (empty($data)) return [];
+    if (empty($data))
+      return [];
 
     $unique = [];
     foreach ($data as $row) {
@@ -74,7 +74,8 @@ class ModelDashboard extends Model
   public function getListKabupatenKota(): array
   {
     $data = $this->callRPC('get_unique_kabupaten');
-    if (empty($data)) return [];
+    if (empty($data))
+      return [];
 
     $unique = [];
     foreach ($data as $row) {
@@ -91,11 +92,12 @@ class ModelDashboard extends Model
   public function getListTahun(): array
   {
     $data = $this->callRPC('get_unique_tahun');
-    if (empty($data)) return [];
+    if (empty($data))
+      return [];
 
     $unique = [];
     foreach ($data as $row) {
-      $tahun = (int)($row['tahun'] ?? 0);
+      $tahun = (int) ($row['tahun'] ?? 0);
       if ($tahun && !in_array($tahun, $unique)) {
         $unique[] = $tahun;
       }
@@ -107,7 +109,7 @@ class ModelDashboard extends Model
 
   public function getBarData(string $kolom, string $tahun, string $provinsi = '', string $kabupaten = ''): array
   {
-    $tahun = (int)$tahun ?: date('Y');
+    $tahun = (int) $tahun ?: date('Y');
 
     $payload = [
       'kolom' => $kolom,
@@ -123,7 +125,7 @@ class ModelDashboard extends Model
 
     $mapped = array_map(fn($row) => [
       $kolom => $row['nama'] ?? $row[$kolom] ?? 'Tidak Diketahui',
-      'total' => (int)($row['total'] ?? 0)
+      'total' => (int) ($row['total'] ?? 0)
     ], $data);
 
     $hasValid = array_filter($mapped, fn($r) => $r['total'] > 0);
@@ -136,13 +138,15 @@ class ModelDashboard extends Model
 
   public function getKabupatenByProvinsi(string $provinsi): array
   {
-    if (!$provinsi) return [];
+    if (!$provinsi)
+      return [];
 
     $data = $this->callRPC('get_kabupaten_by_provinsi', [
       'selected_provinsi' => $provinsi,
     ]);
 
-    if (empty($data)) return [];
+    if (empty($data))
+      return [];
 
     $unique = [];
     foreach ($data as $row) {
@@ -170,7 +174,8 @@ class ModelDashboard extends Model
 
       $data = $this->callRPC('get_rs_summary', $payload);
 
-      if (empty($data) || !is_array($data)) continue;
+      if (empty($data) || !is_array($data))
+        continue;
 
       $filtered = array_filter(
         $data,
@@ -178,13 +183,14 @@ class ModelDashboard extends Model
         !empty($row['total']) && $row['total'] > 0
       );
 
-      if (empty($filtered)) continue;
+      if (empty($filtered))
+        continue;
 
       $hasil[] = [
         'tahun' => $tahun,
         'data' => array_map(fn($row) => [
           'nama' => $row['nama'] ?? $row[$kolom] ?? 'Tidak Diketahui',
-          'total' => (int)($row['total'] ?? 0)
+          'total' => (int) ($row['total'] ?? 0)
         ], $filtered)
       ];
     }
