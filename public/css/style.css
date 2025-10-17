@@ -181,6 +181,7 @@ body {
   text-align: center;
   border: 1px solid #e5e7eb;
   background-color: #f1f5f9;
+  color: #1e293b;
 }
 
 #rsTable td {
@@ -188,6 +189,7 @@ body {
   vertical-align: middle;
   background-color: #ffffff;
   white-space: normal;
+  color: #1e293b;
 }
 
 #rsTable tbody tr:nth-child(even) td {

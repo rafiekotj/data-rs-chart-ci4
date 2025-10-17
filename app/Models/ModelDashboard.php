@@ -6,8 +6,16 @@ use CodeIgniter\Model;
 
 class ModelDashboard extends Model
 {
-  private string $rpcUrl = 'https://sxlhygcxwwujmdpmzaob.supabase.co/rest/v1/rpc';
-  private string $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bGh5Z2N4d3d1am1kcG16YW9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NDYxODIsImV4cCI6MjA3MzIyMjE4Mn0.JzoPRL0POJn6JSqwbT7uFOH6JAIYqYzY_BmizjuIJrc';
+  private string $rpcUrl;
+  private string $supabaseKey;
+
+  public function __construct()
+  {
+    parent::__construct();
+
+    $this->rpcUrl = getenv('SUPABASE_URL') . '/rest/v1/rpc';
+    $this->supabaseKey = getenv('SUPABASE_KEY');
+  }
 
   private function callRPC(string $function, array $payload = []): array
   {

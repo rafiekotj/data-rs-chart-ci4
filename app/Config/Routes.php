@@ -14,5 +14,5 @@ $routes->get('dashboard/getKabupatenByProvinsi', 'Dashboard::getKabupatenByProvi
 $routes->get('datars', 'Datars::index');
 
 $routes->get('healthz', function () {
-  return $this->response->setStatusCode(200)->setBody('OK');
+  return json_encode(['status' => 'ok']);
 });

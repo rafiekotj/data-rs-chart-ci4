@@ -13,25 +13,27 @@
     </div>
   </div>
 
-  <div class="row align-items-center mb-3">
-    <div class="col-md-6">
-      <form method="get" id="rowsForm" class="d-flex align-items-center">
-        <label class="me-2 mb-0 fw-medium text-secondary">Tampilkan</label>
+  <div class="row mb-3">
+    <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
+
+      <form method="get" id="rowsForm" class="d-flex align-items-center mb-0">
         <select name="per_page" id="rowsPerPage" class="form-select form-select-sm me-2" style="width: 130px;"
           onchange="document.getElementById('rowsForm').submit()">
           <option value="100" <?= $perPage == 100 ? 'selected' : '' ?>>100</option>
           <option value="500" <?= $perPage == 500 ? 'selected' : '' ?>>500</option>
           <option value="1000" <?= $perPage == 1000 ? 'selected' : '' ?>>1000</option>
         </select>
-        <span class="text-secondary">baris per halaman</span>
+        <p class="mb-0">baris</p>
         <input type="hidden" name="page" value="1">
       </form>
-    </div>
 
-    <div class="col-md-6 text-md-end text-muted small mt-2 mt-md-0">
-      Total data: <strong><?= number_format($totalData) ?></strong>
+      <div class="text-end mt-2 mt-sm-0">
+        Total data: <strong><?= number_format($totalData) ?></strong>
+      </div>
+
     </div>
   </div>
+
 
   <div class="row">
     <div class="col-12">
@@ -76,7 +78,7 @@
 
       <?php if (!empty($rs)): ?>
       <?php
-        $maxVisible = 9;
+        $maxVisible = 7;
         $totalPage = ceil($totalData / $perPage);
 
         if ($totalPage <= $maxVisible) {
