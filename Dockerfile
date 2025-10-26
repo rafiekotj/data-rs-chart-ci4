@@ -21,8 +21,10 @@ COPY composer.json composer.lock ./
 # Copy composer binary
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress && ls -lah vendor
+# Install PHP dependencies (dengan log detail & pengecekan vendor/framework)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --verbose \
+    && ls -lah vendor \
+    && ls -lah vendor/codeigniter4/framework || true
 
 # Copy the rest of the app
 COPY . .
