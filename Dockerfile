@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
     zip unzip git \
     build-essential \
     pkg-config \
+    zlib1g-dev \
+    libonig-dev \
  && docker-php-ext-configure zip \
  && docker-php-ext-install intl pdo pdo_mysql mbstring zip \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
