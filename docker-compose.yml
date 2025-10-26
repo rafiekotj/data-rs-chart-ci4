@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: ci4_supabase
+    container_name: ci4_app
     ports:
       - "8080:80"
     environment:
@@ -9,4 +9,4 @@ services:
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_KEY=${SUPABASE_KEY}
     volumes:
-      - .:/var/www/html
+      - ./writable:/var/www/html/writable
