@@ -4,7 +4,7 @@ FROM php:8.2-apache
 # Install PHP Extensions
 RUN apt-get update && apt-get install -y \
     libicu-dev libpq-dev libonig-dev zip unzip git \
- && docker-php-ext-install intl mysqli pdo pdo_mysql mbstring \
+ && docker-php-ext-install intl mysqli pdo pdo_mysql mbstring zip \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache Rewrite
