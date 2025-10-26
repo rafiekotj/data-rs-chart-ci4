@@ -1,11 +1,19 @@
 # Base image
 FROM php:8.2-apache
 
-# Install PHP extensions and dependencies
+# Install required packages and PHP extensions
 RUN apt-get update && apt-get install -y \
-    libicu-dev libpq-dev zip unzip git \
-    libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev libonig-dev \
-    && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql gd mbstring tokenizer fileinfo \
+    libicu-dev \
+    libpq-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libxml2-dev \
+    libonig-dev \
+    pkg-config \
+    zip unzip git \
+    && docker-php-ext-configure gd --with-jpeg --with-freetype \
+    && docker-php-ext-install -j$(nproc) intl mysqli pdo pdo_mysql pgsql pdo_pgsql gd mbstring tokenizer fileinfo \
     && docker-php-ext-enable intl pgsql pdo_pgsql gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
