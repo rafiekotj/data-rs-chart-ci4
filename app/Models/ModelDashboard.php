@@ -74,7 +74,7 @@ class ModelDashboard extends Model
 
   public function getListKabupatenKota(): array
   {
-    $data = $this->callRPC('get_unique_kabupaten');
+    $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => 'semua']);
     return $this->mapUnique($data, 'kabupaten_kota');
   }
 

@@ -713,7 +713,7 @@ async function updateKabupatenOptions(tipe) {
   if (!prov) return;
 
   try {
-    const url = `<?= base_url('dashboard/kabupaten') ?>?provinsi=${encodeURIComponent(prov)}`;
+    const url = `<?= base_url('dashboard/getKabupatenByProvinsi') ?>?provinsi=${encodeURIComponent(prov)}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error();
 
