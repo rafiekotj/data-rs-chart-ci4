@@ -1,13 +1,16 @@
 # Stage 1: Build Composer dependencies
 FROM php:8.2-cli AS build
 
-# Install PHP extensions & system dependencies for composer
+# Install PHP extensions & system dependencies
 RUN apt-get update && apt-get install -y \
     libicu-dev libpq-dev libzip-dev zip unzip git \
-    build-essential pkg-config zlib1g-dev libonig-dev \
+    build-essential pkg-config zlib1g-dev libonig-dev curl \
  && docker-php-ext-configure zip \
  && docker-php-ext-install intl pdo pdo_mysql mbstring zip \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /app
 
@@ -15,13 +18,13 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-# Copy full application source
+# Copy application source
 COPY . .
 
 # Stage 2: Runtime PHP + Apache
 FROM php:8.2-apache
 
-# Install PHP extensions needed at runtime
+# Install PHP extensions
 RUN apt-get update && apt-get install -y \
     libicu-dev libpq-dev libzip-dev zip unzip git \
     zlib1g-dev libonig-dev \
