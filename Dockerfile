@@ -1,47 +1,53 @@
-# Stage 1: Build dependencies
-FROM php:8.2-cli AS build
-
-RUN apt-get update && apt-get install -y \
-    libicu-dev libzip-dev libonig-dev zlib1g-dev zip unzip git curl \
-    build-essential pkg-config \
- && docker-php-ext-configure zip \
- && docker-php-ext-install intl pdo pdo_mysql mbstring zip \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
-
-COPY . .
-
-# Stage 2: Runtime
+# Base image
 FROM php:8.2-apache
 
+# Install PHP extensions
 RUN apt-get update && apt-get install -y \
-    libicu-dev libzip-dev libonig-dev zlib1g-dev zip unzip git \
- && docker-php-ext-configure zip \
- && docker-php-ext-install intl pdo pdo_mysql mbstring zip \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libicu-dev \
+    libpq-dev \
+    zip \
+    unzip \
+    git \
+    && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
+    && docker-php-ext-enable intl pgsql pdo_pgsql \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN a2enmod rewrite
-
+# Working directory
 WORKDIR /var/www/html
 
-# Copy dari build stage
-COPY --from=build /app /var/www/html
+# Copy composer files
+COPY composer.json composer.lock ./
 
-# Writable folder
-RUN mkdir -p writable/cache writable/logs writable/session \
- && chown -R www-data:www-data writable \
- && chmod -R 775 writable
+# Copy composer binary
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# DocumentRoot ke public
-RUN sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
- && sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/apache2.conf
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
+# Copy project files
+COPY . .
+
+# Copy environment configuration file
+COPY .env /var/www/html/.env
+
+# Set correct permissions
+RUN chmod -R 775 writable && chown -R www-data:www-data writable
+
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Configure Apache DocumentRoot
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/sites-available/*.conf && \
+    sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Set ServerName
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Expose HTTP port
 EXPOSE 80
+
+# Start Apache in the foreground
 CMD ["apache2-foreground"]
