@@ -1,7 +1,8 @@
 .git
 .gitignore
+.env
+*.env
 node_modules
-vendor/*
-!vendor/.gitignore
-writable/*
-!writable/.gitignore
+writable/cache/*
+writable/logs/*
+writable/session/*
