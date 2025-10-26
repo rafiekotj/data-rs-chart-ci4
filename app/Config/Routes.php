@@ -13,9 +13,4 @@ $routes->get('/dashboard/line/(:segment)', 'Dashboard::getLineData/$1');
 $routes->get('dashboard/getKabupatenByProvinsi', 'Dashboard::getKabupatenByProvinsi');
 $routes->get('datars', 'Datars::index');
 
-$routes->get('healthz', function () {
-  return response()
-    ->setStatusCode(200)
-    ->setContentType('application/json')
-    ->setBody(json_encode(['status' => 'ok']));
-});
+$routes->get('dashboard/getDropdownList/(:segment)', 'Dashboard::getDropdownList/$1');
