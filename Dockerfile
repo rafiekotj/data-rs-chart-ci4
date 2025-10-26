@@ -12,31 +12,28 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable intl pgsql pdo_pgsql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Working directory
+# Set working directory
 WORKDIR /var/www/html
-
-# Copy composer files
-COPY composer.json composer.lock ./
-
-# Copy composer binary
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
 # Copy project files
 COPY . .
 
-# Copy environment configuration file
-COPY .env /var/www/html/.env
+# Copy composer binary
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Install PHP dependencies (AFTER copying project)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+# Make sure writable folder exists (important!)
+RUN mkdir -p writable
 
 # Set correct permissions
-RUN chmod -R 775 writable && chown -R www-data:www-data writable
+RUN chown -R www-data:www-data writable && chmod -R 775 writable
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Configure Apache DocumentRoot
+# Set DocumentRoot
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     /etc/apache2/sites-available/*.conf && \
@@ -46,8 +43,6 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
 # Set ServerName
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Expose HTTP port
 EXPOSE 80
 
-# Start Apache in the foreground
 CMD ["apache2-foreground"]
