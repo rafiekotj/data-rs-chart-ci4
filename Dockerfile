@@ -3,7 +3,8 @@ FROM php:8.2-apache
 
 # Install PHP extensions and dependencies
 RUN apt-get update && apt-get install -y \
-    libicu-dev libpq-dev zip unzip git libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
+    libicu-dev libpq-dev zip unzip git \
+    libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev libonig-dev \
     && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql gd mbstring tokenizer fileinfo \
     && docker-php-ext-enable intl pgsql pdo_pgsql gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
