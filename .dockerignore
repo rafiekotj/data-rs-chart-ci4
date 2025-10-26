@@ -1,6 +1,7 @@
-node_modules/
-writable/cache/*
-writable/logs/*
-writable/session/*
 .git
 .gitignore
+node_modules
+vendor
+writable/logs/*
+Dockerfile
+docker-compose.yml
