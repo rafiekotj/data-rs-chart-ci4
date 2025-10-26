@@ -1,25 +1,25 @@
 # Base image
 FROM php:8.2-apache
 
-# Install PHP extensions
+# Install PHP extensions and dependencies
 RUN apt-get update && apt-get install -y \
-    libicu-dev \
-    libpq-dev \
-    zip \
-    unzip \
-    git \
-    && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
-    && docker-php-ext-enable intl pgsql pdo_pgsql \
+    libicu-dev libpq-dev zip unzip git libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
+    && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql gd mbstring tokenizer fileinfo \
+    && docker-php-ext-enable intl pgsql pdo_pgsql gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Working directory
+# Set working directory
 WORKDIR /var/www/html
+
+# Copy composer binary
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Copy composer files
 COPY composer.json composer.lock ./
 
-# Copy composer binary
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_MEMORY_LIMIT=-1
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
@@ -27,7 +27,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progre
 # Copy project files
 COPY . .
 
-# Copy environment configuration file
+# Copy .env file
 COPY .env /var/www/html/.env
 
 # Set correct permissions
@@ -46,8 +46,6 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
 # Set ServerName
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Expose HTTP port
 EXPOSE 80
 
-# Start Apache in the foreground
 CMD ["apache2-foreground"]
