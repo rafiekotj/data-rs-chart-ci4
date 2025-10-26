@@ -1,4 +1,4 @@
-# Base Image
+# Base image
 FROM php:8.2-apache
 
 # Install system dependencies + PHP extensions
@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     zip unzip git \
+    build-essential \
+    pkg-config \
+ && docker-php-ext-configure zip \
  && docker-php-ext-install intl pdo pdo_mysql mbstring zip \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -19,20 +22,20 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy project into container
+# Copy project
 COPY . .
 
-# Install dependencies (without dev)
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-# Make sure writable exists (Render sometimes skips it if .gitignore removes it)
-RUN mkdir -p writable && mkdir -p writable/cache && mkdir -p writable/logs
+# Make sure writable folder exists
+RUN mkdir -p writable/cache writable/logs writable/session
 
-# Set writable permissions
+# Set permissions writable
 RUN chown -R www-data:www-data writable \
  && chmod -R 775 writable
 
-# Change Apache DocumentRoot → public/
+# Set Apache DocumentRoot to public/
 RUN sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
  && sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/apache2.conf
 
