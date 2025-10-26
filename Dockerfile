@@ -22,16 +22,15 @@ COPY composer.json composer.lock ./
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress && ls -lah vendor
 
-# Copy project files
+# Copy the rest of the app
 COPY . .
 
-# Copy environment configuration file
-COPY .env /var/www/html/.env
-
-# Set correct permissions
-RUN chmod -R 775 writable && chown -R www-data:www-data writable
+# Ensure writable exists
+RUN mkdir -p writable/cache writable/logs writable/session \
+    && chmod -R 775 writable \
+    && chown -R www-data:www-data writable
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -49,5 +48,5 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 # Expose HTTP port
 EXPOSE 80
 
-# Start Apache in the foreground
+# Start Apache
 CMD ["apache2-foreground"]
