@@ -13,48 +13,46 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     zip unzip git \
     && docker-php-ext-configure gd --with-jpeg --with-freetype \
-    && docker-php-ext-install -j$(nproc) intl mysqli pdo pdo_mysql pgsql pdo_pgsql gd mbstring tokenizer fileinfo \
+    && docker-php-ext-install -j$(nproc) intl mysqli pdo pdo_mysql pgsql pdo_pgsql gd mbstring \
     && docker-php-ext-enable intl pgsql pdo_pgsql gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /var/www/html
 
+# Copy composer files first (for layer caching)
+COPY composer.json composer.lock ./
+
 # Copy composer binary
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copy composer files
-COPY composer.json composer.lock ./
+# Install PHP dependencies (no dev)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress || true
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV COMPOSER_MEMORY_LIMIT=-1
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
-
-# Copy project files
+# Copy all project files
 COPY . .
 
-# Copy .env file
+# Copy environment configuration file
 COPY .env /var/www/html/.env
 
-# Set correct permissions
+# Set permissions
 RUN chmod -R 775 writable && chown -R www-data:www-data writable
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Configure Apache DocumentRoot
+# Set Apache document root to /public
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     /etc/apache2/sites-available/*.conf && \
     sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' \
     /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Set ServerName
+# Set ServerName to avoid warnings
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
+# Expose port 80
 EXPOSE 80
 
+# Run Apache in foreground
 CMD ["apache2-foreground"]
