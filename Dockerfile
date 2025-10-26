@@ -1,4 +1,3 @@
-# Base image
 FROM php:8.2-apache
 
 # Install system dependencies + PHP extensions
@@ -21,23 +20,19 @@ RUN a2enmod rewrite
 # Copy Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Copy project
+# Copy project (pastikan vendor tidak di-ignore)
 COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-# Make sure writable folder exists
+# Make sure writable exists
 RUN mkdir -p writable/cache writable/logs writable/session
+RUN chown -R www-data:www-data writable && chmod -R 775 writable
 
-# Set permissions writable
-RUN chown -R www-data:www-data writable \
- && chmod -R 775 writable
-
-# Set Apache DocumentRoot to public/
+# Set Apache DocumentRoot
 RUN sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
  && sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/apache2.conf
 
