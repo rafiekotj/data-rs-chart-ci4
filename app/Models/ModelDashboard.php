@@ -12,20 +12,18 @@ class ModelDashboard extends Model
   public function __construct()
   {
     parent::__construct();
-    $this->rpcUrl = rtrim(getenv('SUPABASE_URL'), '/') . '/rest/v1/rpc';
+
+    $this->rpcUrl = getenv('SUPABASE_URL') . '/rest/v1/rpc';
     $this->supabaseKey = getenv('SUPABASE_KEY');
   }
 
-  /**
-   * 🔹 Helper: Memanggil fungsi RPC Supabase
-   */
   private function callRPC(string $function, array $payload = []): array
   {
     try {
       $url = "{$this->rpcUrl}/{$function}";
       $cacheKey = "rpc_{$function}_" . md5(json_encode($payload));
-      $cache = cache();
 
+      $cache = cache();
       if ($result = $cache->get($cacheKey)) {
         return is_array($result) ? $result : [];
       }
@@ -33,12 +31,12 @@ class ModelDashboard extends Model
       $ch = curl_init($url);
       curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_POST => !empty($payload),
+        CURLOPT_POSTFIELDS => !empty($payload) ? json_encode($payload) : null,
         CURLOPT_HTTPHEADER => [
           "apikey: {$this->supabaseKey}",
           "Authorization: Bearer {$this->supabaseKey}",
-          'Content-Type: application/json',
+          "Content-Type: application/json",
         ],
         CURLOPT_TIMEOUT => 20,
       ]);
@@ -59,90 +57,119 @@ class ModelDashboard extends Model
       $cache->save($cacheKey, $data, 1800);
       return $data;
     } catch (\Throwable $e) {
-      log_message('error', 'callRPC error: ' . $e->getMessage());
       return [];
     }
   }
 
-  // ===================== 🔸 LIST DROPDOWN =====================
-
   public function getListProvinsi(): array
   {
     $data = $this->callRPC('get_unique_provinsi');
-    return $this->mapUnique($data, 'provinsi');
+    if (empty($data))
+      return [];
+
+    $unique = [];
+    foreach ($data as $row) {
+      $provinsi = trim($row['provinsi'] ?? '');
+      if ($provinsi && !in_array(strtolower($provinsi), array_map('strtolower', $unique))) {
+        $unique[] = $provinsi;
+      }
+    }
+
+    sort($unique);
+    return array_map(fn($p) => ['provinsi' => $p], $unique);
   }
 
   public function getListKabupatenKota(): array
   {
     $data = $this->callRPC('get_unique_kabupaten');
-    return $this->mapUnique($data, 'kabupaten_kota');
+    if (empty($data))
+      return [];
+
+    $unique = [];
+    foreach ($data as $row) {
+      $kab = trim($row['kabupaten_kota'] ?? '');
+      if ($kab && !in_array(strtolower($kab), array_map('strtolower', $unique))) {
+        $unique[] = $kab;
+      }
+    }
+
+    sort($unique);
+    return array_map(fn($k) => ['kabupaten_kota' => $k], $unique);
   }
 
   public function getListTahun(): array
   {
     $data = $this->callRPC('get_unique_tahun');
-    $unique = array_unique(array_map(fn($d) => (int) ($d['tahun'] ?? 0), $data));
+    if (empty($data))
+      return [];
+
+    $unique = [];
+    foreach ($data as $row) {
+      $tahun = (int) ($row['tahun'] ?? 0);
+      if ($tahun && !in_array($tahun, $unique)) {
+        $unique[] = $tahun;
+      }
+    }
+
     rsort($unique);
     return array_map(fn($t) => ['tahun' => $t], $unique);
   }
 
-  public function getKabupatenByProvinsi(string $provinsi): array
+  public function getBarData(string $kolom, string $tahun, string $provinsi = '', string $kabupaten = ''): array
   {
-    $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => $provinsi]);
-    return $this->mapUnique($data, 'kabupaten_kota');
-  }
+    $tahun = (int) $tahun ?: date('Y');
 
-  private function mapUnique(array $data, string $field): array
-  {
-    if (empty($data)) {
-      return [];
-    }
-    $unique = [];
-    foreach ($data as $row) {
-      $val = trim($row[$field] ?? '');
-      if ($val && !in_array(strtolower($val), array_map('strtolower', $unique))) {
-        $unique[] = $val;
-      }
-    }
-    sort($unique);
-    return array_map(fn($v) => [$field => $v], $unique);
-  }
-
-  // ===================== 🔸 BAR CHART =====================
-
-  public function getBarData(string $kolom, string $tahun, ?string $provinsi = null, ?string $kabupaten = null): array
-  {
     $payload = [
       'kolom' => $kolom,
-      'tahun_filter' => (int) $tahun,
+      'tahun_filter' => $tahun,
       'prov_filter' => $provinsi ?: null,
-      'kab_filter' => $kabupaten ?: null,
+      'kab_filter' => $kabupaten ?: null
     ];
 
     $data = $this->callRPC('get_rs_summary', $payload);
-    if (empty($data)) {
+    if (empty($data) || !is_array($data)) {
       return [];
     }
 
-    return array_map(
-      fn($row) => [
-        'nama' => $row['nama'] ?? ($row[$kolom] ?? 'Tidak Diketahui'),
-        'total' => (int) ($row['total'] ?? 0),
-        'total_semua' => (int) ($row['total_semua'] ?? 0),
-      ],
-      $data,
-    );
+    $mapped = array_map(fn($row) => [
+      $kolom => $row['nama'] ?? $row[$kolom] ?? 'Tidak Diketahui',
+      'total' => (int) ($row['total'] ?? 0)
+    ], $data);
+
+    $hasValid = array_filter($mapped, fn($r) => $r['total'] > 0);
+    if (empty($hasValid)) {
+      return [];
+    }
+
+    return $mapped;
   }
 
-  // ===================== 🔸 LINE CHART (TREN) =====================
+  public function getKabupatenByProvinsi(string $provinsi): array
+  {
+    if (!$provinsi)
+      return [];
 
-  public function getLineData(
-    string $kolom,
-    int $tahunAwal,
-    int $tahunAkhir,
-    ?string $provinsi = null,
-    ?string $kabupaten = null,
-  ): array {
+    $data = $this->callRPC('get_kabupaten_by_provinsi', [
+      'selected_provinsi' => $provinsi,
+    ]);
+
+    if (empty($data))
+      return [];
+
+    $unique = [];
+    foreach ($data as $row) {
+      $kab = trim($row['kabupaten_kota'] ?? '');
+      if ($kab && !in_array(strtolower($kab), array_map('strtolower', $unique))) {
+        $unique[] = $kab;
+      }
+    }
+
+    sort($unique);
+    return array_map(fn($k) => ['kabupaten_kota' => $k], $unique);
+  }
+
+  public function getLineData(string $kolom, int $tahunAwal, int $tahunAkhir, string $provinsi = '', string $kabupaten = ''): array
+  {
     $hasil = [];
 
     for ($tahun = $tahunAwal; $tahun <= $tahunAkhir; $tahun++) {
@@ -150,66 +177,32 @@ class ModelDashboard extends Model
         'kolom' => $kolom,
         'tahun_filter' => $tahun,
         'prov_filter' => $provinsi ?: null,
-        'kab_filter' => $kabupaten ?: null,
+        'kab_filter' => $kabupaten ?: null
       ];
 
       $data = $this->callRPC('get_rs_summary', $payload);
-      if (empty($data)) {
-        // tetap masukkan tahun dengan data kosong agar line chart tetap sejajar
-        $hasil[] = ['tahun' => $tahun, 'data' => []];
-        continue;
-      }
 
-      // masukkan semua data, walau total = 0
-      $filtered = array_map(
-        fn($r) => [
-          'nama' => $r['nama'] ?? ($r[$kolom] ?? 'Tidak Diketahui'),
-          'total' => (int) ($r['total'] ?? 0),
-        ],
+      if (empty($data) || !is_array($data))
+        continue;
+
+      $filtered = array_filter(
         $data,
+        fn($row) =>
+        !empty($row['total']) && $row['total'] > 0
       );
+
+      if (empty($filtered))
+        continue;
 
       $hasil[] = [
         'tahun' => $tahun,
-        'data' => $filtered,
+        'data' => array_map(fn($row) => [
+          'nama' => $row['nama'] ?? $row[$kolom] ?? 'Tidak Diketahui',
+          'total' => (int) ($row['total'] ?? 0)
+        ], $filtered)
       ];
     }
 
-    log_message('debug', json_encode($hasil));
     return $hasil;
-  }
-
-  // ===================== 🔸 DROPDOWN KATEGORI =====================
-
-  public function getListJenisRS(): array
-  {
-    return $this->getGenericList('get_unique_jenis');
-  }
-
-  public function getListKelasRS(): array
-  {
-    return $this->getGenericList('get_unique_kelas');
-  }
-
-  public function getListPenyelenggaraRS(): array
-  {
-    return $this->getGenericList('get_unique_penyelenggara');
-  }
-
-  private function getGenericList(string $rpcName): array
-  {
-    $data = $this->callRPC($rpcName);
-    if (empty($data)) {
-      return [];
-    }
-    $unique = [];
-    foreach ($data as $row) {
-      $val = trim($row['nama'] ?? ($row['penyelenggara_grup'] ?? ''));
-      if ($val && !in_array(strtolower($val), array_map('strtolower', $unique))) {
-        $unique[] = $val;
-      }
-    }
-    sort($unique);
-    return array_map(fn($v) => ['nama' => $v], $unique);
   }
 }

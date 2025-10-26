@@ -24,7 +24,6 @@
   </ul>
 
   <div class="tab-content">
-    <!-- TAB JENIS RS -->
     <div class="tab-pane fade show active" id="jenis" role="tabpanel">
       <div class="row g-3 mb-4">
         <div class="col-md-6">
@@ -39,32 +38,18 @@
             <?php endforeach; ?>
           </select>
         </div>
+
         <div class="col-md-6">
           <label for="jenis_filterKabupatenKota" class="form-label">Kabupaten/Kota</label>
           <select id="jenis_filterKabupatenKota" class="form-select">
             <option value="">Semua</option>
             <?php foreach ($listKabupatenKota as $kk): ?>
-            <option value="<?= esc($kk['kabupaten_kota']) ?>" <?= $kk['kabupaten_kota'] == $selectedKabupatenKota
-  ? 'selected'
-  : '' ?>>
+            <option value="<?= esc($kk['kabupaten_kota']) ?>"
+              <?= $kk['kabupaten_kota'] == $selectedKabupatenKota ? 'selected' : '' ?>>
               <?= esc($kk['kabupaten_kota']) ?>
             </option>
             <?php endforeach; ?>
           </select>
-        </div>
-      </div>
-
-      <div class="mb-4 position-relative">
-        <label class="form-label">Filter Kategori</label>
-        <div class="dropdown w-100">
-          <button class="custom-select-dropdown" id="dropdownKategori_jenis" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Pilih Kategori
-          </button>
-          <ul class="dropdown-menu w-100 p-2" aria-labelledby="dropdownKategori_jenis" id="dropdownKategoriList_jenis"
-            style="max-height: 250px; overflow-y: auto;">
-            <li class="text-center text-muted small">Memuat data...</li>
-          </ul>
         </div>
       </div>
 
@@ -73,19 +58,15 @@
         <select id="jenis_filterTahun" class="form-select">
           <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
           <?php foreach ($listTahun as $thn): ?>
-          <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == ($selectedTahun ?? '') ? 'selected' : '' ?>>
+          <option value="<?= esc($thn['tahun']) ?>" <?= ($thn['tahun'] == ($selectedTahun ?? '')) ? 'selected' : '' ?>>
             <?= esc($thn['tahun']) ?>
           </option>
           <?php endforeach; ?>
         </select>
       </div>
 
-      <div class="mb-2 fw-bold">
-        Total Rumah Sakit: <span id="totalCount_jenis">0</span>
-      </div>
-
       <div class="chart-wrapper position-relative mb-3 border rounded p-2">
-        <canvas id="barchart_jenis" height="340"></canvas>
+        <canvas id="barchart_jenisrs" height="340"></canvas>
         <div id="barLoading_jenis" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
           d-flex justify-content-center align-items-center">
           <div class="spinner-border text-secondary" role="status"></div>
@@ -116,7 +97,7 @@
       </div>
 
       <div class="chart-wrapper position-relative border rounded p-2">
-        <canvas id="linechart_jenis" height="400"></canvas>
+        <canvas id="linechart_jenisrs" height="400"></canvas>
         <div id="lineLoading_jenis" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
           d-flex justify-content-center align-items-center">
           <div class="spinner-border text-secondary" role="status"></div>
@@ -124,7 +105,6 @@
       </div>
     </div>
 
-    <!-- TAB KELAS RS -->
     <div class="tab-pane fade" id="kelas" role="tabpanel">
       <div class="row g-3 mb-4">
         <div class="col-md-6">
@@ -132,60 +112,33 @@
           <select id="kelas_filterProvinsi" class="form-select">
             <option value="">Semua</option>
             <?php foreach ($listProvinsi as $prov): ?>
-            <option value="<?= esc($prov['provinsi']) ?>"
-              <?= $prov['provinsi'] == ($selectedProvinsi ?? '') ? 'selected' : '' ?>>
-              <?= esc($prov['provinsi']) ?>
-            </option>
+            <option value="<?= esc($prov['provinsi']) ?>"><?= esc($prov['provinsi']) ?></option>
             <?php endforeach; ?>
           </select>
         </div>
+
         <div class="col-md-6">
           <label for="kelas_filterKabupatenKota" class="form-label">Kabupaten/Kota</label>
           <select id="kelas_filterKabupatenKota" class="form-select">
             <option value="">Semua</option>
             <?php foreach ($listKabupatenKota as $kk): ?>
-            <option value="<?= esc($kk['kabupaten_kota']) ?>" <?= $kk['kabupaten_kota'] == $selectedKabupatenKota
-  ? 'selected'
-  : '' ?>>
-              <?= esc($kk['kabupaten_kota']) ?>
-            </option>
+            <option value="<?= esc($kk['kabupaten_kota']) ?>"><?= esc($kk['kabupaten_kota']) ?></option>
             <?php endforeach; ?>
           </select>
-        </div>
-      </div>
-
-      <div class="mb-3 position-relative">
-        <label class="form-label">Filter Kategori</label>
-        <div class="dropdown w-100">
-          <button class="custom-select-dropdown" id="dropdownKategori_kelas" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Pilih Kategori
-          </button>
-          <ul class="dropdown-menu w-100 p-2" aria-labelledby="dropdownKategori_kelas" id="dropdownKategoriList_kelas"
-            style="max-height: 250px; overflow-y: auto;">
-            <li class="text-center text-muted small">Memuat data...</li>
-          </ul>
         </div>
       </div>
 
       <div class="col-md-2 mb-4">
         <label for="kelas_filterTahun" class="form-label">Per Tahun</label>
         <select id="kelas_filterTahun" class="form-select">
-          <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
           <?php foreach ($listTahun as $thn): ?>
-          <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == ($selectedTahun ?? '') ? 'selected' : '' ?>>
-            <?= esc($thn['tahun']) ?>
-          </option>
+          <option value="<?= esc($thn['tahun']) ?>"><?= esc($thn['tahun']) ?></option>
           <?php endforeach; ?>
         </select>
       </div>
 
-      <div class="mb-2 fw-bold">
-        Total Rumah Sakit: <span id="totalCount_kelas">0</span>
-      </div>
-
       <div class="chart-wrapper position-relative mb-3 border rounded p-2">
-        <canvas id="barchart_kelas" height="340"></canvas>
+        <canvas id="barchart_kelasrs" height="340"></canvas>
         <div id="barLoading_kelas" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
           d-flex justify-content-center align-items-center">
           <div class="spinner-border text-secondary" role="status"></div>
@@ -216,7 +169,7 @@
       </div>
 
       <div class="chart-wrapper position-relative border rounded p-2">
-        <canvas id="linechart_kelas" height="400"></canvas>
+        <canvas id="linechart_kelasrs" height="400"></canvas>
         <div id="lineLoading_kelas" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
           d-flex justify-content-center align-items-center">
           <div class="spinner-border text-secondary" role="status"></div>
@@ -224,7 +177,6 @@
       </div>
     </div>
 
-    <!-- TAB PENYELENGGARA RS -->
     <div class="tab-pane fade" id="penyelenggara" role="tabpanel">
       <div class="row g-3 mb-4">
         <div class="col-md-6">
@@ -233,20 +185,20 @@
             <option value="">Semua</option>
             <?php foreach ($listProvinsi as $prov): ?>
             <option value="<?= esc($prov['provinsi']) ?>"
-              <?= $prov['provinsi'] == ($selectedProvinsi ?? '') ? 'selected' : '' ?>>
+              <?= $prov['provinsi'] == $selectedProvinsi ? 'selected' : '' ?>>
               <?= esc($prov['provinsi']) ?>
             </option>
             <?php endforeach; ?>
           </select>
         </div>
+
         <div class="col-md-6">
           <label for="penyelenggara_filterKabupatenKota" class="form-label">Kabupaten/Kota</label>
           <select id="penyelenggara_filterKabupatenKota" class="form-select">
             <option value="">Semua</option>
             <?php foreach ($listKabupatenKota as $kk): ?>
-            <option value="<?= esc($kk['kabupaten_kota']) ?>" <?= $kk['kabupaten_kota'] == $selectedKabupatenKota
-  ? 'selected'
-  : '' ?>>
+            <option value="<?= esc($kk['kabupaten_kota']) ?>"
+              <?= $kk['kabupaten_kota'] == $selectedKabupatenKota ? 'selected' : '' ?>>
               <?= esc($kk['kabupaten_kota']) ?>
             </option>
             <?php endforeach; ?>
@@ -254,34 +206,15 @@
         </div>
       </div>
 
-      <div class="mb-3 position-relative">
-        <label class="form-label">Filter Kategori</label>
-        <div class="dropdown w-100">
-          <button class="custom-select-dropdown" id="dropdownKategori_penyelenggara" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Pilih Kategori
-          </button>
-          <ul class="dropdown-menu w-100 p-2" aria-labelledby="dropdownKategori_penyelenggara"
-            id="dropdownKategoriList_penyelenggara" style="max-height: 250px; overflow-y: auto;">
-            <li class="text-center text-muted small">Memuat data...</li>
-          </ul>
-        </div>
-      </div>
-
       <div class="col-md-2 mb-4">
         <label for="penyelenggara_filterTahun" class="form-label">Per Tahun</label>
         <select id="penyelenggara_filterTahun" class="form-select">
-          <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
           <?php foreach ($listTahun as $thn): ?>
-          <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == ($selectedTahun ?? '') ? 'selected' : '' ?>>
+          <option value="<?= esc($thn['tahun']) ?>" <?= ($thn['tahun'] == ($selectedTahun ?? '')) ? 'selected' : '' ?>>
             <?= esc($thn['tahun']) ?>
           </option>
           <?php endforeach; ?>
         </select>
-      </div>
-
-      <div class="mb-2 fw-bold">
-        Total Rumah Sakit: <span id="totalCount_penyelenggara">0</span>
       </div>
 
       <div class="chart-wrapper position-relative mb-3 border rounded p-2">
@@ -326,176 +259,154 @@
   </div>
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script>
+Chart.register(ChartDataLabels);
+
 const fixedColors = [
   "#2563eb", "#16a34a", "#dc2626", "#f59e0b", "#9333ea", "#0d9488", "#e11d48",
   "#52525b", "#84cc16", "#0891b2", "#f43f5e", "#a16207", "#7c3aed", "#15803d",
   "#c026d3", "#ea580c", "#0284c7"
 ];
 
-function getSelectedKategoriParam(tipe) {
-  return [...document.querySelectorAll(`#dropdownKategoriList_${tipe} .kategori-checkbox:checked`)]
-    .map(cb => cb.value.trim())
-    .filter(Boolean)
-    .join(',');
-}
-
 async function getData(tipe, jenisChart) {
-  const qs = new URLSearchParams({
-    provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
-    kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
-  });
-
-  const kategori = getSelectedKategoriParam(tipe);
-  if (kategori) qs.append('kategori', kategori);
+  const prov = document.getElementById(`${tipe}_filterProvinsi`)?.value || '';
+  const kab = document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '';
+  let url = '';
 
   if (jenisChart === 'bar') {
     const tahun = document.getElementById(`${tipe}_filterTahun`)?.value || '';
-    qs.append('tahun', tahun);
-    var endpoint = `<?= base_url('dashboard/bar/') ?>${tipe}`;
+    url = `<?= base_url('dashboard/bar/') ?>${tipe}?tahun=${tahun}&provinsi=${prov}&kabupaten=${kab}`;
   } else {
     const tahunAwal = document.getElementById(`${tipe}_tahunAwal`)?.value || '';
     const tahunAkhir = document.getElementById(`${tipe}_tahunAkhir`)?.value || '';
-    qs.append('tahunAwal', tahunAwal);
-    qs.append('tahunAkhir', tahunAkhir);
-    var endpoint = `<?= base_url('dashboard/line/') ?>${tipe}`;
+    url =
+      `<?= base_url('dashboard/line/') ?>${tipe}?tahunAwal=${tahunAwal}&tahunAkhir=${tahunAkhir}&provinsi=${prov}&kabupaten=${kab}`;
   }
 
-  const url = `${endpoint}?${qs.toString()}`;
   const res = await fetch(url);
-
-  if (!res.ok) return [];
-
-  return res.json();
+  return await res.json();
 }
 
 function toggleLoading(tipe, chartType, show = true) {
-  const chartId = `${chartType}chart_${tipe}`;
+  const chartId = `${chartType}chart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`;
   const loader = document.getElementById(`${chartType}Loading_${tipe}`);
   const canvas = document.getElementById(chartId);
   const emptyMsg = document.getElementById(`${chartId}_empty`);
 
   if (!canvas || !loader) return;
 
-  loader.classList.toggle('d-none', !show);
-  canvas.style.filter = show ? 'blur(4px)' : 'none';
-
-  if (emptyMsg) emptyMsg.style.display = show ? 'none' : '';
+  if (show) {
+    loader.classList.remove('d-none');
+    canvas.style.filter = 'blur(4px)';
+    if (emptyMsg) emptyMsg.style.display = 'none';
+  } else {
+    loader.classList.add('d-none');
+    canvas.style.filter = 'none';
+    if (emptyMsg) emptyMsg.style.display = '';
+  }
 }
+
+document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tab => {
+  tab.addEventListener('shown.bs.tab', async (event) => {
+    const target = event.target.getAttribute('data-bs-target').replace('#', '');
+    await loadBothCharts(target);
+  });
+});
 
 const verticalLinePlugin = {
   id: 'verticalLine',
   beforeDatasetsDraw(chart) {
-    const {
-      ctx,
-      tooltip,
-      scales
-    } = chart;
-    const active = tooltip?._active?. [0];
-    if (!active) return;
-
-    const {
-      x
-    } = active.element;
-    const yAxis = scales.y;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(x, yAxis.top);
-    ctx.lineTo(x, yAxis.bottom);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#e5e7eb';
-    ctx.setLineDash([8, 4]);
-    ctx.stroke();
-    ctx.restore();
+    if (chart.tooltip?._active?.length) {
+      const ctx = chart.ctx;
+      const activePoint = chart.tooltip._active[0];
+      const x = activePoint.element.x;
+      const yAxis = chart.scales.y;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, yAxis.top);
+      ctx.lineTo(x, yAxis.bottom);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#e5e7eb';
+      ctx.setLineDash([8, 4]);
+      ctx.stroke();
+      ctx.restore();
+    }
   }
 };
 
 Chart.Tooltip.positioners.middleLine = function(elements) {
   if (!elements.length) return false;
+  const chart = elements[0].element.$context.chart;
+  const x = elements[0].element.x;
+  const yScale = chart.scales.y;
+  const midY = (yScale.top + yScale.bottom) / 2;
 
-  const {
-    chart
-  } = elements[0].element.$context;
-  const {
-    x
-  } = elements[0].element;
-  const {
-    top,
-    bottom
-  } = chart.scales.y;
-  const {
-    left,
-    right
-  } = chart.chartArea;
-
-  const midY = (top + bottom) / 2;
-  const offset = 10;
-
-  let adjustedX = x + offset;
-
-  if (adjustedX > right - offset) adjustedX = x - offset;
-  if (adjustedX < left + offset) adjustedX = x + offset;
-
+  const rightOffset = 74;
   return {
-    x: adjustedX,
+    x: x + rightOffset,
     y: midY
   };
 };
 
 function renderBarChart(tipe, data) {
-  const dataset = Array.isArray(data) ?
-    data :
-    Array.isArray(data?.data) ?
-    data.data : [];
-
-  const ctxId = `barchart_${tipe}`;
+  const ctxId = `barchart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`;
   const ctx = document.getElementById(ctxId);
-  if (!ctx) return;
 
-  // Reset tampilan lama
-  document.getElementById(`${ctxId}_empty`)?.remove();
-  ctx.style.display = "block";
-
-  // Hancurkan chart lama (hindari leak)
   if (ctx.chartInstance) {
     ctx.chartInstance.destroy();
     ctx.chartInstance = null;
   }
 
-  if (!dataset.length) {
-    showEmptyMessage(ctx, ctxId, "📭 Data tidak tersedia untuk tahun dan wilayah yang dipilih.");
+  const oldMsg = document.getElementById(`${ctxId}_empty`);
+  if (oldMsg) oldMsg.remove();
+
+  if (!Array.isArray(data) || data.length === 0) {
+    const msg = document.createElement('div');
+    msg.id = `${ctxId}_empty`;
+    msg.className = "text-center text-muted fw-semibold position-absolute top-50 start-50 translate-middle";
+    msg.textContent = "📭 Data tidak tersedia untuk tahun dan wilayah yang dipilih.";
+    ctx.parentNode.appendChild(msg);
+    ctx.style.display = "none";
     return;
   }
 
-  const urutanKelas = ["A", "B", "C", "D", "D PRATAMA", "Belum Ditetapkan"];
-  const sortedData = dataset
-    .filter(d => Number(d.total) > 0)
-    .sort((a, b) => tipe === 'kelas' ?
-      urutanKelas.indexOf(a.kelas_rs) - urutanKelas.indexOf(b.kelas_rs) :
-      b.total - a.total
-    );
+  const validData = data.filter(d => d.total > 0);
 
-  if (!sortedData.length) {
-    showEmptyMessage(ctx, ctxId, "Data tidak tersedia untuk wilayah yang dipilih.");
+  if (!Array.isArray(data) || data.length === 0) {
+    const msg = document.createElement('div');
+    msg.id = `${ctxId}_empty`;
+    msg.className = "text-center text-muted fw-semibold position-absolute top-50 start-50 translate-middle";
+    msg.textContent = "Data tidak tersedia untuk wilayah yang dipilih.";
+    ctx.parentNode.appendChild(msg);
+
+    const ctxParent = ctx.getContext("2d");
+    ctxParent.clearRect(0, 0, ctx.width, ctx.height);
+
     return;
   }
 
-  const labels = sortedData.map(d =>
-    d.nama || d.jenis_rs || d.kelas_rs || d.nama_kategori || d.label || "Tidak Diketahui"
-  );
-  const values = sortedData.map(d => Number(d.total));
-  updateTotalCount(tipe, sortedData);
+  ctx.style.display = "block";
+
+  let sortedData;
+  if (tipe === 'kelas') {
+    const urutanKelas = ["A", "B", "C", "D", "D PRATAMA", "Belum Ditetapkan"];
+    sortedData = [...validData].sort((a, b) => urutanKelas.indexOf(Object.values(a)[0]) - urutanKelas.indexOf(Object
+      .values(b)[0]));
+  } else {
+    sortedData = [...validData].sort((a, b) => b.total - a.total);
+  }
+
+  const labels = sortedData.map(d => Object.values(d)[0]);
+  const values = sortedData.map(d => d.total);
 
   ctx.chartInstance = new Chart(ctx, {
     type: 'bar',
     data: {
       labels,
       datasets: [{
-        label: 'Jumlah Rumah Sakit',
+        label: 'Jumlah',
         data: values,
         borderWidth: 1,
         backgroundColor: fixedColors.slice(0, labels.length)
@@ -526,13 +437,13 @@ function renderBarChart(tipe, data) {
           font: {
             weight: 'bold'
           },
-          formatter: v => Number(v).toLocaleString()
+          formatter: v => v.toLocaleString()
         }
       },
       scales: {
         x: {
           display: false,
-          beginAtZero: true
+          beginAtZero: true,
         },
         y: {
           grid: {
@@ -546,38 +457,27 @@ function renderBarChart(tipe, data) {
 }
 
 function renderLineChart(tipe, data) {
-  const ctx = document.getElementById(`linechart_${tipe}`);
-  if (!ctx) return;
+  if (!data || !Array.isArray(data.datasets) || data.datasets.length === 0) {
+    const ctx = document.getElementById(`linechart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`);
+    if (!ctx) return;
 
-  document.getElementById(`${ctx.id}_empty`)?.remove();
+    if (ctx.chartInstance) ctx.chartInstance.destroy();
 
-  const isInvalid = !data ||
-    (data.status && data.status !== "success") ||
-    !Array.isArray(data.labels) ||
-    data.labels.length === 0 ||
-    !Array.isArray(data.datasets) ||
-    data.datasets.length === 0;
+    const msgId = `${ctx.id}_empty`;
+    document.getElementById(msgId)?.remove();
 
-  if (isInvalid) {
-    ctx.chartInstance?.destroy();
-    ctx.chartInstance = null;
-    showEmptyMessage(ctx, ctx.id, "📭 Data tidak tersedia untuk rentang tahun ini.");
+    const msg = document.createElement("div");
+    msg.id = msgId;
+    msg.className =
+      "text-center text-muted fw-semibold position-absolute top-50 start-50 translate-middle";
+    msg.textContent = "Data tidak tersedia untuk rentang tahun ini.";
+    ctx.parentNode.appendChild(msg);
+    ctx.style.display = "none";
     return;
   }
 
-  ctx.style.display = "block";
-  ctx.parentNode.classList.add("position-relative");
-  ctx.parentNode.style.minHeight = "400px";
-
-  const sortedDatasets =
-    data.datasets.length > 1 ? [...data.datasets].sort((a, b) => {
-      const totalA = a.data.reduce((s, v) => s + (+v || 0), 0);
-      const totalB = b.data.reduce((s, v) => s + (+v || 0), 0);
-      return totalB - totalA;
-    }) :
-    data.datasets;
-
-  const datasets = sortedDatasets.map((ds, i) => ({
+  const labels = data.labels;
+  const datasets = data.datasets.map((ds, i) => ({
     ...ds,
     borderColor: fixedColors[i % fixedColors.length],
     backgroundColor: fixedColors[i % fixedColors.length],
@@ -585,161 +485,154 @@ function renderLineChart(tipe, data) {
     tension: 0.3,
     pointRadius: 4,
     pointHoverRadius: 6,
-    fill: false,
-    data: ds.data.map(v => +v || 0)
+    fill: false
   }));
 
-  ctx.chartInstance?.destroy();
-  ctx.chartInstance = null;
+  const ctxId = `linechart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`;
+  const ctx = document.getElementById(ctxId);
+  if (ctx.chartInstance) ctx.chartInstance.destroy();
 
-  try {
-    ctx.chartInstance = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: data.labels,
-        datasets
+  ctx.style.display = "block";
+
+  ctx.chartInstance = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false,
+        axis: "x"
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
+      plugins: {
+        legend: {
+          position: "right",
+          labels: {
+            generateLabels: chart => {
+              const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+              return labels.sort((a, b) => {
+                const da = datasets.find(d => d.label === a.text);
+                const db = datasets.find(d => d.label === b.text);
+                return db.total - da.total;
+              });
+            }
+          }
+        },
+        tooltip: {
           mode: "index",
           intersect: false,
-          axis: "x"
-        },
-        plugins: {
-          legend: {
-            position: "right",
-            labels: {
-              generateLabels: chart => {
-                const base = Chart.defaults.plugins.legend.labels.generateLabels(chart);
-                return base.sort((a, b) => {
-                  const da = datasets.find(d => d.label === a.text);
-                  const db = datasets.find(d => d.label === b.text);
-                  const totalA = da?.data.reduce((s, n) => s + +n, 0) || 0;
-                  const totalB = db?.data.reduce((s, n) => s + +n, 0) || 0;
-                  return totalB - totalA;
-                });
-              }
-            }
+          position: "middleLine",
+          backgroundColor: "#ffffff",
+          titleColor: "#1e293b",
+          bodyColor: "#1e293b",
+          borderColor: "#e5e7eb",
+          borderWidth: 1,
+          xAlign: 'center',
+          yAlign: 'center',
+          padding: {
+            top: 8,
+            right: 12,
+            bottom: 8,
+            left: 12
           },
-          tooltip: {
-            position: "middleLine",
-            mode: "index",
-            intersect: false,
-            backgroundColor: "#ffffff",
-            titleColor: "#1e293b",
-            bodyColor: "#1e293b",
-            borderColor: "#e5e7eb",
-            borderWidth: 1,
-            padding: {
-              top: 8,
-              right: 12,
-              bottom: 8,
-              left: 12
+          boxPadding: 8,
+          callbacks: {
+            beforeBody(tooltipItems) {
+              tooltipItems.sort((a, b) => b.parsed.y - a.parsed.y);
             },
-            callbacks: {
-              beforeBody(items) {
-                items.sort((a, b) => b.parsed.y - a.parsed.y);
-              },
-              label(ctx) {
-                return `${ctx.dataset.label}: ${Number(ctx.parsed.y).toLocaleString()}`;
-              }
+            label(context) {
+              return `${context.dataset.label}: ${context.parsed.y.toLocaleString()}`;
             }
+          }
+        },
+        datalabels: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            drawOnChartArea: true
           },
-          datalabels: {
+          border: {
             display: false
           }
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              drawOnChartArea: true
-            },
-            border: {
-              display: false
-            }
+        x: {
+          grid: {
+            drawOnChartArea: false
           },
-          x: {
-            grid: {
-              drawOnChartArea: false
-            },
-            border: {
-              display: false
-            }
+          border: {
+            display: false
           }
         }
-      },
-      plugins: [ChartDataLabels, verticalLinePlugin]
+      }
+    },
+    plugins: [verticalLinePlugin]
+  });
+}
+
+
+async function loadBothCharts(tipe) {
+  try {
+    toggleLoading(tipe, 'bar', true);
+    toggleLoading(tipe, 'line', true);
+
+    const barCanvas = document.getElementById(`barchart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`);
+    const lineCanvas = document.getElementById(
+      `linechart_${tipe === 'penyelenggara' ? 'penyelenggara' : tipe + 'rs'}`);
+    if (barCanvas?.chartInstance) {
+      barCanvas.chartInstance.destroy();
+    }
+    if (lineCanvas?.chartInstance) {
+      lineCanvas.chartInstance.destroy();
+    }
+
+    const [barData, lineData] = await Promise.all([
+      getData(tipe, 'bar'),
+      getData(tipe, 'line')
+    ]);
+
+    requestAnimationFrame(() => {
+      renderBarChart(tipe, barData);
+      renderLineChart(tipe, lineData);
     });
-  } catch (error) {
-    console.error(`Gagal membuat chart untuk ${tipe}:`, error);
+
+  } catch (err) {
+    console.error('Gagal memuat chart:', err);
+  } finally {
+    toggleLoading(tipe, 'bar', false);
+    toggleLoading(tipe, 'line', false);
   }
 }
-
-function showEmptyMessage(ctx, ctxId, message) {
-  const existing = document.getElementById(`${ctxId}_empty`);
-  if (existing) existing.remove();
-
-  const msg = document.createElement('div');
-  msg.id = `${ctxId}_empty`;
-  msg.className = "text-center text-muted fw-semibold position-absolute top-50 start-50 translate-middle";
-  msg.textContent = message;
-
-  ctx.parentNode.appendChild(msg);
-  ctx.style.display = "none";
-}
-
-function updateTotalCount(tipe, dataset) {
-  const el = document.getElementById(`totalCount_${tipe}`);
-  if (!el) return;
-
-  const total = Array.isArray(dataset) && dataset.length ?
-    dataset.reduce((sum, d) => sum + (+d.total || 0), 0) :
-    0;
-
-  el.textContent = total.toLocaleString();
-}
-
 
 async function updateKabupatenOptions(tipe) {
   const provSelect = document.getElementById(`${tipe}_filterProvinsi`);
   const kabSelect = document.getElementById(`${tipe}_filterKabupatenKota`);
-  if (!provSelect || !kabSelect) return;
-
   kabSelect.innerHTML = '<option value="">Semua</option>';
-  const prov = provSelect.value?.trim();
-  if (!prov) return;
+
+  const prov = provSelect?.value || '';
 
   try {
-    const url = `<?= base_url('dashboard/kabupaten') ?>?provinsi=${encodeURIComponent(prov)}`;
+    const url = `<?= base_url('dashboard/getKabupatenByProvinsi') ?>?provinsi=${encodeURIComponent(prov)}`;
     const res = await fetch(url);
-    if (!res.ok) throw new Error();
-
     const data = await res.json();
-    if (!Array.isArray(data) || data.length === 0) {
-      kabSelect.innerHTML = '<option value="">Tidak ada data</option>';
-      return;
+
+    if (Array.isArray(data) && data.length > 0) {
+      data.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.kabupaten_kota;
+        opt.textContent = item.kabupaten_kota;
+        kabSelect.appendChild(opt);
+      });
     }
-
-    const fragment = document.createDocumentFragment();
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = 'Semua';
-    fragment.appendChild(defaultOption);
-
-    for (const kab of data) {
-      const opt = document.createElement('option');
-      opt.value = kab.kabupaten_kota ?? '';
-      opt.textContent = kab.kabupaten_kota ?? 'Tidak diketahui';
-      fragment.appendChild(opt);
-    }
-
-    kabSelect.innerHTML = '';
-    kabSelect.appendChild(fragment);
-  } catch {
-    kabSelect.innerHTML = '<option value="">Gagal memuat</option>';
+  } catch (err) {
+    console.error('Gagal memuat kabupaten:', err);
   }
 }
 
@@ -750,28 +643,32 @@ function filterTahunDropdown(tipe) {
 
   const tahunAwal = parseInt(tahunAwalEl.value);
   const tahunAkhir = parseInt(tahunAkhirEl.value);
-  const allYears = Array.from(tahunAwalEl.options, opt => parseInt(opt.value));
 
-  const createOptions = (filterFn) => {
-    const frag = document.createDocumentFragment();
-    allYears.filter(filterFn).forEach(t => {
+  const allOptions = Array.from(tahunAwalEl.options).map(opt => parseInt(opt.value));
+
+  tahunAkhirEl.innerHTML = '';
+  allOptions.forEach(t => {
+    if (t > tahunAwal) {
       const opt = document.createElement('option');
       opt.value = t;
       opt.textContent = t;
-      frag.appendChild(opt);
-    });
-    return frag;
-  };
-
-  tahunAkhirEl.innerHTML = '';
-  tahunAkhirEl.appendChild(createOptions(t => t > tahunAwal));
-  if (!tahunAkhirEl.value || parseInt(tahunAkhirEl.value) <= tahunAwal) {
+      tahunAkhirEl.appendChild(opt);
+    }
+  });
+  if (parseInt(tahunAkhirEl.value) <= tahunAwal) {
     tahunAkhirEl.value = tahunAkhirEl.options[0]?.value || '';
   }
 
   tahunAwalEl.innerHTML = '';
-  tahunAwalEl.appendChild(createOptions(t => t < tahunAkhir));
-  if (!tahunAwalEl.value || parseInt(tahunAwalEl.value) >= tahunAkhir) {
+  allOptions.forEach(t => {
+    if (t < tahunAkhir) {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t;
+      tahunAwalEl.appendChild(opt);
+    }
+  });
+  if (parseInt(tahunAwalEl.value) >= tahunAkhir) {
     tahunAwalEl.value = tahunAwalEl.options[tahunAwalEl.options.length - 1]?.value || '';
   }
 }
@@ -800,179 +697,58 @@ async function loadLineChartOnly(tipe) {
   }
 }
 
-async function loadBothCharts(tipe, selectedKategori = []) {
-  const tahun = document.getElementById(`${tipe}_filterTahun`)?.value ?? '';
-  const provinsi = document.getElementById(`${tipe}_filterProvinsi`)?.value ?? '';
-  const kabupaten = document.getElementById(`${tipe}_filterKabupatenKota`)?.value ?? '';
-
-  const kategoriParam = selectedKategori.length ? selectedKategori.join(',') : '';
-
-  const urlBar =
-    `<?= base_url() ?>/dashboard/bar/${tipe}?tahun=${tahun}&provinsi=${provinsi}&kabupaten=${kabupaten}&kategori=${encodeURIComponent(kategoriParam)}`;
-  const urlLine =
-    `<?= base_url() ?>/dashboard/line/${tipe}?tahunAwal=${tahun - 1}&tahunAkhir=${tahun}&provinsi=${provinsi}&kabupaten=${kabupaten}&kategori=${encodeURIComponent(kategoriParam)}`;
-
-  const spinnerBar = document.getElementById(`barLoading_${tipe}`);
-  const spinnerLine = document.getElementById(`lineLoading_${tipe}`);
-  spinnerBar?.classList.remove('d-none');
-  spinnerLine?.classList.remove('d-none');
-
-  try {
-    const [resBar, resLine] = await Promise.all([fetch(urlBar), fetch(urlLine)]);
-    const [barData, lineData] = await Promise.all([resBar.json(), resLine.json()]);
-
-    renderBarChart(tipe, barData);
-
-    let formattedLineData = {
-      labels: [],
-      datasets: []
-    };
-
-    if (lineData?.status === "success") {
-      formattedLineData.labels = lineData.labels ?? [];
-      formattedLineData.datasets = lineData.datasets ?? [];
-    } else if (Array.isArray(lineData)) {
-      const labelsSet = new Set();
-      lineData.forEach(item => {
-        item.data?.forEach(d => labelsSet.add(d.nama));
-      });
-
-      const labels = Array.from(labelsSet);
-      const datasets = lineData.map(item => ({
-        label: item.tahun?.toString() ?? "Tanpa Tahun",
-        data: labels.map(lbl => item.data?.find(d => d.nama === lbl)?.total ?? 0)
-      }));
-
-      formattedLineData = {
-        labels,
-        datasets
-      };
-    }
-
-    renderLineChart(tipe, formattedLineData);
-  } catch (err) {
-    console.error("Gagal memuat chart:", err);
-  } finally {
-    toggleLoading(tipe, "bar", false);
-    toggleLoading(tipe, "line", false);
-    spinnerBar?.classList.add('d-none');
-    spinnerLine?.classList.add('d-none');
-  }
-}
-
 function setupFilterListeners(tipe) {
-  const el = (id) => document.getElementById(`${tipe}_${id}`);
+  const provSelect = document.getElementById(`${tipe}_filterProvinsi`);
+  const kabSelect = document.getElementById(`${tipe}_filterKabupatenKota`);
+  const tahunSelect = document.getElementById(`${tipe}_filterTahun`);
+  const tahunAwal = document.getElementById(`${tipe}_tahunAwal`);
+  const tahunAkhir = document.getElementById(`${tipe}_tahunAkhir`);
 
-  const provSelect = el('filterProvinsi');
-  const kabSelect = el('filterKabupatenKota');
-  const tahunSelect = el('filterTahun');
-  const tahunAwal = el('tahunAwal');
-  const tahunAkhir = el('tahunAkhir');
-
-  const reloadBoth = async (updateKab = false) => {
-    toggleLoading(tipe, 'bar', true);
-    toggleLoading(tipe, 'line', true);
-    if (updateKab) await updateKabupatenOptions(tipe);
-    await loadBothCharts(tipe);
-  };
-
-  provSelect?.addEventListener('change', () => reloadBoth(true));
-  kabSelect?.addEventListener('change', () => reloadBoth());
-
-  tahunSelect?.addEventListener('change', async () => {
-    toggleLoading(tipe, 'bar', true);
-    await loadBarChartOnly(tipe);
-  });
-
-  const reloadLine = async () => {
-    toggleLoading(tipe, 'line', true);
-    filterTahunDropdown(tipe);
-    await loadLineChartOnly(tipe);
-  };
-
-  tahunAwal?.addEventListener('change', reloadLine);
-  tahunAkhir?.addEventListener('change', reloadLine);
-}
-
-async function loadKategoriList(tipe) {
-  const dropdownList = document.getElementById(`dropdownKategoriList_${tipe}`);
-  if (!dropdownList) return;
-
-  dropdownList.innerHTML = '<li class="text-muted small text-center">Memuat...</li>';
-
-  try {
-    const res = await fetch(`<?= base_url('dashboard/getDropdownList/') ?>${tipe}`);
-    if (!res.ok) throw new Error('Network error');
-    const data = await res.json();
-
-    if (!Array.isArray(data) || data.length === 0) {
-      dropdownList.innerHTML = '<li class="text-muted small text-center">Tidak ada data</li>';
-      return;
-    }
-
-    const itemsHTML = data.map(item => {
-      const safeValue = (item.nama ?? '').toString();
-      const inputId = `chk_${tipe}_${safeValue.replace(/\s+/g, '_')}`;
-      return `
-        <li>
-          <div class="form-check">
-            <input class="form-check-input kategori-checkbox" type="checkbox" value="${safeValue}" id="${inputId}">
-            <label class="form-check-label" for="${inputId}">${safeValue}</label>
-          </div>
-        </li>
-      `;
-    }).join('');
-
-    dropdownList.innerHTML = itemsHTML;
-
-    dropdownList.addEventListener('change', async (e) => {
-      if (!e.target.classList.contains('kategori-checkbox')) return;
-
+  if (provSelect) {
+    provSelect.addEventListener('change', async () => {
       toggleLoading(tipe, 'bar', true);
       toggleLoading(tipe, 'line', true);
-
-      const selected = Array.from(dropdownList.querySelectorAll('.kategori-checkbox:checked')).map(cb => cb
-        .value);
-      window.selectedKategori = selected;
-      await loadBothCharts(tipe, selected);
+      await updateKabupatenOptions(tipe);
+      await loadBothCharts(tipe);
     });
+  }
+  if (kabSelect) {
+    kabSelect.addEventListener('change', () => {
+      toggleLoading(tipe, 'bar', true);
+      toggleLoading(tipe, 'line', true);
+      loadBothCharts(tipe);
+    });
+  }
 
-    await loadBothCharts(tipe, []);
+  if (tahunSelect) {
+    tahunSelect.addEventListener('change', () => {
+      toggleLoading(tipe, 'bar', true);
+      loadBarChartOnly(tipe);
+    });
+  }
 
-  } catch (err) {
-    console.error('Gagal memuat kategori:', err);
-    dropdownList.innerHTML = '<li class="text-danger small text-center">Gagal memuat data</li>';
+  if (tahunAwal) {
+    tahunAwal.addEventListener('change', () => {
+      toggleLoading(tipe, 'line', true);
+      filterTahunDropdown(tipe);
+      loadLineChartOnly(tipe);
+    });
+  }
+
+  if (tahunAkhir) {
+    tahunAkhir.addEventListener('change', () => {
+      toggleLoading(tipe, 'line', true);
+      filterTahunDropdown(tipe);
+      loadLineChartOnly(tipe);
+    });
   }
 }
 
-document.addEventListener('change', function(e) {
-  if (!e.target.classList.contains('kategori-checkbox')) return;
-
-  const list = e.target.closest('[id^="dropdownKategoriList_"]');
-  if (!list) return;
-
-  const tipe = list.id.replace('dropdownKategoriList_', '');
-  const button = document.getElementById(`dropdownKategori_${tipe}`);
-  const checked = list.querySelectorAll('.kategori-checkbox:checked');
-
-  button.textContent = checked.length > 0 ? `${checked.length} dipilih` : 'Pilih Kategori';
-});
-
-document.addEventListener('shown.bs.tab', async (event) => {
-  const btn = event.target;
-  if (!btn.matches('button[data-bs-toggle="tab"]')) return;
-
-  const target = btn.dataset.bsTarget?.slice(1);
-  if (target) await loadBothCharts(target);
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  (async () => {
-    await loadKategoriList('jenis');
-    await loadBothCharts('jenis', []);
-
-    ['kelas', 'penyelenggara'].forEach(loadKategoriList);
-    ['jenis', 'kelas', 'penyelenggara'].forEach(setupFilterListeners);
-  })();
-});
+(async () => {
+  ['jenis', 'kelas', 'penyelenggara'].forEach(tipe => {
+    setupFilterListeners(tipe);
+    filterTahunDropdown(tipe);
+    loadBothCharts(tipe);
+  });
+})();
 </script>
