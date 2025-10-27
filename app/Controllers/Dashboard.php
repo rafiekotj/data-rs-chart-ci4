@@ -18,7 +18,6 @@ class Dashboard extends BaseController
   public function index()
   {
     try {
-      // Ambil dari cache jika ada
       $listProvinsi = $this->cache->get('listProvinsi') ?? $this->dashboardModel->getListProvinsi();
       $this->cache->save('listProvinsi', $listProvinsi, 3600);
 
@@ -52,39 +51,25 @@ class Dashboard extends BaseController
     }
   }
 
-  // =====================================================
-  // BAR CHART
-  // =====================================================
   public function getBarData($tipe)
   {
     $tahun = trim($this->request->getGet('tahun') ?? '');
     $provinsi = trim($this->request->getGet('provinsi') ?? '');
     $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
     $kategori = trim($this->request->getGet('kategori') ?? '');
-
     $kolom = $this->getKolomByTipe($tipe);
     if (!$kolom) {
       return $this->response->setStatusCode(400)->setJSON(['error' => 'Tipe tidak valid']);
     }
 
     try {
-      // Jika tahun kosong, gunakan tahun terbaru dari cache
       if ($tahun === '') {
         $listTahun = $this->cache->get('listTahun') ?? $this->dashboardModel->getListTahun();
         $tahun = !empty($listTahun) ? max(array_column($listTahun, 'tahun')) : date('Y');
       }
 
-      // Panggil data dari model
       $data = $this->dashboardModel->getBarData($kolom, $tahun, $provinsi, $kabupaten);
 
-      if (empty($data)) {
-        log_message(
-          'debug',
-          "getBarData: Data kosong untuk tipe={$tipe}, tahun={$tahun}, prov={$provinsi}, kab={$kabupaten}",
-        );
-      }
-
-      // Filter kategori kalau dipilih
       if (!empty($kategori)) {
         $kategoriList = array_map('strtolower', array_map('trim', explode(',', $kategori)));
         $data = array_filter($data, function ($row) use ($kategoriList) {
@@ -94,7 +79,6 @@ class Dashboard extends BaseController
       }
 
       $total_semua = array_sum(array_column($data, 'total'));
-
       return $this->response->setJSON([
         'status' => 'success',
         'total_semua' => $total_semua,
@@ -106,19 +90,13 @@ class Dashboard extends BaseController
     }
   }
 
-  // =====================================================
-  // LINE CHART
-  // =====================================================
   public function getLineData($tipe)
   {
-    // Ambil parameter dari query string
     $tahunAwal = (int) ($this->request->getGet('tahunAwal') ?? date('Y') - 4);
     $tahunAkhir = (int) ($this->request->getGet('tahunAkhir') ?? date('Y'));
     $provinsi = trim($this->request->getGet('provinsi') ?? '');
     $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
     $kategori = trim($this->request->getGet('kategori') ?? '');
-
-    // Validasi tipe
     $kolom = $this->getKolomByTipe($tipe);
     if (!$kolom) {
       return $this->response->setStatusCode(400)->setJSON([
@@ -128,10 +106,7 @@ class Dashboard extends BaseController
     }
 
     try {
-      // Ambil data dari model
       $hasil = $this->dashboardModel->getLineData($kolom, $tahunAwal, $tahunAkhir, $provinsi, $kabupaten);
-
-      // Jika data kosong
       if (empty($hasil)) {
         return $this->response->setJSON([
           'status' => 'success',
@@ -140,10 +115,8 @@ class Dashboard extends BaseController
         ]);
       }
 
-      // Filter kategori jika ada
       if (!empty($kategori)) {
         $kategoriList = array_map('strtolower', array_map('trim', explode(',', $kategori)));
-
         foreach ($hasil as &$tahunData) {
           $tahunData['data'] = array_filter($tahunData['data'], function ($row) use ($kategoriList) {
             $nama = strtolower(trim($row['nama'] ?? ''));
@@ -153,10 +126,7 @@ class Dashboard extends BaseController
         unset($tahunData);
       }
 
-      // Ambil label tahun
       $labelsTahun = array_column($hasil, 'tahun');
-
-      // Kumpulkan semua nama unik
       $semuaNama = [];
       foreach ($hasil as $tahunItem) {
         foreach ($tahunItem['data'] as $row) {
@@ -167,14 +137,12 @@ class Dashboard extends BaseController
         }
       }
 
-      // Bentuk datasets Chart.js
       $datasets = [];
       foreach (array_keys($semuaNama) as $label) {
         $dataPerTahun = array_map(function ($tahunItem) use ($label) {
           $found = array_filter($tahunItem['data'], fn($r) => $r['nama'] === $label);
           return !empty($found) ? (int) array_values($found)[0]['total'] : 0;
         }, $hasil);
-
         $datasets[] = [
           'label' => $label,
           'data' => $dataPerTahun,
@@ -184,7 +152,6 @@ class Dashboard extends BaseController
         ];
       }
 
-      // Kembalikan response final
       return $this->response->setJSON([
         'status' => 'success',
         'labels' => $labelsTahun,
@@ -199,9 +166,6 @@ class Dashboard extends BaseController
     }
   }
 
-  // =====================================================
-  // DROPDOWN HANDLER
-  // =====================================================
   public function getKabupatenByProvinsi()
   {
     $provinsi = trim($this->request->getGet('provinsi') ?? '');
@@ -210,7 +174,6 @@ class Dashboard extends BaseController
         $provinsi === '' || strtolower($provinsi) === 'semua'
           ? $this->dashboardModel->getListKabupatenKota()
           : $this->dashboardModel->getKabupatenByProvinsi($provinsi);
-
       return $this->response->setJSON($kabupaten ?: []);
     } catch (\Throwable $e) {
       log_message('error', 'getKabupatenByProvinsi error: ' . $e->getMessage());
@@ -223,7 +186,6 @@ class Dashboard extends BaseController
     try {
       $cacheKey = "dropdown_{$tipe}";
       $list = $this->cache->get($cacheKey);
-
       if (!is_array($list) || empty($list)) {
         $list = match ($tipe) {
           'jenis' => $this->dashboardModel->getListJenisRS(),
@@ -233,7 +195,6 @@ class Dashboard extends BaseController
         };
         $this->cache->save($cacheKey, $list, 3600);
       }
-
       return $this->response->setJSON($list);
     } catch (\Throwable $e) {
       log_message('error', 'getDropdownList error: ' . $e->getMessage());
@@ -241,9 +202,28 @@ class Dashboard extends BaseController
     }
   }
 
-  // =====================================================
-  // HELPER
-  // =====================================================
+  public function getTableData()
+  {
+    $tipe = trim($this->request->getGet('tipe') ?? '');
+    $provinsi = trim($this->request->getGet('provinsi') ?? '');
+    $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
+    $kategori = trim($this->request->getGet('kategori') ?? '');
+    $tahun = trim($this->request->getGet('tahun') ?? '');
+    $kolom = $this->getKolomByTipe($tipe);
+
+    if (!$kolom) {
+      return $this->response->setStatusCode(400)->setJSON(['error' => 'Tipe tidak valid']);
+    }
+
+    try {
+      $data = $this->dashboardModel->getFilteredTableData($kolom, $tahun, $provinsi, $kabupaten, $kategori);
+      return $this->response->setJSON(['status' => 'success', 'data' => $data]);
+    } catch (\Throwable $e) {
+      log_message('error', 'getTableData error: ' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setJSON(['error' => 'Gagal mengambil data tabel.']);
+    }
+  }
+
   private function getKolomByTipe(string $tipe): ?string
   {
     return match ($tipe) {

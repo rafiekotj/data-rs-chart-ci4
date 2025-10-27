@@ -185,6 +185,16 @@ body {
   min-height: 400px !important;
 }
 
+.custom-select-dropdown {
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.dropdown-menu .form-check-label {
+  font-size: 14px;
+  color: #1e293b;
+}
+
 .btn-primary-light {
   background-color: #60a5fa;
   border: 1px solid #60a5fa;
@@ -199,24 +209,36 @@ body {
   color: #fff;
 }
 
-#rsTable {
+#rsTable,
+#rsTable_jenis,
+#rsTable_kelas,
+#rsTable_penyelenggara {
   border: 1px solid #e5e7eb;
   border-collapse: collapse;
 }
 
-#rsTable thead {
+#rsTable thead,
+#rsTable_jenis thead,
+#rsTable_kelas thead,
+#rsTable_penyelenggara thead {
   color: #1e293b;
   border-bottom: 2px solid #e5e7eb;
 }
 
-#rsTable th {
+#rsTable th,
+#rsTable_jenis th,
+#rsTable_kelas th,
+#rsTable_penyelenggara th {
   text-align: center;
   border: 1px solid #e5e7eb;
   background-color: #f1f5f9;
   color: #1e293b;
 }
 
-#rsTable td {
+#rsTable td,
+#rsTable_jenis td,
+#rsTable_kelas td,
+#rsTable_penyelenggara td {
   border: 1px solid #e5e7eb;
   vertical-align: middle;
   background-color: #ffffff;
@@ -224,7 +246,10 @@ body {
   color: #1e293b;
 }
 
-#rsTable tbody tr:nth-child(even) td {
+#rsTable tbody tr:nth-child(even) td,
+#rsTable_jenistbody tr:nth-child(even) td,
+#rsTable_kelastbody tr:nth-child(even) td,
+#rsTable_penyelenggara tbody tr:nth-child(even) td {
   background-color: #f9fafb;
 }
 

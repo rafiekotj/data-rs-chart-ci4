@@ -212,4 +212,50 @@ class ModelDashboard extends Model
     sort($unique);
     return array_map(fn($v) => ['nama' => $v], $unique);
   }
+
+  // ===================== 🔸 TABEL FILTERED DATA (BARU) =====================
+
+  public function getFilteredTableData(
+    string $kolom,
+    ?string $tahun = null,
+    ?string $provinsi = null,
+    ?string $kabupaten = null,
+    ?string $kategori = null,
+  ): array {
+    if (empty($kolom)) {
+      return [];
+    }
+
+    $payload = [
+      'kolom' => (string) $kolom,
+      'tahun_filter' => $tahun !== '' ? (int) $tahun : null,
+      'prov_filter' => $provinsi === 'semua' || $provinsi === '' ? null : (string) $provinsi,
+      'kab_filter' => $kabupaten === 'semua' || $kabupaten === '' ? null : (string) $kabupaten,
+      'kategori' => $kategori === 'semua' || $kategori === '' ? null : (string) $kategori,
+    ];
+
+    log_message('debug', 'Payload get_rs_filtered: ' . json_encode($payload));
+
+    $data = $this->callRPC('get_rs_filtered', $payload);
+
+    if (empty($data)) {
+      return [];
+    }
+
+    // ✅ Sesuaikan mapping dengan kolom hasil fungsi SQL
+    return array_map(
+      fn($row) => [
+        'rumah_sakit' => $row['rumah_sakit'] ?? '',
+        'alamat' => $row['alamat'] ?? '',
+        'kelas_rs' => $row['kelas_rs'] ?? '',
+        'jenis_rs' => $row['jenis_rs'] ?? '',
+        'kabupaten_kota' => $row['kabupaten_kota'] ?? '',
+        'provinsi' => $row['provinsi'] ?? '',
+        'penyelenggara_grup' => $row['penyelenggara_grup'] ?? '',
+        'penyelenggara_kategori' => $row['penyelenggara_kategori'] ?? '',
+        'tahun' => $row['tahun'] ?? '',
+      ],
+      $data,
+    );
+  }
 }
