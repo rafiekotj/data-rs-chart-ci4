@@ -5,11 +5,15 @@ FROM php:8.2-apache
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libpq-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     zip \
     unzip \
     git \
-    && docker-php-ext-install intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
-    && docker-php-ext-enable intl pgsql pdo_pgsql \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
+    && docker-php-ext-enable gd intl pgsql pdo_pgsql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Working directory
