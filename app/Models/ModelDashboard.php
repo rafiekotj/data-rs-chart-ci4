@@ -228,10 +228,10 @@ class ModelDashboard extends Model
 
     $payload = [
       'kolom' => (string) $kolom,
-      'tahun_filter' => $tahun !== '' ? (int) $tahun : null,
-      'prov_filter' => $provinsi === 'semua' || $provinsi === '' ? null : (string) $provinsi,
-      'kab_filter' => $kabupaten === 'semua' || $kabupaten === '' ? null : (string) $kabupaten,
-      'kategori' => $kategori === 'semua' || $kategori === '' ? null : (string) $kategori,
+      'tahun_filter' => is_numeric($tahun) && $tahun !== '' ? (int) $tahun : null,
+      'prov_filter' => $provinsi === 'semua' || $provinsi === '' ? null : trim((string) $provinsi),
+      'kab_filter' => $kabupaten === 'semua' || $kabupaten === '' ? null : trim((string) $kabupaten),
+      'kategori' => $kategori === 'semua' || $kategori === '' ? null : trim((string) $kategori),
     ];
 
     log_message('debug', 'Payload get_rs_filtered: ' . json_encode($payload));

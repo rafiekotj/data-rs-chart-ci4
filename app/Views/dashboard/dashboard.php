@@ -56,7 +56,7 @@
 
       <div class="mb-4 position-relative">
         <label class="form-label">Kategori</label>
-        <div class="dropdown w-100">
+        <div class="dropdown w-100" data-bs-auto-close="outside">
           <button class="custom-select-dropdown" id="dropdownKategori_jenis" data-bs-toggle="dropdown"
             aria-expanded="false">
             Pilih Kategori
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div class="col-lg-2 col-md-4 col-sm-12 mb-4">
+      <div class="col-lg-2 col-md-4 col-sm-12 mb-2">
         <label for="jenis_filterTahun" class="form-label">Per Tahun</label>
         <select id="jenis_filterTahun" class="form-select">
           <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
@@ -80,8 +80,8 @@
         </select>
       </div>
 
-      <div class="mb-2 fw-bold">
-        Total Rumah Sakit: <span id="totalCount_jenis">0</span>
+      <div class="d-flex justify-content-end mb-2 fw-bold">
+        Total RS: <span id="totalCount_jenis" class="ms-2">0</span>
       </div>
 
       <div class="chart-wrapper position-relative mb-3 border rounded p-2">
@@ -135,27 +135,36 @@
           <div id="collapse_jenis" class="accordion-collapse collapse" aria-labelledby="heading_jenis"
             data-bs-parent="#accordion_jenis">
             <div class="accordion-body">
-              <table class="table table-hover align-middle mb-0" id="rsTable_jenis">
-                <thead class="text-center align-middle">
-                  <tr>
-                    <th class="col-md-1">Jenis</th>
-                    <th class="col-md-3">Nama RS</th>
-                    <th class="col-md-1">Kelas</th>
-                    <th class="col-md-3">Alamat</th>
-                    <th class="col-md-1">Kabupaten/Kota</th>
-                    <th class="col-md-1">Provinsi</th>
-                    <th class="col-md-1">Penyelenggara<br>Grup</th>
-                    <th class="col-md-1">Penyelenggara<br>Kategori</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="8" class="text-center text-muted py-4">
-                      Klik tombol accordion untuk memuat data.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div id="tableWrapper_jenis" class="position-relative">
+                <div id="tableLoading_jenis"
+                  class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
+                  <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0" id="rsTable_jenis">
+                    <thead class="text-center align-middle">
+                      <tr>
+                        <th style="width: 10%;">Jenis</th>
+                        <th style="width: 25%;">Nama RS</th>
+                        <th style="width: 10%;">Kelas</th>
+                        <th style="width: 25%;">Alamat</th>
+                        <th style="width: 10%;">Kabupaten/Kota</th>
+                        <th style="width: 10%;">Provinsi</th>
+                        <th style="width: 10%;">Penyelenggara<br>Grup</th>
+                        <th style="width: 10%;">Penyelenggara<br>Kategori</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                          Klik tombol accordion untuk memuat data.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -194,7 +203,7 @@
 
       <div class="mb-3 position-relative">
         <label class="form-label">Kategori</label>
-        <div class="dropdown w-100">
+        <div class="dropdown w-100" data-bs-auto-close="outside">
           <button class="custom-select-dropdown" id="dropdownKategori_kelas" data-bs-toggle="dropdown"
             aria-expanded="false">
             Pilih Kategori
@@ -218,8 +227,8 @@
         </select>
       </div>
 
-      <div class="mb-2 fw-bold">
-        Total Rumah Sakit: <span id="totalCount_kelas">0</span>
+      <div class="d-flex justify-content-end mb-2 fw-bold">
+        Total RS: <span id="totalCount_kelas" class="ms-2">0</span>
       </div>
 
       <div class="chart-wrapper position-relative mb-3 border rounded p-2">
@@ -253,7 +262,7 @@
         </div>
       </div>
 
-      <div class="chart-wrapper position-relative border rounded p-2">
+      <div class="chart-wrapper position-relative mb-3 border rounded p-2">
         <canvas id="linechart_kelas" height="400"></canvas>
         <div id="lineLoading_kelas" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
           d-flex justify-content-center align-items-center">
@@ -272,27 +281,36 @@
           <div id="collapse_kelas" class="accordion-collapse collapse" aria-labelledby="heading_kelas"
             data-bs-parent="#accordion_kelas">
             <div class="accordion-body">
-              <table class="table table-hover align-middle mb-0" id="rsTable_kelas">
-                <thead class="text-center align-middle">
-                  <tr>
-                    <th>Kelas</th>
-                    <th>Nama RS</th>
-                    <th>Jenis</th>
-                    <th>Alamat</th>
-                    <th>Kabupaten/Kota</th>
-                    <th>Provinsi</th>
-                    <th>Penyelenggara Grup</th>
-                    <th>Penyelenggara Kategori</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="8" class="text-center text-muted py-4">
-                      Klik tombol accordion untuk memuat data.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div id="tableWrapper_kelas" class="position-relative">
+                <div id="tableLoading_kelas"
+                  class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
+                  <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0" id="rsTable_kelas">
+                    <thead class="text-center align-middle">
+                      <tr>
+                        <th style="width: 10%;">Jenis</th>
+                        <th style="width: 25%;">Nama RS</th>
+                        <th style="width: 10%;">Kelas</th>
+                        <th style="width: 25%;">Alamat</th>
+                        <th style="width: 10%;">Kabupaten/Kota</th>
+                        <th style="width: 10%;">Provinsi</th>
+                        <th style="width: 10%;">Penyelenggara<br>Grup</th>
+                        <th style="width: 10%;">Penyelenggara<br>Kategori</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                          Klik tombol accordion untuk memuat data.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -331,7 +349,7 @@
 
       <div class="mb-3 position-relative">
         <label class="form-label">Kategori</label>
-        <div class="dropdown w-100">
+        <div class="dropdown w-100" data-bs-auto-close="outside">
           <button class="custom-select-dropdown" id="dropdownKategori_penyelenggara" data-bs-toggle="dropdown"
             aria-expanded="false">
             Pilih Kategori
@@ -355,8 +373,8 @@
         </select>
       </div>
 
-      <div class="mb-2 fw-bold">
-        Total Rumah Sakit: <span id="totalCount_penyelenggara">0</span>
+      <div class="d-flex justify-content-end mb-2 fw-bold">
+        Total RS: <span id="totalCount_penyelenggara" class="ms-2">0</span>
       </div>
 
       <div class="chart-wrapper position-relative mb-3 border rounded p-2">
@@ -390,7 +408,7 @@
         </div>
       </div>
 
-      <div class="chart-wrapper position-relative border rounded p-2">
+      <div class="chart-wrapper position-relative mb-3 border rounded p-2">
         <canvas id="linechart_penyelenggara" height="400"></canvas>
         <div id="lineLoading_penyelenggara" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
           d-flex justify-content-center align-items-center">
@@ -403,32 +421,42 @@
           <h2 class="accordion-header" id="heading_penyelenggara">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapse_penyelenggara" aria-expanded="false" aria-controls="collapse_penyelenggara">
-              Tabel Rumah Sakit (Berdasarkan Penyelenggara)
+              Tabel Rumah Sakit
             </button>
           </h2>
           <div id="collapse_penyelenggara" class="accordion-collapse collapse" aria-labelledby="heading_penyelenggara"
             data-bs-parent="#accordion_penyelenggara">
             <div class="accordion-body">
-              <table class="table table-hover align-middle mb-0" id="rsTable_penyelenggara">
-                <thead class="text-center align-middle">
-                  <tr>
-                    <th>Penyelenggara</th>
-                    <th>Nama RS</th>
-                    <th>Jenis</th>
-                    <th>Kelas</th>
-                    <th>Alamat</th>
-                    <th>Kabupaten/Kota</th>
-                    <th>Provinsi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="7" class="text-center text-muted py-4">
-                      Klik tombol accordion untuk memuat data.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div id="tableWrapper_penyelenggara" class="position-relative">
+                <div id="tableLoading_penyelenggara"
+                  class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
+                  <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0" id="rsTable_penyelenggara">
+                    <thead class="text-center align-middle">
+                      <tr>
+                        <th style="width: 10%;">Jenis</th>
+                        <th style="width: 25%;">Nama RS</th>
+                        <th style="width: 10%;">Kelas</th>
+                        <th style="width: 25%;">Alamat</th>
+                        <th style="width: 10%;">Kabupaten/Kota</th>
+                        <th style="width: 10%;">Provinsi</th>
+                        <th style="width: 10%;">Penyelenggara<br>Grup</th>
+                        <th style="width: 10%;">Penyelenggara<br>Kategori</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                          Klik tombol accordion untuk memuat data.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -489,12 +517,26 @@ function toggleLoading(tipe, chartType, show = true) {
   const canvas = document.getElementById(chartId);
   const emptyMsg = document.getElementById(`${chartId}_empty`);
 
+  const checkboxes = document.querySelectorAll(`#dropdownKategoriList_${tipe} .kategori-checkbox`);
+  checkboxes.forEach(cb => cb.disabled = show);
+
   if (!canvas || !loader) return;
 
   loader.classList.toggle('d-none', !show);
-  canvas.style.filter = show ? 'blur(4px)' : 'none';
 
   if (emptyMsg) emptyMsg.style.display = show ? 'none' : '';
+}
+
+function toggleTableLoading(tipe, show = true) {
+  const tableWrapper = document.getElementById(`tableWrapper_${tipe}`);
+  const loader = document.getElementById(`tableLoading_${tipe}`);
+  const table = document.getElementById(`rsTable_${tipe}`);
+
+  if (!loader || !table) return;
+
+  loader.classList.toggle("d-none", !show);
+  table.style.filter = show ? "blur(4px)" : "none";
+  if (tableWrapper) tableWrapper.style.position = "relative";
 }
 
 const verticalLinePlugin = {
@@ -911,176 +953,234 @@ async function loadLineChartOnly(tipe) {
   }
 }
 
-async function loadBothCharts(tipe, selectedKategori = []) {
+async function loadTableOnly(tipe, selectedKategori = [], forceReload = false) {
+  toggleTableLoading(tipe, true);
+
+  const tahun = document.getElementById(`${tipe}_filterTahun`)?.value ?? '';
+  const provinsi = document.getElementById(`${tipe}_filterProvinsi`)?.value ?? '';
+  const kabupaten = document.getElementById(`${tipe}_filterKabupatenKota`)?.value ?? '';
+  const kategoriParam = selectedKategori.length ? selectedKategori.join(',') : '';
+
+  try {
+    const cacheKey = `${provinsi}|${kabupaten}|${kategoriParam}|${tahun}`;
+    const tableBody = document.querySelector(`#rsTable_${tipe} tbody`);
+
+    if (!forceReload && loadedData[tipe].has(cacheKey)) {
+      tableBody.innerHTML = loadedData[tipe].get(cacheKey);
+      console.log(`⚡ Gunakan cache untuk tabel ${tipe}`);
+      return;
+    }
+
+    if (fetchControllers[tipe]) fetchControllers[tipe].abort();
+    const controller = new AbortController();
+    fetchControllers[tipe] = controller;
+
+    const url =
+      `<?= base_url(
+        'dashboard/getTableData',
+      ) ?>?tipe=${tipe}&provinsi=${encodeURIComponent(provinsi)}&kabupaten=${encodeURIComponent(kabupaten)}&kategori=${encodeURIComponent(kategoriParam)}&tahun=${encodeURIComponent(tahun)}`;
+    const res = await fetch(url, {
+      signal: controller.signal
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (controller.signal.aborted) return;
+
+    const dataset = Array.isArray(json.data) ? json.data : [];
+    let html = '';
+
+    if (!dataset.length) {
+      html =
+        `<tr><td colspan="8" class="text-center text-muted py-4">📭 Tidak ada data untuk filter yang dipilih</td></tr>`;
+    } else {
+      const seen = new Set();
+      const limited = [];
+      for (const d of dataset) {
+        const key = `${d.rumah_sakit}-${d.tahun}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          limited.push(d);
+          if (limited.length >= 200) break;
+        }
+      }
+
+      html = limited.map(d => `
+        <tr>
+          ${tipe === 'jenis' ? `<td>${d.jenis_rs || '-'}</td>` : ''}
+          ${tipe === 'kelas' ? `<td>${d.kelas_rs || '-'}</td>` : ''}
+          ${tipe === 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
+          <td>${d.rumah_sakit || '-'}</td>
+          <td>${d.kelas_rs || '-'}</td>
+          <td>${d.alamat || '-'}</td>
+          <td>${d.kabupaten_kota || '-'}</td>
+          <td>${d.provinsi || '-'}</td>
+          ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
+          ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_kategori || '-'}</td>` : ''}
+        </tr>`).join('');
+    }
+
+    tableBody.innerHTML = html;
+    loadedData[tipe].set(cacheKey, html);
+  } catch (err) {
+    console.error(`Gagal memuat tabel ${tipe}:`, err);
+  } finally {
+    toggleTableLoading(tipe, false);
+    delete fetchControllers[tipe];
+  }
+}
+
+const loadedData = {
+  jenis: new Map(),
+  kelas: new Map(),
+  penyelenggara: new Map()
+};
+
+const fetchControllers = {};
+
+async function loadAllData(tipe, selectedKategori = [], forceReloadTable = false) {
   const tahun = document.getElementById(`${tipe}_filterTahun`)?.value ?? '';
   const provinsi = document.getElementById(`${tipe}_filterProvinsi`)?.value ?? '';
   const kabupaten = document.getElementById(`${tipe}_filterKabupatenKota`)?.value ?? '';
 
   const kategoriParam = selectedKategori.length ? selectedKategori.join(',') : '';
 
-  const urlBar =
-    `<?= base_url() ?>/dashboard/bar/${tipe}?tahun=${tahun}&provinsi=${provinsi}&kabupaten=${kabupaten}&kategori=${encodeURIComponent(kategoriParam)}`;
-  const urlLine =
-    `<?= base_url() ?>/dashboard/line/${tipe}?tahunAwal=${tahun - 1}&tahunAkhir=${tahun}&provinsi=${provinsi}&kabupaten=${kabupaten}&kategori=${encodeURIComponent(kategoriParam)}`;
-
+  // Spinner
   const spinnerBar = document.getElementById(`barLoading_${tipe}`);
   const spinnerLine = document.getElementById(`lineLoading_${tipe}`);
+  const tableLoader = document.getElementById(`tableLoading_${tipe}`);
+
   spinnerBar?.classList.remove('d-none');
   spinnerLine?.classList.remove('d-none');
+  tableLoader?.classList.remove('d-none');
 
   try {
-    const [resBar, resLine] = await Promise.all([fetch(urlBar), fetch(urlLine)]);
-    const [barData, lineData] = await Promise.all([resBar.json(), resLine.json()]);
+    // Fetch chart dan tabel secara paralel
+    const [chartDataBar, chartDataLine, tableData] = await Promise.all([
+      (async () => {
+        const urlBar =
+          `<?= base_url() ?>/dashboard/bar/${tipe}?tahun=${tahun}&provinsi=${provinsi}&kabupaten=${kabupaten}` +
+          (kategoriParam ? `&kategori=${encodeURIComponent(kategoriParam)}` : '');
+        const res = await fetch(urlBar);
+        return res.json();
+      })(),
+      (async () => {
+        const urlLine =
+          `<?= base_url() ?>/dashboard/line/${tipe}?tahunAwal=${tahun-1}&tahunAkhir=${tahun}&provinsi=${provinsi}&kabupaten=${kabupaten}` +
+          (kategoriParam ? `&kategori=${encodeURIComponent(kategoriParam)}` : '');
+        const res = await fetch(urlLine);
+        return res.json();
+      })(),
+      (async () => {
+        // Table caching
+        const cacheKey = `${provinsi}|${kabupaten}|${kategoriParam}|${tahun}`;
+        const tableBody = document.querySelector(`#rsTable_${tipe} tbody`);
 
-    renderBarChart(tipe, barData);
+        if (!forceReloadTable && loadedData[tipe].has(cacheKey)) {
+          tableBody.innerHTML = loadedData[tipe].get(cacheKey);
+          console.log(`⚡ Gunakan cache untuk ${tipe} [${cacheKey}]`);
+          return;
+        }
+
+        if (!provinsi && !kabupaten && !kategoriParam) {
+          const emptyHTML = `<tr><td colspan="8" class="text-center text-muted py-4">
+            Filter belum dipilih atau data dapat dilihat di halaman Data RS
+          </td></tr>`;
+          tableBody.innerHTML = emptyHTML;
+          return;
+        }
+
+        if (fetchControllers[tipe]) fetchControllers[tipe].abort();
+        const controller = new AbortController();
+        fetchControllers[tipe] = controller;
+
+        const url =
+          `<?= base_url(
+            'dashboard/getTableData',
+          ) ?>?tipe=${tipe}&provinsi=${encodeURIComponent(provinsi)}&kabupaten=${encodeURIComponent(kabupaten)}&kategori=${encodeURIComponent(kategoriParam)}&tahun=${encodeURIComponent(tahun)}`;
+        const res = await fetch(url, {
+          signal: controller.signal
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (controller.signal.aborted) return;
+        const dataset = Array.isArray(json.data) ? json.data : [];
+
+        if (!dataset.length) {
+          const emptyHTML = `<tr><td colspan="8" class="text-center text-muted py-4">
+            📭 Tidak ada data untuk filter yang dipilih
+          </td></tr>`;
+          tableBody.innerHTML = emptyHTML;
+          loadedData[tipe].set(cacheKey, emptyHTML);
+          return;
+        }
+
+        const seen = new Set();
+        const limited = [];
+        for (const d of dataset) {
+          const key = `${d.rumah_sakit}-${d.tahun}`;
+          if (!seen.has(key)) {
+            seen.add(key);
+            limited.push(d);
+            if (limited.length >= 200) break;
+          }
+        }
+
+        const html = limited.map(d => `
+          <tr>
+            ${tipe === 'jenis' ? `<td>${d.jenis_rs || '-'}</td>` : ''}
+            ${tipe === 'kelas' ? `<td>${d.kelas_rs || '-'}</td>` : ''}
+            ${tipe === 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
+            <td>${d.rumah_sakit || '-'}</td>
+            <td>${d.kelas_rs || '-'}</td>
+            <td>${d.alamat || '-'}</td>
+            <td>${d.kabupaten_kota || '-'}</td>
+            <td>${d.provinsi || '-'}</td>
+            ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
+            ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_kategori || '-'}</td>` : ''}
+          </tr>`).join('');
+
+        document.querySelector(`#rsTable_${tipe} tbody`).innerHTML = html;
+        loadedData[tipe].set(cacheKey, html);
+      })()
+    ]);
+
+    // Render charts
+    renderBarChart(tipe, chartDataBar);
 
     let formattedLineData = {
       labels: [],
       datasets: []
     };
-
-    if (lineData?.status === "success") {
-      formattedLineData.labels = lineData.labels ?? [];
-      formattedLineData.datasets = lineData.datasets ?? [];
-    } else if (Array.isArray(lineData)) {
+    if (Array.isArray(chartDataLine)) {
       const labelsSet = new Set();
-      lineData.forEach(item => {
-        item.data?.forEach(d => labelsSet.add(d.nama));
-      });
-
+      chartDataLine.forEach(item => item.data?.forEach(d => labelsSet.add(d.nama)));
       const labels = Array.from(labelsSet);
-      const datasets = lineData.map(item => ({
+      const datasets = chartDataLine.map(item => ({
         label: item.tahun?.toString() ?? "Tanpa Tahun",
         data: labels.map(lbl => item.data?.find(d => d.nama === lbl)?.total ?? 0)
       }));
-
       formattedLineData = {
         labels,
         datasets
       };
+    } else if (chartDataLine?.status === 'success') {
+      formattedLineData.labels = chartDataLine.labels ?? [];
+      formattedLineData.datasets = chartDataLine.datasets ?? [];
     }
-
     renderLineChart(tipe, formattedLineData);
+
   } catch (err) {
-    console.error("Gagal memuat chart:", err);
+    console.error('❌ Gagal memuat data:', err);
   } finally {
-    toggleLoading(tipe, "bar", false);
-    toggleLoading(tipe, "line", false);
     spinnerBar?.classList.add('d-none');
     spinnerLine?.classList.add('d-none');
-  }
-}
-
-const loadedData = {
-  jenis: {},
-  kelas: {},
-  penyelenggara: {}
-};
-
-async function loadTableData(tipe, forceReload = false) {
-  const prov = document.getElementById(`${tipe}_filterProvinsi`)?.value || '';
-  const kab = document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '';
-  const kategori = getSelectedKategoriParam(tipe);
-  let tahun = document.getElementById(`${tipe}_filterTahun`)?.value || '2025';
-
-  const cacheKey = `${prov}_${kab}_${kategori}_${tahun}`;
-  const tableBody = document.querySelector(`#rsTable_${tipe} tbody`);
-
-  // Gunakan cache bila tersedia dan tidak force reload
-  if (!forceReload && loadedData[tipe][cacheKey]) {
-    tableBody.innerHTML = loadedData[tipe][cacheKey];
-    console.log(`⚡ Gunakan cache untuk ${tipe} [${cacheKey}]`);
-    return;
-  }
-
-  if (!prov && !kab && !kategori) {
-    tableBody.innerHTML = `
-      <tr><td colspan="8" class="text-center text-muted py-4">
-        Filter belum dipilih atau data dapat dilihat di halaman Data RS
-      </td></tr>`;
-    return;
-  }
-
-  try {
-    const url =
-      `<?= base_url('dashboard/getTableData') ?>?` +
-      `tipe=${tipe}&provinsi=${encodeURIComponent(prov)}&kabupaten=${encodeURIComponent(kab)}` +
-      `&kategori=${encodeURIComponent(kategori)}&tahun=${encodeURIComponent(tahun)}`;
-
-    console.log('🔍 Fetch URL:', url);
-    const res = await fetch(url);
-    const json = await res.json();
-    const dataset = Array.isArray(json.data) ? json.data : [];
-
-    if (dataset.length === 0) {
-      tableBody.innerHTML = `
-        <tr><td colspan="8" class="text-center text-muted py-4">
-          📭 Tidak ada data untuk filter yang dipilih
-        </td></tr>`;
-      loadedData[tipe][cacheKey] = tableBody.innerHTML;
-      return;
-    }
-
-    // Filter data unik (hindari duplikat RS + tahun)
-    const uniqueData = [];
-    const seen = new Set();
-    for (const d of dataset) {
-      const key = `${d.rumah_sakit}-${d.tahun}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        uniqueData.push(d);
-      }
-    }
-
-    const limited = uniqueData.slice(0, 200);
-    const html = limited.map(d => `
-      <tr>
-        ${tipe === 'jenis' ? `<td>${d.jenis_rs || '-'}</td>` : ''}
-        ${tipe === 'kelas' ? `<td>${d.kelas_rs || '-'}</td>` : ''}
-        ${tipe === 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
-        <td>${d.rumah_sakit || d.nama_rs || '-'}</td>
-        <td>${d.kelas_rs || '-'}</td>
-        <td>${d.alamat || '-'}</td>
-        <td>${d.kabupaten_kota || '-'}</td>
-        <td>${d.provinsi || '-'}</td>
-        ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
-        ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_kategori || '-'}</td>` : ''}
-      </tr>
-    `).join('');
-
-    tableBody.innerHTML = html;
-    loadedData[tipe][cacheKey] = html;
-    console.log(`✅ ${tipe}: render ${limited.length} baris untuk tahun ${tahun}`);
-  } catch (err) {
-    console.error('Gagal memuat tabel:', err);
-    tableBody.innerHTML = `
-      <tr><td colspan="8" class="text-center text-danger py-4">
-        ⚠️ Gagal memuat data tabel
-      </td></tr>`;
-  }
-}
-
-function ensureAccordionVisibleThenRender(tipe, forceReload = false) {
-  const collapseEl = document.getElementById(`collapse_${tipe}`);
-  if (!collapseEl) return;
-
-  // Jika sudah terbuka, langsung render
-  if (collapseEl.classList.contains('show')) {
-    loadTableData(tipe, forceReload);
-  } else {
-    // Kalau belum terbuka, tunggu sampai terbuka
-    const handler = async () => {
-      console.log(`📂 Accordion ${tipe} dibuka — render ulang tabel`);
-      await loadTableData(tipe, forceReload);
-      collapseEl.removeEventListener('shown.bs.collapse', handler);
-    };
-    collapseEl.addEventListener('shown.bs.collapse', handler);
+    tableLoader?.classList.add('d-none');
+    delete fetchControllers[tipe];
   }
 }
 
 function setupFilterListeners(tipe) {
   const el = (id) => document.getElementById(`${tipe}_${id}`);
-
   const provSelect = el('filterProvinsi');
   const kabSelect = el('filterKabupatenKota');
   const tahunSelect = el('filterTahun');
@@ -1088,31 +1188,15 @@ function setupFilterListeners(tipe) {
   const tahunAkhir = el('tahunAkhir');
 
   const reloadAll = async (updateKab = false) => {
-    toggleLoading(tipe, 'bar', true);
-    toggleLoading(tipe, 'line', true);
     if (updateKab) await updateKabupatenOptions(tipe);
-    await loadBothCharts(tipe);
-    await loadTableData(tipe, true);
+    await loadAllData(tipe, window.selectedKategori || [], true);
   };
 
   provSelect?.addEventListener('change', () => reloadAll(true));
-
   kabSelect?.addEventListener('change', () => reloadAll());
-
-  tahunSelect?.addEventListener('change', async () => {
-    toggleLoading(tipe, 'bar', true);
-    await loadBarChartOnly(tipe);
-    await loadTableData(tipe, true);
-  });
-
-  const reloadLineOnly = async () => {
-    toggleLoading(tipe, 'line', true);
-    filterTahunDropdown(tipe);
-    await loadLineChartOnly(tipe);
-  };
-
-  tahunAwal?.addEventListener('change', reloadLineOnly);
-  tahunAkhir?.addEventListener('change', reloadLineOnly);
+  tahunSelect?.addEventListener('change', () => reloadAll());
+  tahunAwal?.addEventListener('change', () => reloadAll());
+  tahunAkhir?.addEventListener('change', () => reloadAll());
 }
 
 async function applyAllFilters() {
@@ -1138,11 +1222,10 @@ function setupAccordionListener() {
     const collapseEl = document.getElementById(`collapse_${tipe}`);
     if (!collapseEl) return;
 
-    // Hapus event lama kalau ada (hindari duplikasi)
     collapseEl.removeEventListener('shown.bs.collapse', collapseEl._listenerRef);
     collapseEl._listenerRef = async () => {
-      console.log(`📂 Accordion ${tipe} dibuka — memuat tabel`);
-      ensureAccordionVisibleThenRender(tipe, true);
+      console.log(`📂 Accordion ${tipe} dibuka — memuat tabel saja`);
+      await loadTableOnly(tipe, window.selectedKategori || [], false);
     };
     collapseEl.addEventListener('shown.bs.collapse', collapseEl._listenerRef);
   });
@@ -1165,7 +1248,7 @@ async function loadKategoriList(tipe) {
     }
 
     const itemsHTML = data.map(item => {
-      const safeValue = (item.nama ?? '').toString();
+      const safeValue = (item.nama ?? '').toString().trim();
       const inputId = `chk_${tipe}_${safeValue.replace(/\s+/g, '_')}`;
       return `
         <li>
@@ -1173,20 +1256,19 @@ async function loadKategoriList(tipe) {
             <input class="form-check-input kategori-checkbox" type="checkbox" value="${safeValue}" id="${inputId}">
             <label class="form-check-label" for="${inputId}">${safeValue}</label>
           </div>
-        </li>
-      `;
+        </li>`;
     }).join('');
 
     dropdownList.innerHTML = itemsHTML;
-
-    await loadBothCharts(tipe, []);
-    ensureAccordionVisibleThenRender(tipe, true);
 
   } catch (err) {
     console.error('Gagal memuat kategori:', err);
     dropdownList.innerHTML = '<li class="text-danger small text-center">Gagal memuat data</li>';
   }
 }
+
+let isReloading = false;
+let isInitialLoad = true;
 
 document.addEventListener('change', async function(e) {
   if (!e.target.classList.contains('kategori-checkbox')) return;
@@ -1201,66 +1283,71 @@ document.addEventListener('change', async function(e) {
   const selected = Array.from(list.querySelectorAll('.kategori-checkbox:checked'))
     .map(cb => cb.value);
 
-  tombol.textContent = selected.length === 0 ? 'Pilih Kategori' : selected.join(', ');
+  tombol.textContent =
+    selected.length === 0 ? 'Pilih Kategori' : selected.join(', ');
 
   window.selectedKategori = selected;
 
-  toggleLoading(tipe, 'bar', true);
-  toggleLoading(tipe, 'line', true);
-  await loadBothCharts(tipe, selected);
-  await loadTableData(tipe, true);
+  if (isReloading) return;
+  isReloading = true;
+
+  await loadAllData(tipe, selected, true);
+
+  isReloading = false;
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log("Memulai load awal seluruh data dashboard...");
+  console.log('Memulai load awal seluruh data dashboard...');
+
+  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+    menu.addEventListener('click', e => e.stopPropagation());
+  });
+
+  ['jenis', 'kelas', 'penyelenggara'].forEach(tipe => {
+    toggleLoading(tipe, 'bar', true);
+    toggleLoading(tipe, 'line', true);
+  });
 
   await Promise.all([
     loadKategoriList('jenis'),
     loadKategoriList('kelas'),
-    loadKategoriList('penyelenggara')
+    loadKategoriList('penyelenggara'),
   ]);
 
   ['jenis', 'kelas', 'penyelenggara'].forEach(setupFilterListeners);
-
-  ['jenis', 'kelas', 'penyelenggara'].forEach(tipe => {
-    const collapseEl = document.getElementById(`collapse_${tipe}`);
-    if (collapseEl) {
-      collapseEl.addEventListener('shown.bs.collapse', () => {
-        loadTableData(tipe, true);
-      });
-    }
-  });
-
-  ['jenis', 'kelas', 'penyelenggara'].forEach(tipe => {
-    ['filterProvinsi', 'filterKabupatenKota', 'filterTahun'].forEach(field => {
-      const el = document.getElementById(`${tipe}_${field}`);
-      if (el) {
-        el.addEventListener('change', () => loadTableData(tipe, true));
-      }
-    });
-  });
+  setupAccordionListener();
 
   await Promise.all([
-    loadBothCharts('jenis', []),
-    loadBothCharts('kelas', []),
-    loadBothCharts('penyelenggara', []),
-    loadTableData('jenis', true),
-    loadTableData('kelas', true),
-    loadTableData('penyelenggara', true)
+    loadAllData('jenis', []),
+    loadAllData('kelas', []),
+    loadAllData('penyelenggara', [])
   ]);
 
-  console.log("Semua data awal dashboard berhasil dimuat");
+  isInitialLoad = false;
+  console.log('Semua data awal dashboard berhasil dimuat');
 });
 
-document.addEventListener('shown.bs.tab', async (event) => {
+document.addEventListener('shown.bs.tab', async event => {
   const btn = event.target;
   if (!btn.matches('button[data-bs-toggle="tab"]')) return;
 
   const target = btn.dataset.bsTarget?.slice(1);
-  if (target) {
-    console.log(`Tab aktif: ${target}`);
-    await loadBothCharts(target);
-    await loadTableData(target, true);
-  }
+  if (!target) return;
+
+  if (isReloading) return;
+  isReloading = true;
+
+  console.log(`Tab aktif: ${target}`);
+
+  // Render ulang chart atau load data
+  await loadAllData(target, window.selectedKategori || [], true);
+
+  // Pastikan chart resize setelah canvas terlihat
+  const barChartCanvas = document.getElementById(`barchart_${target}`);
+  const lineChartCanvas = document.getElementById(`linechart_${target}`);
+  if (barChartCanvas?.chartInstance) barChartCanvas.chartInstance.resize();
+  if (lineChartCanvas?.chartInstance) lineChartCanvas.chartInstance.resize();
+
+  isReloading = false;
 });
 </script>

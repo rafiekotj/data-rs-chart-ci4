@@ -217,6 +217,10 @@ class Dashboard extends BaseController
 
     try {
       $data = $this->dashboardModel->getFilteredTableData($kolom, $tahun, $provinsi, $kabupaten, $kategori);
+      log_message(
+        'debug',
+        "getTableData request: tipe=$tipe, tahun=$tahun, prov=$provinsi, kab=$kabupaten, kategori=$kategori",
+      );
       return $this->response->setJSON(['status' => 'success', 'data' => $data]);
     } catch (\Throwable $e) {
       log_message('error', 'getTableData error: ' . $e->getMessage());
