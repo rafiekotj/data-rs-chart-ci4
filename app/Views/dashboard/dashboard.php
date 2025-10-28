@@ -135,6 +135,15 @@
           <div id="collapse_jenis" class="accordion-collapse collapse" aria-labelledby="heading_jenis"
             data-bs-parent="#accordion_jenis">
             <div class="accordion-body">
+              <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-sm btn-outline-secondary me-2 export-csv" data-table="rsTable_jenis"
+                  data-tipe="jenis">
+                  <i class="bi bi-filetype-csv me-1"></i> Export CSV
+                </button>
+                <button class="btn btn-sm btn-outline-success export-xls" data-table="rsTable_jenis" data-tipe="jenis">
+                  <i class="bi bi-file-earmark-excel me-1"></i> Export XLS
+                </button>
+              </div>
               <div id="tableWrapper_jenis" class="position-relative">
                 <div id="tableLoading_jenis"
                   class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
@@ -151,8 +160,8 @@
                         <th style="width: 25%;">Alamat</th>
                         <th style="width: 10%;">Kabupaten/Kota</th>
                         <th style="width: 10%;">Provinsi</th>
-                        <th style="width: 10%;">Penyelenggara<br>Grup</th>
-                        <th style="width: 10%;">Penyelenggara<br>Kategori</th>
+                        <th style="width: 10%;">Penyelenggara Grup</th>
+                        <th style="width: 10%;">Penyelenggara Kategori</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -281,6 +290,15 @@
           <div id="collapse_kelas" class="accordion-collapse collapse" aria-labelledby="heading_kelas"
             data-bs-parent="#accordion_kelas">
             <div class="accordion-body">
+              <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-sm btn-outline-secondary me-2 export-csv" data-table="rsTable_kelas"
+                  data-tipe="kelas">
+                  <i class="bi bi-filetype-csv me-1"></i> Export CSV
+                </button>
+                <button class="btn btn-sm btn-outline-success export-xls" data-table="rsTable_kelas" data-tipe="kelas">
+                  <i class="bi bi-file-earmark-excel me-1"></i> Export XLS
+                </button>
+              </div>
               <div id="tableWrapper_kelas" class="position-relative">
                 <div id="tableLoading_kelas"
                   class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
@@ -297,8 +315,8 @@
                         <th style="width: 25%;">Alamat</th>
                         <th style="width: 10%;">Kabupaten/Kota</th>
                         <th style="width: 10%;">Provinsi</th>
-                        <th style="width: 10%;">Penyelenggara<br>Grup</th>
-                        <th style="width: 10%;">Penyelenggara<br>Kategori</th>
+                        <th style="width: 10%;">Penyelenggara Grup</th>
+                        <th style="width: 10%;">Penyelenggara Kategori</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -427,6 +445,16 @@
           <div id="collapse_penyelenggara" class="accordion-collapse collapse" aria-labelledby="heading_penyelenggara"
             data-bs-parent="#accordion_penyelenggara">
             <div class="accordion-body">
+              <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-sm btn-outline-secondary me-2 export-csv" data-table="rsTable_penyelenggara"
+                  data-tipe="penyelenggara">
+                  <i class="bi bi-filetype-csv me-1"></i> Export CSV
+                </button>
+                <button class="btn btn-sm btn-outline-success export-xls" data-table="rsTable_penyelenggara"
+                  data-tipe="penyelenggara">
+                  <i class="bi bi-file-earmark-excel me-1"></i> Export XLS
+                </button>
+              </div>
               <div id="tableWrapper_penyelenggara" class="position-relative">
                 <div id="tableLoading_penyelenggara"
                   class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
@@ -443,8 +471,8 @@
                         <th style="width: 25%;">Alamat</th>
                         <th style="width: 10%;">Kabupaten/Kota</th>
                         <th style="width: 10%;">Provinsi</th>
-                        <th style="width: 10%;">Penyelenggara<br>Grup</th>
-                        <th style="width: 10%;">Penyelenggara<br>Kategori</th>
+                        <th style="width: 10%;">Penyelenggara Grup</th>
+                        <th style="width: 10%;">Penyelenggara Kategori</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -482,32 +510,31 @@ function getSelectedKategoriParam(tipe) {
     .join(',');
 }
 
-async function getData(tipe, jenisChart) {
+async function getData(tipe, jenisChart, limit = 0) {
   const qs = new URLSearchParams({
     provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
     kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
   });
+  if (limit > 0) qs.append('limit', limit);
 
   const kategori = getSelectedKategoriParam(tipe);
   if (kategori) qs.append('kategori', kategori);
 
+  let endpoint;
   if (jenisChart === 'bar') {
     const tahun = document.getElementById(`${tipe}_filterTahun`)?.value || '';
     qs.append('tahun', tahun);
-    var endpoint = `<?= base_url('dashboard/bar/') ?>${tipe}`;
+    endpoint = `<?= base_url('dashboard/bar/') ?>${tipe}`;
   } else {
     const tahunAwal = document.getElementById(`${tipe}_tahunAwal`)?.value || '';
     const tahunAkhir = document.getElementById(`${tipe}_tahunAkhir`)?.value || '';
     qs.append('tahunAwal', tahunAwal);
     qs.append('tahunAkhir', tahunAkhir);
-    var endpoint = `<?= base_url('dashboard/line/') ?>${tipe}`;
+    endpoint = `<?= base_url('dashboard/line/') ?>${tipe}`;
   }
 
-  const url = `${endpoint}?${qs.toString()}`;
-  const res = await fetch(url);
-
+  const res = await fetch(`${endpoint}?${qs.toString()}`);
   if (!res.ok) return [];
-
   return res.json();
 }
 
@@ -953,7 +980,7 @@ async function loadLineChartOnly(tipe) {
   }
 }
 
-async function loadTableOnly(tipe, selectedKategori = [], forceReload = false) {
+async function loadTableOnly(tipe, selectedKategori = [], forceReload = false, limit = 0) {
   toggleTableLoading(tipe, true);
 
   const tahun = document.getElementById(`${tipe}_filterTahun`)?.value ?? '';
@@ -962,7 +989,7 @@ async function loadTableOnly(tipe, selectedKategori = [], forceReload = false) {
   const kategoriParam = selectedKategori.length ? selectedKategori.join(',') : '';
 
   try {
-    const cacheKey = `${provinsi}|${kabupaten}|${kategoriParam}|${tahun}`;
+    const cacheKey = `${provinsi}|${kabupaten}|${kategoriParam}|${tahun}|${limit}`;
     const tableBody = document.querySelector(`#rsTable_${tipe} tbody`);
 
     if (!forceReload && loadedData[tipe].has(cacheKey)) {
@@ -971,53 +998,28 @@ async function loadTableOnly(tipe, selectedKategori = [], forceReload = false) {
       return;
     }
 
-    if (fetchControllers[tipe]) fetchControllers[tipe].abort();
-    const controller = new AbortController();
-    fetchControllers[tipe] = controller;
-
     const url =
       `<?= base_url(
         'dashboard/getTableData',
-      ) ?>?tipe=${tipe}&provinsi=${encodeURIComponent(provinsi)}&kabupaten=${encodeURIComponent(kabupaten)}&kategori=${encodeURIComponent(kategoriParam)}&tahun=${encodeURIComponent(tahun)}`;
-    const res = await fetch(url, {
-      signal: controller.signal
-    });
+      ) ?>?tipe=${tipe}&provinsi=${encodeURIComponent(provinsi)}&kabupaten=${encodeURIComponent(kabupaten)}&kategori=${encodeURIComponent(kategoriParam)}&tahun=${encodeURIComponent(tahun)}&limit=${limit}`;
+    const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    if (controller.signal.aborted) return;
 
     const dataset = Array.isArray(json.data) ? json.data : [];
-    let html = '';
+    const limited = limit > 0 ? dataset.slice(0, limit) : dataset;
+    const html = limited.map(d => `
+  <tr>
+    <td>${d.rumah_sakit || '-'}</td>
+    <td>${d.jenis_rs || '-'}</td>
+    <td>${d.kelas_rs || '-'}</td>
+    <td>${d.alamat || '-'}</td>
+    <td>${d.kabupaten_kota || '-'}</td>
+    <td>${d.provinsi || '-'}</td>
+    <td>${d.penyelenggara_grup || '-'}</td>
+    <td>${d.penyelenggara_kategori || '-'}</td>
+  </tr>`).join('');
 
-    if (!dataset.length) {
-      html =
-        `<tr><td colspan="8" class="text-center text-muted py-4">📭 Tidak ada data untuk filter yang dipilih</td></tr>`;
-    } else {
-      const seen = new Set();
-      const limited = [];
-      for (const d of dataset) {
-        const key = `${d.rumah_sakit}-${d.tahun}`;
-        if (!seen.has(key)) {
-          seen.add(key);
-          limited.push(d);
-          if (limited.length >= 200) break;
-        }
-      }
-
-      html = limited.map(d => `
-        <tr>
-          ${tipe === 'jenis' ? `<td>${d.jenis_rs || '-'}</td>` : ''}
-          ${tipe === 'kelas' ? `<td>${d.kelas_rs || '-'}</td>` : ''}
-          ${tipe === 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
-          <td>${d.rumah_sakit || '-'}</td>
-          <td>${d.kelas_rs || '-'}</td>
-          <td>${d.alamat || '-'}</td>
-          <td>${d.kabupaten_kota || '-'}</td>
-          <td>${d.provinsi || '-'}</td>
-          ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
-          ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_kategori || '-'}</td>` : ''}
-        </tr>`).join('');
-    }
 
     tableBody.innerHTML = html;
     loadedData[tipe].set(cacheKey, html);
@@ -1025,7 +1027,6 @@ async function loadTableOnly(tipe, selectedKategori = [], forceReload = false) {
     console.error(`Gagal memuat tabel ${tipe}:`, err);
   } finally {
     toggleTableLoading(tipe, false);
-    delete fetchControllers[tipe];
   }
 }
 
@@ -1037,146 +1038,86 @@ const loadedData = {
 
 const fetchControllers = {};
 
-async function loadAllData(tipe, selectedKategori = [], forceReloadTable = false) {
+async function loadAllData(tipe, selectedKategori = [], forceReloadTable = false, limit = 0) {
   const tahun = document.getElementById(`${tipe}_filterTahun`)?.value ?? '';
   const provinsi = document.getElementById(`${tipe}_filterProvinsi`)?.value ?? '';
   const kabupaten = document.getElementById(`${tipe}_filterKabupatenKota`)?.value ?? '';
-
   const kategoriParam = selectedKategori.length ? selectedKategori.join(',') : '';
 
-  // Spinner
-  const spinnerBar = document.getElementById(`barLoading_${tipe}`);
-  const spinnerLine = document.getElementById(`lineLoading_${tipe}`);
-  const tableLoader = document.getElementById(`tableLoading_${tipe}`);
-
-  spinnerBar?.classList.remove('d-none');
-  spinnerLine?.classList.remove('d-none');
-  tableLoader?.classList.remove('d-none');
-
   try {
-    // Fetch chart dan tabel secara paralel
-    const [chartDataBar, chartDataLine, tableData] = await Promise.all([
-      (async () => {
-        const urlBar =
-          `<?= base_url() ?>/dashboard/bar/${tipe}?tahun=${tahun}&provinsi=${provinsi}&kabupaten=${kabupaten}` +
-          (kategoriParam ? `&kategori=${encodeURIComponent(kategoriParam)}` : '');
-        const res = await fetch(urlBar);
-        return res.json();
-      })(),
-      (async () => {
-        const urlLine =
-          `<?= base_url() ?>/dashboard/line/${tipe}?tahunAwal=${tahun-1}&tahunAkhir=${tahun}&provinsi=${provinsi}&kabupaten=${kabupaten}` +
-          (kategoriParam ? `&kategori=${encodeURIComponent(kategoriParam)}` : '');
-        const res = await fetch(urlLine);
-        return res.json();
-      })(),
-      (async () => {
-        // Table caching
-        const cacheKey = `${provinsi}|${kabupaten}|${kategoriParam}|${tahun}`;
-        const tableBody = document.querySelector(`#rsTable_${tipe} tbody`);
+    toggleLoading(tipe, 'bar', true);
+    toggleLoading(tipe, 'line', true);
 
-        if (!forceReloadTable && loadedData[tipe].has(cacheKey)) {
-          tableBody.innerHTML = loadedData[tipe].get(cacheKey);
-          console.log(`⚡ Gunakan cache untuk ${tipe} [${cacheKey}]`);
-          return;
-        }
-
-        if (!provinsi && !kabupaten && !kategoriParam) {
-          const emptyHTML = `<tr><td colspan="8" class="text-center text-muted py-4">
-            Filter belum dipilih atau data dapat dilihat di halaman Data RS
-          </td></tr>`;
-          tableBody.innerHTML = emptyHTML;
-          return;
-        }
-
-        if (fetchControllers[tipe]) fetchControllers[tipe].abort();
-        const controller = new AbortController();
-        fetchControllers[tipe] = controller;
-
-        const url =
-          `<?= base_url(
-            'dashboard/getTableData',
-          ) ?>?tipe=${tipe}&provinsi=${encodeURIComponent(provinsi)}&kabupaten=${encodeURIComponent(kabupaten)}&kategori=${encodeURIComponent(kategoriParam)}&tahun=${encodeURIComponent(tahun)}`;
-        const res = await fetch(url, {
-          signal: controller.signal
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-        if (controller.signal.aborted) return;
-        const dataset = Array.isArray(json.data) ? json.data : [];
-
-        if (!dataset.length) {
-          const emptyHTML = `<tr><td colspan="8" class="text-center text-muted py-4">
-            📭 Tidak ada data untuk filter yang dipilih
-          </td></tr>`;
-          tableBody.innerHTML = emptyHTML;
-          loadedData[tipe].set(cacheKey, emptyHTML);
-          return;
-        }
-
-        const seen = new Set();
-        const limited = [];
-        for (const d of dataset) {
-          const key = `${d.rumah_sakit}-${d.tahun}`;
-          if (!seen.has(key)) {
-            seen.add(key);
-            limited.push(d);
-            if (limited.length >= 200) break;
-          }
-        }
-
-        const html = limited.map(d => `
-          <tr>
-            ${tipe === 'jenis' ? `<td>${d.jenis_rs || '-'}</td>` : ''}
-            ${tipe === 'kelas' ? `<td>${d.kelas_rs || '-'}</td>` : ''}
-            ${tipe === 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
-            <td>${d.rumah_sakit || '-'}</td>
-            <td>${d.kelas_rs || '-'}</td>
-            <td>${d.alamat || '-'}</td>
-            <td>${d.kabupaten_kota || '-'}</td>
-            <td>${d.provinsi || '-'}</td>
-            ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_grup || '-'}</td>` : ''}
-            ${tipe !== 'penyelenggara' ? `<td>${d.penyelenggara_kategori || '-'}</td>` : ''}
-          </tr>`).join('');
-
-        document.querySelector(`#rsTable_${tipe} tbody`).innerHTML = html;
-        loadedData[tipe].set(cacheKey, html);
-      })()
+    const [chartDataBar, chartDataLine] = await Promise.all([
+      getData(tipe, 'bar', limit),
+      getData(tipe, 'line', limit)
     ]);
 
-    // Render charts
     renderBarChart(tipe, chartDataBar);
-
-    let formattedLineData = {
-      labels: [],
-      datasets: []
-    };
-    if (Array.isArray(chartDataLine)) {
-      const labelsSet = new Set();
-      chartDataLine.forEach(item => item.data?.forEach(d => labelsSet.add(d.nama)));
-      const labels = Array.from(labelsSet);
-      const datasets = chartDataLine.map(item => ({
-        label: item.tahun?.toString() ?? "Tanpa Tahun",
-        data: labels.map(lbl => item.data?.find(d => d.nama === lbl)?.total ?? 0)
-      }));
-      formattedLineData = {
-        labels,
-        datasets
-      };
-    } else if (chartDataLine?.status === 'success') {
-      formattedLineData.labels = chartDataLine.labels ?? [];
-      formattedLineData.datasets = chartDataLine.datasets ?? [];
-    }
-    renderLineChart(tipe, formattedLineData);
-
+    renderLineChart(tipe, chartDataLine);
+    await loadTableOnly(tipe, selectedKategori, forceReloadTable, 0);
   } catch (err) {
     console.error('❌ Gagal memuat data:', err);
   } finally {
-    spinnerBar?.classList.add('d-none');
-    spinnerLine?.classList.add('d-none');
-    tableLoader?.classList.add('d-none');
-    delete fetchControllers[tipe];
+    toggleLoading(tipe, 'bar', false);
+    toggleLoading(tipe, 'line', false);
   }
+}
+
+function exportTableToCSV(tableId, filename, tipe) {
+  const cacheKey = getCurrentCacheKey(tipe);
+  const fullData = loadedData[tipe]?.get(cacheKey + "_full");
+
+  if (fullData && fullData.length) {
+    const headers = Object.keys(fullData[0]);
+    const csv = [
+      headers.join(";"),
+      ...fullData.map(obj =>
+        headers.map(h => {
+          let val = (obj[h] ?? "")
+            .toString()
+            .replace(/"/g, '""')
+            .replace(/\r?\n|\r/g, ' ')
+            .trim();
+          return `"${val}"`;
+        }).join(";")
+      )
+    ].join("\n");
+
+    const blob = new Blob([csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename.endsWith(".csv") ? filename : filename + ".csv";
+    link.click();
+    return;
+  }
+
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  const rows = Array.from(table.querySelectorAll("tr"));
+  const csv = rows.map(row =>
+    Array.from(row.querySelectorAll("th, td")).map(col =>
+      `"${col.innerText.replace(/"/g, '""').replace(/\r?\n|\r/g, ' ').trim()}"`
+    ).join(";")
+  ).join("\n");
+
+  const blob = new Blob([csv], {
+    type: "text/csv;charset=utf-8;"
+  });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename.endsWith(".csv") ? filename : filename + ".csv";
+  link.click();
+}
+
+function getCurrentCacheKey(tipe) {
+  const prov = document.getElementById(`${tipe}_filterProvinsi`)?.value || '';
+  const kab = document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '';
+  const tahun = document.getElementById(`${tipe}_filterTahun`)?.value || '';
+  const kategori = (window.selectedKategori || []).join(',');
+  return `${prov}|${kab}|${kategori}|${tahun}`;
 }
 
 function setupFilterListeners(tipe) {
@@ -1296,6 +1237,42 @@ document.addEventListener('change', async function(e) {
   isReloading = false;
 });
 
+document.addEventListener("click", async function(e) {
+  if (!e.target.closest(".export-xls")) return;
+
+  const btn = e.target.closest(".export-xls");
+  const tableId = btn.getAttribute("data-table");
+  const tipe = btn.getAttribute("data-tipe");
+
+  const params = new URLSearchParams({
+    tipe,
+    tahun: document.getElementById(`${tipe}_filterTahun`)?.value || '',
+    provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
+    kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
+    kategori: getSelectedKategoriParam(tipe),
+  });
+
+  try {
+    const res = await fetch(`<?= base_url('dashboard/exportXLS') ?>?${params}`);
+    if (!res.ok) throw new Error('Gagal mengambil data XLS');
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${tableId}_data_full.xlsx`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    console.log("Export XLS berhasil diunduh!");
+  } catch (err) {
+    console.error("Gagal ekspor XLS:", err);
+    alert("Gagal mengekspor data. Periksa koneksi atau log server.");
+  }
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('Memulai load awal seluruh data dashboard...');
 
@@ -1339,10 +1316,8 @@ document.addEventListener('shown.bs.tab', async event => {
 
   console.log(`Tab aktif: ${target}`);
 
-  // Render ulang chart atau load data
   await loadAllData(target, window.selectedKategori || [], true);
 
-  // Pastikan chart resize setelah canvas terlihat
   const barChartCanvas = document.getElementById(`barchart_${target}`);
   const lineChartCanvas = document.getElementById(`linechart_${target}`);
   if (barChartCanvas?.chartInstance) barChartCanvas.chartInstance.resize();

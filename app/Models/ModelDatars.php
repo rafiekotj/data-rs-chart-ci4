@@ -34,10 +34,10 @@ class ModelDatars extends Model
       CURLOPT_HTTPHEADER => [
         "apikey: {$this->supabaseKey}",
         "Authorization: Bearer {$this->supabaseKey}",
-        "Content-Type: application/json",
-        "Accept: application/json",
-        "Range-Unit: items",
-        "Range: 0-999999"
+        'Content-Type: application/json',
+        'Accept: application/json',
+        'Range-Unit: items',
+        'Range: 0-999999',
       ],
       CURLOPT_TIMEOUT => 30,
     ]);
@@ -68,8 +68,8 @@ class ModelDatars extends Model
       CURLOPT_HTTPHEADER => [
         "apikey: {$this->supabaseKey}",
         "Authorization: Bearer {$this->supabaseKey}",
-        "Content-Type: application/json",
-        "Accept: application/json",
+        'Content-Type: application/json',
+        'Accept: application/json',
       ],
       CURLOPT_TIMEOUT => 30,
     ]);
