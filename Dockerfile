@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd intl mysqli pdo pdo_mysql pgsql pdo_pgsql \
-    && docker-php-ext-enable gd intl pgsql pdo_pgsql \
+    && docker-php-ext-install gd intl mysqli pdo pdo_mysql pgsql pdo_pgsql zip \
+    && docker-php-ext-enable gd intl pgsql pdo_pgsql zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Working directory
