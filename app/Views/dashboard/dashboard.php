@@ -1068,9 +1068,11 @@ function exportTableToCSV(tableId, filename, tipe) {
   const cacheKey = getCurrentCacheKey(tipe);
   const fullData = loadedData[tipe]?.get(cacheKey + "_full");
 
+  let csvContent = "";
+
   if (fullData && fullData.length) {
     const headers = Object.keys(fullData[0]);
-    const csv = [
+    csvContent = [
       headers.join(";"),
       ...fullData.map(obj =>
         headers.map(h => {
@@ -1083,33 +1085,74 @@ function exportTableToCSV(tableId, filename, tipe) {
         }).join(";")
       )
     ].join("\n");
-
-    const blob = new Blob([csv], {
-      type: "text/csv;charset=utf-8;"
-    });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename.endsWith(".csv") ? filename : filename + ".csv";
-    link.click();
-    return;
+  } else {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+    const rows = Array.from(table.querySelectorAll("tr"));
+    csvContent = rows.map(row =>
+      Array.from(row.querySelectorAll("th, td"))
+      .map(col =>
+        `"${col.innerText.replace(/"/g, '""').replace(/\r?\n|\r/g, ' ').trim()}"`
+      ).join(";")
+    ).join("\n");
   }
 
-  const table = document.getElementById(tableId);
-  if (!table) return;
-  const rows = Array.from(table.querySelectorAll("tr"));
-  const csv = rows.map(row =>
-    Array.from(row.querySelectorAll("th, td")).map(col =>
-      `"${col.innerText.replace(/"/g, '""').replace(/\r?\n|\r/g, ' ').trim()}"`
-    ).join(";")
-  ).join("\n");
-
-  const blob = new Blob([csv], {
+  // Tambahkan BOM agar Excel & Google Sheets mengenali UTF-8
+  const BOM = "\uFEFF";
+  const blob = new Blob([BOM + csvContent], {
     type: "text/csv;charset=utf-8;"
   });
+
   const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(blob);
+  link.href = url;
   link.download = filename.endsWith(".csv") ? filename : filename + ".csv";
+
+  // 💡 Ubah type agar Excel menganggap semicolon CSV
+  link.type = "application/vnd.ms-excel";
+
+  document.body.appendChild(link);
   link.click();
+  setTimeout(() => {
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, 100);
+}
+
+async function exportTableToXls(tipe, tableId) {
+  const params = new URLSearchParams({
+    tipe,
+    tahun: document.getElementById(`${tipe}_filterTahun`)?.value || '',
+    provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
+    kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
+    kategori: getSelectedKategoriParam(tipe),
+  });
+
+  const url = `<?= base_url('dashboard/exportXLS') ?>?${params}`;
+
+  try {
+    console.log(`⏳ Mengunduh data XLS untuk tipe: ${tipe}...`);
+    const res = await fetch(url, {
+      method: 'GET'
+    });
+
+    if (!res.ok) throw new Error(`Gagal mengambil file XLS: ${res.statusText}`);
+
+    const blob = await res.blob();
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `${tableId}_data_full.xlsx`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    console.log('✅ Export XLS berhasil diunduh tanpa tab baru!');
+  } catch (err) {
+    console.error('❌ Gagal ekspor XLS:', err);
+    alert('Gagal mengekspor data XLS. Periksa koneksi atau log server.');
+  }
 }
 
 function getCurrentCacheKey(tipe) {
@@ -1238,38 +1281,49 @@ document.addEventListener('change', async function(e) {
 });
 
 document.addEventListener("click", async function(e) {
-  if (!e.target.closest(".export-xls")) return;
+  // EXPORT XLS
+  if (e.target.closest(".export-xls")) {
+    const btn = e.target.closest(".export-xls");
+    const tableId = btn.getAttribute("data-table");
+    const tipe = btn.getAttribute("data-tipe");
 
-  const btn = e.target.closest(".export-xls");
-  const tableId = btn.getAttribute("data-table");
-  const tipe = btn.getAttribute("data-tipe");
+    await exportTableToXls(tipe, tableId);
+  }
 
-  const params = new URLSearchParams({
-    tipe,
-    tahun: document.getElementById(`${tipe}_filterTahun`)?.value || '',
-    provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
-    kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
-    kategori: getSelectedKategoriParam(tipe),
-  });
+  // EXPORT CSV
+  if (e.target.closest(".export-csv")) {
+    const btn = e.target.closest(".export-csv");
+    const tipe = btn.getAttribute("data-tipe");
 
-  try {
-    const res = await fetch(`<?= base_url('dashboard/exportXLS') ?>?${params}`);
-    if (!res.ok) throw new Error('Gagal mengambil data XLS');
+    const params = new URLSearchParams({
+      tipe,
+      tahun: document.getElementById(`${tipe}_filterTahun`)?.value || '',
+      provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
+      kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
+      kategori: getSelectedKategoriParam(tipe),
+    });
 
-    const blob = await res.blob();
-    const url = window.URL.createObjectURL(blob);
+    const url = `<?= base_url('dashboard/exportCSV') ?>?${params}`;
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${tableId}_data_full.xlsx`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Gagal mengambil data CSV');
 
-    console.log("Export XLS berhasil diunduh!");
-  } catch (err) {
-    console.error("Gagal ekspor XLS:", err);
-    alert("Gagal mengekspor data. Periksa koneksi atau log server.");
+      const blob = await res.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = `data_rs_full_${tipe}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      console.log("✅ Export CSV berhasil diunduh tanpa tab baru!");
+    } catch (err) {
+      console.error("❌ Gagal ekspor CSV:", err);
+      alert("Gagal mengekspor data CSV. Periksa koneksi atau log server.");
+    }
   }
 });
 

@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Models\ModelDashboard;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 class Dashboard extends BaseController
 {
   protected $dashboardModel;
@@ -236,25 +239,61 @@ class Dashboard extends BaseController
       return $this->response->setStatusCode(400)->setJSON(['error' => 'Tipe tidak valid']);
     }
 
-    $data = $this->dashboardModel->getAllFilteredForExport($kolom, $tahun, $provinsi, $kabupaten, $kategori);
+    try {
+      $data = $this->dashboardModel->getAllFilteredForExport($kolom, $tahun, $provinsi, $kabupaten, $kategori);
 
-    if (empty($data)) {
-      return $this->response->setJSON([
-        'status' => 'empty',
-        'message' => 'Tidak ada data yang bisa diekspor.',
-        'data' => [],
+      if (empty($data)) {
+        return $this->response->setJSON([
+          'status' => 'empty',
+          'message' => 'Tidak ada data yang bisa diekspor.',
+          'data' => [],
+        ]);
+      }
+
+      $filename = 'data_rs_full_' . $tipe . '_' . date('Ymd_His') . '.csv';
+
+      // Gunakan output buffering agar konten dikembalikan sebagai string
+      ob_start();
+
+      // Tambahkan BOM agar Excel mengenali UTF-8
+      echo chr(0xef) . chr(0xbb) . chr(0xbf);
+
+      $output = fopen('php://output', 'w');
+
+      // Header kolom (gunakan semicolon)
+      fputcsv($output, array_keys($data[0]), ';');
+
+      // Data baris
+      foreach ($data as $row) {
+        $cleanRow = array_map(function ($val) {
+          return is_null($val) ? '' : trim(preg_replace('/\s+/', ' ', (string) $val));
+        }, $row);
+        fputcsv($output, $cleanRow, ';');
+      }
+
+      fclose($output);
+
+      $csvContent = ob_get_clean();
+
+      // 💡 Kembalikan melalui response CodeIgniter (bukan echo langsung)
+      return $this->response
+        ->setHeader('Content-Type', 'text/csv; charset=utf-8')
+        ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+        ->setHeader('Pragma', 'no-cache')
+        ->setHeader('Expires', '0')
+        ->setBody($csvContent);
+    } catch (\Throwable $e) {
+      return $this->response->setStatusCode(500)->setJSON([
+        'error' => 'Gagal mengekspor data CSV.',
+        'message' => $e->getMessage(),
       ]);
     }
-
-    return $this->response->setJSON([
-      'status' => 'success',
-      'count' => count($data),
-      'data' => $data,
-    ]);
   }
 
   public function exportXLS()
   {
+    $startTime = microtime(true); // ⏱️ Mulai hitung waktu
+
     $tipe = trim($this->request->getGet('tipe') ?? '');
     $provinsi = trim($this->request->getGet('provinsi') ?? '');
     $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
@@ -270,51 +309,47 @@ class Dashboard extends BaseController
       $data = $this->dashboardModel->getAllFilteredForExport($kolom, $tahun, $provinsi, $kabupaten, $kategori);
 
       if (empty($data)) {
-        return $this->response->setJSON([
-          'status' => 'empty',
-          'message' => 'Tidak ada data yang bisa diekspor.',
-          'data' => [],
-        ]);
+        return $this->response->setJSON(['status' => 'empty', 'message' => 'Tidak ada data.']);
       }
 
-      $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+      $spreadsheet = new Spreadsheet();
       $sheet = $spreadsheet->getActiveSheet();
 
       $headers = array_keys($data[0]);
-      $col = 'A';
-      foreach ($headers as $h) {
-        $sheet->setCellValue($col . '1', $h);
-        $col++;
-      }
+      $rows = array_map('array_values', $data);
+      array_unshift($rows, $headers); // tambahkan header di awal
 
-      $rowNum = 2;
-      foreach ($data as $row) {
-        $col = 'A';
-        foreach ($headers as $h) {
-          $sheet->setCellValueExplicit(
-            $col . $rowNum,
-            $row[$h] ?? '',
-            \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING,
-          );
-          $col++;
-        }
-        $rowNum++;
-      }
+      $sheet->fromArray($rows, null, 'A1');
 
       $filename = 'data_rs_full_' . $tipe . '_' . date('Ymd_His') . '.xlsx';
 
-      $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-      $response = service('response');
+      if (ob_get_length() > 0) {
+        ob_end_clean();
+      }
 
-      $response
-        ->setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
-        ->setHeader('Cache-Control', 'max-age=0');
+      while (ob_get_level()) {
+        ob_end_clean();
+      }
 
+      // Hitung waktu sebelum output
+      $elapsed = round(microtime(true) - $startTime, 3);
+      log_message('debug', "⏳ Export XLS untuk tipe '{$tipe}' selesai disiapkan dalam {$elapsed} detik.");
+
+      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      header('Content-Disposition: attachment; filename="' . $filename . '"');
+      header('Cache-Control: max-age=0');
+
+      $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+      $writer->setPreCalculateFormulas(false);
       $writer->save('php://output');
+
+      $totalTime = round(microtime(true) - $startTime, 3);
+      log_message('debug', "✅ File XLS '{$filename}' dikirim ke browser dalam total {$totalTime} detik.");
+
       exit();
     } catch (\Throwable $e) {
-      return $this->response->setStatusCode(500)->setJSON(['error' => 'Gagal mengekspor data XLS.']);
+      log_message('error', '❌ Export XLS gagal: ' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setJSON(['error' => 'Gagal ekspor XLS']);
     }
   }
 }
