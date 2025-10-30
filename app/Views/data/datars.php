@@ -41,22 +41,22 @@
         <table class="table table-hover align-middle mb-0" id="rsTable">
           <thead class="text-center align-middle">
             <tr>
-              <th class="col-md-1">Jenis</th>
               <th class="col-md-3">Nama RS</th>
+              <th class="col-md-1">Jenis</th>
               <th class="col-md-1">Kelas</th>
               <th class="col-md-3">Alamat</th>
               <th class="col-md-1">Kabupaten/Kota</th>
               <th class="col-md-1">Provinsi</th>
-              <th class="col-md-1">Penyelenggara<br>Grup</th>
-              <th class="col-md-1">Penyelenggara<br>Kategori</th>
+              <th class="col-md-1">Penyelenggara Grup</th>
+              <th class="col-md-1">Penyelenggara Kategori</th>
             </tr>
           </thead>
           <tbody>
             <?php if (!empty($rs)): ?>
             <?php foreach ($rs as $item): ?>
             <tr>
-              <td class="text-center"><?= esc($item['jenis_rs']) ?></td>
               <td><?= esc($item['rumah_sakit']) ?></td>
+              <td class="text-center"><?= esc($item['jenis_rs']) ?></td>
               <td class="text-center"><?= esc($item['kelas_rs']) ?></td>
               <td><?= esc($item['alamat']) ?></td>
               <td class="text-center"><?= esc($item['kabupaten_kota']) ?></td>
@@ -78,27 +78,27 @@
 
       <?php if (!empty($rs)): ?>
       <?php
-        $maxVisible = 7;
-        $totalPage = ceil($totalData / $perPage);
+      $maxVisible = 7;
+      $totalPage = ceil($totalData / $perPage);
 
-        if ($totalPage <= $maxVisible) {
-          $start = 1;
-          $end = $totalPage;
-        } else {
-          $start = max(2, $page - floor(($maxVisible - 2) / 2));
-          $end = min($totalPage - 1, $page + floor(($maxVisible - 2) / 2));
+      if ($totalPage <= $maxVisible) {
+        $start = 1;
+        $end = $totalPage;
+      } else {
+        $start = max(2, $page - floor(($maxVisible - 2) / 2));
+        $end = min($totalPage - 1, $page + floor(($maxVisible - 2) / 2));
 
-          if ($start <= 2) {
-            $start = 2;
-            $end = $maxVisible - 1;
-          }
-
-          if ($end >= $totalPage - 1) {
-            $end = $totalPage - 1;
-            $start = $totalPage - ($maxVisible - 2);
-          }
+        if ($start <= 2) {
+          $start = 2;
+          $end = $maxVisible - 1;
         }
-        ?>
+
+        if ($end >= $totalPage - 1) {
+          $end = $totalPage - 1;
+          $start = $totalPage - ($maxVisible - 2);
+        }
+      }
+      ?>
 
       <nav aria-label="Navigasi halaman" class="mt-4">
         <ul class="pagination justify-content-center modern-pagination">

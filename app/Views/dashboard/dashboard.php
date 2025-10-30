@@ -154,8 +154,8 @@
                   <table class="table table-hover align-middle mb-0" id="rsTable_jenis">
                     <thead class="text-center align-middle">
                       <tr>
-                        <th style="width: 10%;">Jenis</th>
                         <th style="width: 25%;">Nama RS</th>
+                        <th style="width: 10%;">Jenis</th>
                         <th style="width: 10%;">Kelas</th>
                         <th style="width: 25%;">Alamat</th>
                         <th style="width: 10%;">Kabupaten/Kota</th>
@@ -309,8 +309,8 @@
                   <table class="table table-hover align-middle mb-0" id="rsTable_kelas">
                     <thead class="text-center align-middle">
                       <tr>
-                        <th style="width: 10%;">Jenis</th>
                         <th style="width: 25%;">Nama RS</th>
+                        <th style="width: 10%;">Jenis</th>
                         <th style="width: 10%;">Kelas</th>
                         <th style="width: 25%;">Alamat</th>
                         <th style="width: 10%;">Kabupaten/Kota</th>
@@ -465,8 +465,8 @@
                   <table class="table table-hover align-middle mb-0" id="rsTable_penyelenggara">
                     <thead class="text-center align-middle">
                       <tr>
-                        <th style="width: 10%;">Jenis</th>
                         <th style="width: 25%;">Nama RS</th>
+                        <th style="width: 10%;">Jenis</th>
                         <th style="width: 10%;">Kelas</th>
                         <th style="width: 25%;">Alamat</th>
                         <th style="width: 10%;">Kabupaten/Kota</th>
@@ -636,18 +636,16 @@ function renderBarChart(tipe, data) {
   const ctx = document.getElementById(ctxId);
   if (!ctx) return;
 
-  // Reset tampilan lama
   document.getElementById(`${ctxId}_empty`)?.remove();
   ctx.style.display = "block";
 
-  // Hancurkan chart lama (hindari leak)
   if (ctx.chartInstance) {
     ctx.chartInstance.destroy();
     ctx.chartInstance = null;
   }
 
   if (!dataset.length) {
-    showEmptyMessage(ctx, ctxId, "📭 Data tidak tersedia untuk tahun dan wilayah yang dipilih.");
+    showEmptyMessage(ctx, ctxId, "Data tidak tersedia untuk tahun dan wilayah yang dipilih.");
     return;
   }
 
@@ -741,7 +739,7 @@ function renderLineChart(tipe, data) {
   if (isInvalid) {
     ctx.chartInstance?.destroy();
     ctx.chartInstance = null;
-    showEmptyMessage(ctx, ctx.id, "📭 Data tidak tersedia untuk rentang tahun ini.");
+    showEmptyMessage(ctx, ctx.id, "Data tidak tersedia untuk rentang tahun ini.");
     return;
   }
 
@@ -994,7 +992,6 @@ async function loadTableOnly(tipe, selectedKategori = [], forceReload = false, l
 
     if (!forceReload && loadedData[tipe].has(cacheKey)) {
       tableBody.innerHTML = loadedData[tipe].get(cacheKey);
-      console.log(`⚡ Gunakan cache untuk tabel ${tipe}`);
       return;
     }
 
@@ -1007,22 +1004,44 @@ async function loadTableOnly(tipe, selectedKategori = [], forceReload = false, l
     const json = await res.json();
 
     const dataset = Array.isArray(json.data) ? json.data : [];
-    const limited = limit > 0 ? dataset.slice(0, limit) : dataset;
+
+    let limited = dataset;
+    let showNotice = false;
+    if (dataset.length > 100) {
+      limited = dataset.slice(0, 100);
+      showNotice = true;
+    }
+
+    loadedData[tipe].set(cacheKey + "_full", dataset);
+
     const html = limited.map(d => `
-  <tr>
-    <td>${d.rumah_sakit || '-'}</td>
-    <td>${d.jenis_rs || '-'}</td>
-    <td>${d.kelas_rs || '-'}</td>
-    <td>${d.alamat || '-'}</td>
-    <td>${d.kabupaten_kota || '-'}</td>
-    <td>${d.provinsi || '-'}</td>
-    <td>${d.penyelenggara_grup || '-'}</td>
-    <td>${d.penyelenggara_kategori || '-'}</td>
-  </tr>`).join('');
+      <tr style="color: #1e293b;">
+        <td>${d.rumah_sakit || '-'}</td>
+        <td>${d.jenis_rs || '-'}</td>
+        <td>${d.kelas_rs || '-'}</td>
+        <td>${d.alamat || '-'}</td>
+        <td>${d.kabupaten_kota || '-'}</td>
+        <td>${d.provinsi || '-'}</td>
+        <td>${d.penyelenggara_grup || '-'}</td>
+        <td>${d.penyelenggara_kategori || '-'}</td>
+      </tr>
+    `).join('');
 
+    let finalHtml = html;
+    if (showNotice) {
+      finalHtml += `
+        <tr>
+          <td colspan="8" class="text-center fw-semibold p-3" style="color: #1e293b;">
+            Data lebih dari 100 baris. Silakan lihat data lengkapnya melalui fitur
+            <span class="text-secondary">Download CSV</span> atau
+            <span class="text-success">Download XLS</span>.
+          </td>
+        </tr>`;
+    }
 
-    tableBody.innerHTML = html;
-    loadedData[tipe].set(cacheKey, html);
+    tableBody.innerHTML = finalHtml;
+    loadedData[tipe].set(cacheKey, finalHtml);
+
   } catch (err) {
     console.error(`Gagal memuat tabel ${tipe}:`, err);
   } finally {
@@ -1039,22 +1058,17 @@ const loadedData = {
 const fetchControllers = {};
 
 async function loadAllData(tipe, selectedKategori = [], forceReloadTable = false, limit = 0) {
-  const tahun = document.getElementById(`${tipe}_filterTahun`)?.value ?? '';
-  const provinsi = document.getElementById(`${tipe}_filterProvinsi`)?.value ?? '';
-  const kabupaten = document.getElementById(`${tipe}_filterKabupatenKota`)?.value ?? '';
-  const kategoriParam = selectedKategori.length ? selectedKategori.join(',') : '';
+  toggleLoading(tipe, 'bar', true);
+  toggleLoading(tipe, 'line', true);
 
   try {
-    toggleLoading(tipe, 'bar', true);
-    toggleLoading(tipe, 'line', true);
-
-    const [chartDataBar, chartDataLine] = await Promise.all([
+    const [barData, lineData] = await Promise.all([
       getData(tipe, 'bar', limit),
       getData(tipe, 'line', limit)
     ]);
 
-    renderBarChart(tipe, chartDataBar);
-    renderLineChart(tipe, chartDataLine);
+    renderBarChart(tipe, barData);
+    renderLineChart(tipe, lineData);
     await loadTableOnly(tipe, selectedKategori, forceReloadTable, 0);
   } catch (err) {
     console.error('❌ Gagal memuat data:', err);
@@ -1097,7 +1111,6 @@ function exportTableToCSV(tableId, filename, tipe) {
     ).join("\n");
   }
 
-  // Tambahkan BOM agar Excel & Google Sheets mengenali UTF-8
   const BOM = "\uFEFF";
   const blob = new Blob([BOM + csvContent], {
     type: "text/csv;charset=utf-8;"
@@ -1108,7 +1121,6 @@ function exportTableToCSV(tableId, filename, tipe) {
   link.href = url;
   link.download = filename.endsWith(".csv") ? filename : filename + ".csv";
 
-  // 💡 Ubah type agar Excel menganggap semicolon CSV
   link.type = "application/vnd.ms-excel";
 
   document.body.appendChild(link);
@@ -1131,7 +1143,6 @@ async function exportTableToXls(tipe, tableId) {
   const url = `<?= base_url('dashboard/exportXLS') ?>?${params}`;
 
   try {
-    console.log(`⏳ Mengunduh data XLS untuk tipe: ${tipe}...`);
     const res = await fetch(url, {
       method: 'GET'
     });
@@ -1147,10 +1158,7 @@ async function exportTableToXls(tipe, tableId) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    console.log('✅ Export XLS berhasil diunduh tanpa tab baru!');
   } catch (err) {
-    console.error('❌ Gagal ekspor XLS:', err);
     alert('Gagal mengekspor data XLS. Periksa koneksi atau log server.');
   }
 }
@@ -1187,7 +1195,6 @@ async function applyAllFilters() {
   for (const tipe of ['jenis', 'kelas', 'penyelenggara']) {
     ensureAccordionVisibleThenRender(tipe, true);
   }
-  console.log('✅ Semua data berhasil dimuat di background');
 }
 
 function resetTableMessage(tipe) {
@@ -1208,7 +1215,6 @@ function setupAccordionListener() {
 
     collapseEl.removeEventListener('shown.bs.collapse', collapseEl._listenerRef);
     collapseEl._listenerRef = async () => {
-      console.log(`📂 Accordion ${tipe} dibuka — memuat tabel saja`);
       await loadTableOnly(tipe, window.selectedKategori || [], false);
     };
     collapseEl.addEventListener('shown.bs.collapse', collapseEl._listenerRef);
@@ -1254,7 +1260,7 @@ async function loadKategoriList(tipe) {
 let isReloading = false;
 let isInitialLoad = true;
 
-document.addEventListener('change', async function(e) {
+document.addEventListener('change', function(e) {
   if (!e.target.classList.contains('kategori-checkbox')) return;
 
   const list = e.target.closest(`[id^="dropdownKategoriList_"]`);
@@ -1275,13 +1281,16 @@ document.addEventListener('change', async function(e) {
   if (isReloading) return;
   isReloading = true;
 
-  await loadAllData(tipe, selected, true);
+  toggleLoading(tipe, 'bar', true);
+  toggleLoading(tipe, 'line', true);
 
-  isReloading = false;
+  requestAnimationFrame(async () => {
+    await loadAllData(tipe, selected, true);
+    isReloading = false;
+  });
 });
 
 document.addEventListener("click", async function(e) {
-  // EXPORT XLS
   if (e.target.closest(".export-xls")) {
     const btn = e.target.closest(".export-xls");
     const tableId = btn.getAttribute("data-table");
@@ -1290,7 +1299,6 @@ document.addEventListener("click", async function(e) {
     await exportTableToXls(tipe, tableId);
   }
 
-  // EXPORT CSV
   if (e.target.closest(".export-csv")) {
     const btn = e.target.closest(".export-csv");
     const tipe = btn.getAttribute("data-tipe");
@@ -1318,8 +1326,6 @@ document.addEventListener("click", async function(e) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
-      console.log("✅ Export CSV berhasil diunduh tanpa tab baru!");
     } catch (err) {
       console.error("❌ Gagal ekspor CSV:", err);
       alert("Gagal mengekspor data CSV. Periksa koneksi atau log server.");
@@ -1328,8 +1334,6 @@ document.addEventListener("click", async function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('Memulai load awal seluruh data dashboard...');
-
   document.querySelectorAll('.dropdown-menu').forEach(menu => {
     menu.addEventListener('click', e => e.stopPropagation());
   });
@@ -1355,7 +1359,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   ]);
 
   isInitialLoad = false;
-  console.log('Semua data awal dashboard berhasil dimuat');
 });
 
 document.addEventListener('shown.bs.tab', async event => {
@@ -1367,8 +1370,6 @@ document.addEventListener('shown.bs.tab', async event => {
 
   if (isReloading) return;
   isReloading = true;
-
-  console.log(`Tab aktif: ${target}`);
 
   await loadAllData(target, window.selectedKategori || [], true);
 

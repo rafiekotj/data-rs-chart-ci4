@@ -196,7 +196,7 @@ class Dashboard extends BaseController
     $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
     $kategori = trim($this->request->getGet('kategori') ?? '');
     $tahun = trim($this->request->getGet('tahun') ?? '');
-    $limit = (int) ($this->request->getGet('limit') ?? 200); // default 200
+    $limit = (int) ($this->request->getGet('limit') ?? 200);
     $kolom = $this->getKolomByTipe($tipe);
 
     if (!$kolom) {
@@ -252,18 +252,14 @@ class Dashboard extends BaseController
 
       $filename = 'data_rs_full_' . $tipe . '_' . date('Ymd_His') . '.csv';
 
-      // Gunakan output buffering agar konten dikembalikan sebagai string
       ob_start();
 
-      // Tambahkan BOM agar Excel mengenali UTF-8
       echo chr(0xef) . chr(0xbb) . chr(0xbf);
 
       $output = fopen('php://output', 'w');
 
-      // Header kolom (gunakan semicolon)
       fputcsv($output, array_keys($data[0]), ';');
 
-      // Data baris
       foreach ($data as $row) {
         $cleanRow = array_map(function ($val) {
           return is_null($val) ? '' : trim(preg_replace('/\s+/', ' ', (string) $val));
@@ -275,7 +271,6 @@ class Dashboard extends BaseController
 
       $csvContent = ob_get_clean();
 
-      // 💡 Kembalikan melalui response CodeIgniter (bukan echo langsung)
       return $this->response
         ->setHeader('Content-Type', 'text/csv; charset=utf-8')
         ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
@@ -292,7 +287,7 @@ class Dashboard extends BaseController
 
   public function exportXLS()
   {
-    $startTime = microtime(true); // ⏱️ Mulai hitung waktu
+    $startTime = microtime(true);
 
     $tipe = trim($this->request->getGet('tipe') ?? '');
     $provinsi = trim($this->request->getGet('provinsi') ?? '');
@@ -317,7 +312,7 @@ class Dashboard extends BaseController
 
       $headers = array_keys($data[0]);
       $rows = array_map('array_values', $data);
-      array_unshift($rows, $headers); // tambahkan header di awal
+      array_unshift($rows, $headers);
 
       $sheet->fromArray($rows, null, 'A1');
 
@@ -331,7 +326,6 @@ class Dashboard extends BaseController
         ob_end_clean();
       }
 
-      // Hitung waktu sebelum output
       $elapsed = round(microtime(true) - $startTime, 3);
       log_message('debug', "⏳ Export XLS untuk tipe '{$tipe}' selesai disiapkan dalam {$elapsed} detik.");
 

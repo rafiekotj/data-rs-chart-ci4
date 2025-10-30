@@ -31,7 +31,6 @@ class ModelDashboard extends Model
     $cacheKey = 'rpc_' . $function . '_' . md5(json_encode($payload));
     $cache = cache();
 
-    // Ambil dari cache lebih dulu
     $cached = $cache->get($cacheKey);
     if (is_array($cached)) {
       return $cached;
@@ -51,14 +50,13 @@ class ModelDashboard extends Model
           'Range-Unit: items',
           'Range: 0-999999',
         ],
-        CURLOPT_TIMEOUT => 30, // timeout dikurangi agar lebih responsif
+        CURLOPT_TIMEOUT => 30,
       ]);
 
       $response = curl_exec($ch);
       $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
       curl_close($ch);
 
-      // Validasi cepat
       if ($status !== 200 || !$response) {
         return [];
       }
@@ -68,7 +66,7 @@ class ModelDashboard extends Model
         return [];
       }
 
-      $cache->save($cacheKey, $data, 1800); // cache 30 menit
+      $cache->save($cacheKey, $data, 1800);
       return $data;
     } catch (\Throwable) {
       return [];
