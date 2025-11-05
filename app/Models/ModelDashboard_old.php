@@ -17,7 +17,6 @@ class ModelDashboard extends Model
     $supabaseKey = env('SUPABASE_KEY');
 
     if (empty($supabaseUrl) || empty($supabaseKey)) {
-      log_message('error', 'Supabase credentials are missing in .env file.');
       throw new \RuntimeException('Missing Supabase configuration.');
     }
 
@@ -73,6 +72,32 @@ class ModelDashboard extends Model
     }
   }
 
+  public function getListProvinsi(): array
+  {
+    $data = $this->callRPC('get_unique_provinsi');
+    return $this->mapUnique($data, 'provinsi');
+  }
+
+  public function getListKabupatenKota(): array
+  {
+    $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => 'semua']);
+    return $this->mapUnique($data, 'kabupaten_kota');
+  }
+
+  public function getListTahun(): array
+  {
+    $data = $this->callRPC('get_unique_tahun');
+    $unique = array_filter(array_unique(array_map(fn($d) => (int) ($d['tahun'] ?? 0), $data)));
+    rsort($unique);
+    return array_map(fn($t) => ['tahun' => $t], $unique);
+  }
+
+  public function getKabupatenByProvinsi(string $provinsi): array
+  {
+    $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => $provinsi]);
+    return $this->mapUnique($data, 'kabupaten_kota');
+  }
+
   private function mapUnique(array $data, string $field): array
   {
     if (empty($data)) {
@@ -92,81 +117,32 @@ class ModelDashboard extends Model
       }
     }
 
-    if ($field === 'kelas_rs') {
-      $order = ['A', 'B', 'C', 'D', 'D Pratama', 'Belum Ditetapkan'];
-
-      usort($unique, function ($a, $b) use ($order) {
-        $indexA = array_search(ucwords(strtolower($a)), $order);
-        $indexB = array_search(ucwords(strtolower($b)), $order);
-
-        $indexA = $indexA === false ? PHP_INT_MAX : $indexA;
-        $indexB = $indexB === false ? PHP_INT_MAX : $indexB;
-
-        return $indexA <=> $indexB;
-      });
-    }
-
+    sort($unique);
     return array_map(fn($v) => [$field => $v], $unique);
   }
 
-  public function getListProvinsi(): array
-  {
-    $data = $this->callRPC('get_unique_provinsi');
-    return $this->mapUnique($data, 'provinsi');
-  }
-
-  public function getListKabupatenKota(): array
-  {
-    $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => 'semua']);
-    return $this->mapUnique($data, 'kabupaten_kota');
-  }
-  public function getListTahun(): array
-  {
-    $data = $this->callRPC('get_unique_tahun');
-    $unique = array_filter(array_unique(array_map(fn($d) => (int) ($d['tahun'] ?? 0), $data)));
-    rsort($unique);
-    return array_map(fn($t) => ['tahun' => $t], $unique);
-  }
-
-  public function getListJenisRS()
-  {
-    $data = $this->callRPC('get_unique_jenis_rs');
-    return $this->mapUnique($data, 'jenis_rs');
-  }
-
-  public function getListKelasRS()
-  {
-    $data = $this->callRPC('get_unique_kelas_rs');
-    return $this->mapUnique($data, 'kelas_rs');
-  }
-
-  public function getListPenyelenggaraRS()
-  {
-    $data = $this->callRPC('get_unique_penyelenggara_rs');
-    return $this->mapUnique($data, 'penyelenggara_grup');
-  }
-
-  public function getKabupatenByProvinsi(string $provinsi): array
-  {
-    $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => $provinsi]);
-    return $this->mapUnique($data, 'kabupaten_kota');
-  }
-
-  public function getBarData(string $kolom, array $filters = [], ?string $subkolom = null): array
+  public function getBarData(string $kolom, string $tahun, ?string $provinsi = null, ?string $kabupaten = null): array
   {
     $payload = [
       'kolom' => $kolom,
-      'subkolom' => $subkolom,
-      'tahun_filter' => $filters['tahun'] ?? null,
-      'prov_filter' => $filters['provinsi'] ?? null,
-      'kab_filter' => $filters['kabupaten_kota'] ?? null,
-      'jenis_list' => !empty($filters['jenis_rs']) ? $filters['jenis_rs'] : null,
-      'kelas_list' => !empty($filters['kelas_rs']) ? $filters['kelas_rs'] : null,
-      'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? $filters['penyelenggara_grup'] : null,
-      'kategori_list' => !empty($filters['penyelenggara_kategori']) ? $filters['penyelenggara_kategori'] : null,
+      'tahun_filter' => (int) $tahun,
+      'prov_filter' => $provinsi ? trim($provinsi) : null,
+      'kab_filter' => $kabupaten ? trim($kabupaten) : null,
     ];
 
-    return $this->callRPC('get_rs_summary', $payload);
+    $data = $this->callRPC('get_rs_summary', $payload);
+    if (empty($data)) {
+      return [];
+    }
+
+    return array_map(
+      static fn($row) => [
+        'nama' => $row['nama'] ?? ($row[$kolom] ?? 'Tidak Diketahui'),
+        'total' => (int) ($row['total'] ?? 0),
+        'total_semua' => (int) ($row['total_semua'] ?? 0),
+      ],
+      $data,
+    );
   }
 
   public function getLineData(
@@ -194,7 +170,7 @@ class ModelDashboard extends Model
 
       $filtered = array_map(
         static fn($r) => [
-          'nama' => $r[$kolom] ?? 'Tidak Diketahui',
+          'nama' => $r['nama'] ?? ($r[$kolom] ?? 'Tidak Diketahui'),
           'total' => (int) ($r['total'] ?? 0),
         ],
         $data,
@@ -209,6 +185,21 @@ class ModelDashboard extends Model
     return $hasil;
   }
 
+  public function getListJenisRS(): array
+  {
+    return $this->getGenericList('get_unique_jenis');
+  }
+
+  public function getListKelasRS(): array
+  {
+    return $this->getGenericList('get_unique_kelas');
+  }
+
+  public function getListPenyelenggaraRS(): array
+  {
+    return $this->getGenericList('get_unique_penyelenggara');
+  }
+
   private function getGenericList(string $rpcName): array
   {
     $data = $this->callRPC($rpcName);
@@ -218,26 +209,14 @@ class ModelDashboard extends Model
 
     $unique = [];
     foreach ($data as $row) {
-      $val = '';
-      $keyName = ''; // tambahkan untuk nama kolom dinamis
-
-      match ($rpcName) {
-        'get_unique_jenis' => ($keyName = 'jenis_rs') && ($val = trim($row['jenis_rs'] ?? '')),
-        'get_unique_kelas' => ($keyName = 'kelas_rs') && ($val = trim($row['kelas_rs'] ?? '')),
-        'get_unique_penyelenggara' => ($keyName = 'penyelenggara_grup') &&
-          ($val = trim($row['penyelenggara_grup'] ?? '')),
-        default => ($keyName = 'nama') && ($val = trim($row['nama'] ?? '')),
-      };
-
-      if ($val !== '') {
-        $unique[strtolower($val)] = [$keyName => $val];
+      $val = trim($row['nama'] ?? ($row['penyelenggara_grup'] ?? ''));
+      if ($val) {
+        $unique[strtolower($val)] = $val;
       }
     }
 
-    // Sort berdasarkan nama aslinya
-    uasort($unique, fn($a, $b) => strcmp(reset($a), reset($b)));
-
-    return array_values($unique);
+    sort($unique);
+    return array_map(fn($v) => ['nama' => $v], $unique);
   }
 
   public function getAllFilteredForExport(

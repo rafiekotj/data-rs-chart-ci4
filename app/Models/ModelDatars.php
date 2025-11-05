@@ -47,7 +47,6 @@ class ModelDatars extends Model
     curl_close($ch);
 
     if ($status !== 200 || !$response) {
-      log_message('error', "RPC get_rs_unique_latest_page failed ({$status}): {$response}");
       return [];
     }
 
@@ -79,7 +78,6 @@ class ModelDatars extends Model
     curl_close($ch);
 
     if ($status !== 200 || !$response) {
-      log_message('error', "RPC get_rs_unique_latest_count failed ({$status}): {$response}");
       return 0;
     }
 

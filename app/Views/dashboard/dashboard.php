@@ -2,490 +2,290 @@
   <h2 class="fs-2 fw-bolder mb-0">Dashboard</h2>
 </div>
 
-<div class="p-3">
-  <ul class="nav nav-tabs" id="rsTab" role="tablist">
-    <li class="nav-item">
-      <button class="nav-link active" id="jenis-tab" data-bs-toggle="tab" data-bs-target="#jenis" type="button"
-        role="tab">
-        Jenis RS
+<div class="row g-3 mb-3">
+  <!-- JENIS RS -->
+  <div class="col-4">
+    <label class="form-label">Jenis RS</label>
+    <div class="dropdown w-100" data-bs-auto-close="outside">
+      <button class="custom-select-dropdown w-100" id="dropdownJenis" data-bs-toggle="dropdown" aria-expanded="false">
+        Pilih Jenis RS
       </button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" id="kelas-tab" data-bs-toggle="tab" data-bs-target="#kelas" type="button" role="tab">
-        Kelas RS
-      </button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" id="penyelenggara-tab" data-bs-toggle="tab" data-bs-target="#penyelenggara" type="button"
-        role="tab">
-        Penyelenggara RS
-      </button>
-    </li>
-  </ul>
-
-  <div class="tab-content">
-    <!-- TAB JENIS RS -->
-    <div class="tab-pane fade show active" id="jenis" role="tabpanel">
-      <div class="row g-3 mb-4">
-        <div class="col-md-6">
-          <label for="jenis_filterProvinsi" class="form-label">Provinsi</label>
-          <select id="jenis_filterProvinsi" class="form-select">
-            <option value="">Semua</option>
-            <?php foreach ($listProvinsi as $prov): ?>
-            <option value="<?= esc($prov['provinsi']) ?>"
-              <?= $prov['provinsi'] == ($selectedProvinsi ?? '') ? 'selected' : '' ?>>
-              <?= esc($prov['provinsi']) ?>
-            </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label for="jenis_filterKabupatenKota" class="form-label">Kabupaten/Kota</label>
-          <select id="jenis_filterKabupatenKota" class="form-select">
-            <option value="">Semua</option>
-            <?php foreach ($listKabupatenKota as $kk): ?>
-            <option value="<?= esc($kk['kabupaten_kota']) ?>" <?= $kk['kabupaten_kota'] == $selectedKabupatenKota
-  ? 'selected'
-  : '' ?>>
-              <?= esc($kk['kabupaten_kota']) ?>
-            </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-      </div>
-
-      <div class="mb-4 position-relative">
-        <label class="form-label">Kategori</label>
-        <div class="dropdown w-100" data-bs-auto-close="outside">
-          <button class="custom-select-dropdown" id="dropdownKategori_jenis" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Pilih Kategori
-          </button>
-          <ul class="dropdown-menu w-100 p-2" aria-labelledby="dropdownKategori_jenis" id="dropdownKategoriList_jenis"
-            style="max-height: 250px; overflow-y: auto;">
-            <li class="text-center text-muted small">Memuat data...</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-lg-2 col-md-4 col-sm-12 mb-2">
-        <label for="jenis_filterTahun" class="form-label">Per Tahun</label>
-        <select id="jenis_filterTahun" class="form-select">
-          <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
-          <?php foreach ($listTahun as $thn): ?>
-          <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == ($selectedTahun ?? '') ? 'selected' : '' ?>>
-            <?= esc($thn['tahun']) ?>
-          </option>
-          <?php endforeach; ?>
-        </select>
-      </div>
-
-      <div class="d-flex justify-content-end mb-2 fw-bold">
-        Total RS: <span id="totalCount_jenis" class="ms-2">0</span>
-      </div>
-
-      <div class="chart-wrapper position-relative mb-3 border rounded p-2">
-        <canvas id="barchart_jenis" height="340"></canvas>
-        <div id="barLoading_jenis" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
-          d-flex justify-content-center align-items-center">
-          <div class="spinner-border text-secondary" role="status"></div>
-        </div>
-      </div>
-
-      <div class="row g-3 mb-3">
-        <div class="col-md-12">
-          <label class="form-label">Rentang Tahun</label>
-          <div class="d-flex align-items-center">
-            <select id="jenis_tahunAwal" class="form-select me-2" style="max-width:120px;">
-              <?php foreach ($listTahun as $thn): ?>
-              <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $minTahun ? 'selected' : '' ?>>
-                <?= esc($thn['tahun']) ?>
-              </option>
-              <?php endforeach; ?>
-            </select>
-            <span class="mx-2">sampai</span>
-            <select id="jenis_tahunAkhir" class="form-select ms-2" style="max-width:120px;">
-              <?php foreach ($listTahun as $thn): ?>
-              <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $maxTahun ? 'selected' : '' ?>>
-                <?= esc($thn['tahun']) ?>
-              </option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="chart-wrapper position-relative mb-3 border rounded p-2">
-        <canvas id="linechart_jenis" height="400"></canvas>
-        <div id="lineLoading_jenis" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
-          d-flex justify-content-center align-items-center">
-          <div class="spinner-border text-secondary" role="status"></div>
-        </div>
-      </div>
-
-      <!-- ACCORDION JENIS -->
-      <div class="accordion mb-3" id="accordion_jenis">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading_jenis">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse_jenis" aria-expanded="false" aria-controls="collapse_jenis">
-              Tabel Rumah Sakit
-            </button>
-          </h2>
-          <div id="collapse_jenis" class="accordion-collapse collapse" aria-labelledby="heading_jenis"
-            data-bs-parent="#accordion_jenis">
-            <div class="accordion-body">
-              <div class="d-flex justify-content-end mb-3">
-                <button class="btn btn-sm btn-outline-secondary me-2 export-csv" data-table="rsTable_jenis"
-                  data-tipe="jenis">
-                  <i class="bi bi-filetype-csv me-1"></i> Export CSV
-                </button>
-                <button class="btn btn-sm btn-outline-success export-xls" data-table="rsTable_jenis" data-tipe="jenis">
-                  <i class="bi bi-file-earmark-excel me-1"></i> Export XLS
-                </button>
-              </div>
-              <div id="tableWrapper_jenis" class="position-relative">
-                <div id="tableLoading_jenis"
-                  class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
-                  <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
-                  </div>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-hover align-middle mb-0" id="rsTable_jenis">
-                    <thead class="text-center align-middle">
-                      <tr>
-                        <th style="width: 25%;">Nama RS</th>
-                        <th style="width: 10%;">Jenis</th>
-                        <th style="width: 10%;">Kelas</th>
-                        <th style="width: 25%;">Alamat</th>
-                        <th style="width: 10%;">Kabupaten/Kota</th>
-                        <th style="width: 10%;">Provinsi</th>
-                        <th style="width: 10%;">Penyelenggara Grup</th>
-                        <th style="width: 10%;">Penyelenggara Kategori</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td colspan="8" class="text-center text-muted py-4">
-                          Klik tombol accordion untuk memuat data.
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ul class="dropdown-menu w-100 p-1" id="dropdownListJenis" style="max-height: 250px; overflow-y: auto;">
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value=""> Semua
+          </label>
+        </li>
+        <?php foreach ($listJenisRS as $j): ?>
+        <?php if (!empty($j['jenis_rs'])): ?>
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="<?= esc($j['jenis_rs']) ?>">
+            <?= esc($j['jenis_rs']) ?>
+          </label>
+        </li>
+        <?php endif; ?>
+        <?php endforeach; ?>
+      </ul>
     </div>
+  </div>
 
-    <!-- TAB KELAS RS -->
-    <div class="tab-pane fade" id="kelas" role="tabpanel">
-      <div class="row g-3 mb-4">
-        <div class="col-md-6">
-          <label for="kelas_filterProvinsi" class="form-label">Provinsi</label>
-          <select id="kelas_filterProvinsi" class="form-select">
-            <option value="">Semua</option>
-            <?php foreach ($listProvinsi as $prov): ?>
-            <option value="<?= esc($prov['provinsi']) ?>"
-              <?= $prov['provinsi'] == ($selectedProvinsi ?? '') ? 'selected' : '' ?>>
-              <?= esc($prov['provinsi']) ?>
-            </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label for="kelas_filterKabupatenKota" class="form-label">Kabupaten/Kota</label>
-          <select id="kelas_filterKabupatenKota" class="form-select">
-            <option value="">Semua</option>
-            <?php foreach ($listKabupatenKota as $kk): ?>
-            <option value="<?= esc($kk['kabupaten_kota']) ?>" <?= $kk['kabupaten_kota'] == $selectedKabupatenKota
-  ? 'selected'
-  : '' ?>>
-              <?= esc($kk['kabupaten_kota']) ?>
-            </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-      </div>
-
-      <div class="mb-3 position-relative">
-        <label class="form-label">Kategori</label>
-        <div class="dropdown w-100" data-bs-auto-close="outside">
-          <button class="custom-select-dropdown" id="dropdownKategori_kelas" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Pilih Kategori
-          </button>
-          <ul class="dropdown-menu w-100 p-2" aria-labelledby="dropdownKategori_kelas" id="dropdownKategoriList_kelas"
-            style="max-height: 250px; overflow-y: auto;">
-            <li class="text-center text-muted small">Memuat data...</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-md-2 mb-4">
-        <label for="kelas_filterTahun" class="form-label">Per Tahun</label>
-        <select id="kelas_filterTahun" class="form-select">
-          <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
-          <?php foreach ($listTahun as $thn): ?>
-          <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == ($selectedTahun ?? '') ? 'selected' : '' ?>>
-            <?= esc($thn['tahun']) ?>
-          </option>
-          <?php endforeach; ?>
-        </select>
-      </div>
-
-      <div class="d-flex justify-content-end mb-2 fw-bold">
-        Total RS: <span id="totalCount_kelas" class="ms-2">0</span>
-      </div>
-
-      <div class="chart-wrapper position-relative mb-3 border rounded p-2">
-        <canvas id="barchart_kelas" height="340"></canvas>
-        <div id="barLoading_kelas" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
-          d-flex justify-content-center align-items-center">
-          <div class="spinner-border text-secondary" role="status"></div>
-        </div>
-      </div>
-
-      <div class="row g-3 mb-3">
-        <div class="col-md-12">
-          <label class="form-label">Rentang Tahun</label>
-          <div class="d-flex align-items-center">
-            <select id="kelas_tahunAwal" class="form-select me-2" style="max-width:120px;">
-              <?php foreach ($listTahun as $thn): ?>
-              <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $minTahun ? 'selected' : '' ?>>
-                <?= esc($thn['tahun']) ?>
-              </option>
-              <?php endforeach; ?>
-            </select>
-            <span class="mx-2">sampai</span>
-            <select id="kelas_tahunAkhir" class="form-select ms-2" style="max-width:120px;">
-              <?php foreach ($listTahun as $thn): ?>
-              <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $maxTahun ? 'selected' : '' ?>>
-                <?= esc($thn['tahun']) ?>
-              </option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="chart-wrapper position-relative mb-3 border rounded p-2">
-        <canvas id="linechart_kelas" height="400"></canvas>
-        <div id="lineLoading_kelas" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
-          d-flex justify-content-center align-items-center">
-          <div class="spinner-border text-secondary" role="status"></div>
-        </div>
-      </div>
-
-      <div class="accordion mb-3" id="accordion_kelas">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading_kelas">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse_kelas" aria-expanded="false" aria-controls="collapse_kelas">
-              Tabel Rumah Sakit
-            </button>
-          </h2>
-          <div id="collapse_kelas" class="accordion-collapse collapse" aria-labelledby="heading_kelas"
-            data-bs-parent="#accordion_kelas">
-            <div class="accordion-body">
-              <div class="d-flex justify-content-end mb-3">
-                <button class="btn btn-sm btn-outline-secondary me-2 export-csv" data-table="rsTable_kelas"
-                  data-tipe="kelas">
-                  <i class="bi bi-filetype-csv me-1"></i> Export CSV
-                </button>
-                <button class="btn btn-sm btn-outline-success export-xls" data-table="rsTable_kelas" data-tipe="kelas">
-                  <i class="bi bi-file-earmark-excel me-1"></i> Export XLS
-                </button>
-              </div>
-              <div id="tableWrapper_kelas" class="position-relative">
-                <div id="tableLoading_kelas"
-                  class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
-                  <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
-                  </div>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-hover align-middle mb-0" id="rsTable_kelas">
-                    <thead class="text-center align-middle">
-                      <tr>
-                        <th style="width: 25%;">Nama RS</th>
-                        <th style="width: 10%;">Jenis</th>
-                        <th style="width: 10%;">Kelas</th>
-                        <th style="width: 25%;">Alamat</th>
-                        <th style="width: 10%;">Kabupaten/Kota</th>
-                        <th style="width: 10%;">Provinsi</th>
-                        <th style="width: 10%;">Penyelenggara Grup</th>
-                        <th style="width: 10%;">Penyelenggara Kategori</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td colspan="8" class="text-center text-muted py-4">
-                          Klik tombol accordion untuk memuat data.
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- KELAS RS -->
+  <div class="col-4">
+    <label class="form-label">Kelas RS</label>
+    <div class="dropdown w-100" data-bs-auto-close="outside">
+      <button class="custom-select-dropdown w-100" id="dropdownKelas" data-bs-toggle="dropdown" aria-expanded="false">
+        Pilih Kelas RS
+      </button>
+      <ul class="dropdown-menu w-100 p-1" id="dropdownListKelas" style="max-height: 250px; overflow-y: auto;">
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value=""> Semua
+          </label>
+        </li>
+        <?php foreach ($listKelasRS as $k): ?>
+        <?php if (!empty($k['kelas_rs'])): ?>
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="<?= esc($k['kelas_rs']) ?>">
+            <?= esc($k['kelas_rs']) ?>
+          </label>
+        </li>
+        <?php endif; ?>
+        <?php endforeach; ?>
+      </ul>
     </div>
+  </div>
 
-    <!-- TAB PENYELENGGARA RS -->
-    <div class="tab-pane fade" id="penyelenggara" role="tabpanel">
-      <div class="row g-3 mb-4">
-        <div class="col-md-6">
-          <label for="penyelenggara_filterProvinsi" class="form-label">Provinsi</label>
-          <select id="penyelenggara_filterProvinsi" class="form-select">
-            <option value="">Semua</option>
-            <?php foreach ($listProvinsi as $prov): ?>
-            <option value="<?= esc($prov['provinsi']) ?>"
-              <?= $prov['provinsi'] == ($selectedProvinsi ?? '') ? 'selected' : '' ?>>
-              <?= esc($prov['provinsi']) ?>
-            </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label for="penyelenggara_filterKabupatenKota" class="form-label">Kabupaten/Kota</label>
-          <select id="penyelenggara_filterKabupatenKota" class="form-select">
-            <option value="">Semua</option>
-            <?php foreach ($listKabupatenKota as $kk): ?>
-            <option value="<?= esc($kk['kabupaten_kota']) ?>" <?= $kk['kabupaten_kota'] == $selectedKabupatenKota
-  ? 'selected'
-  : '' ?>>
-              <?= esc($kk['kabupaten_kota']) ?>
-            </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-      </div>
+  <!-- PENYELENGGARA RS -->
+  <div class="col-4">
+    <label class="form-label">Penyelenggara RS</label>
+    <div class="dropdown w-100" data-bs-auto-close="outside">
+      <button class="custom-select-dropdown w-100" id="dropdownPenyelenggara" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Pilih Penyelenggara RS
+      </button>
+      <ul class="dropdown-menu w-100 p-1" id="dropdownListPenyelenggara" style="max-height: 250px; overflow-y: auto;">
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value=""> Semua
+          </label>
+        </li>
+        <?php foreach ($listPenyelenggaraRS as $p): ?>
+        <?php if (!empty($p['penyelenggara_grup'])): ?>
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="<?= esc(
+              $p['penyelenggara_grup'],
+            ) ?>">
+            <?= esc($p['penyelenggara_grup']) ?>
+          </label>
+        </li>
+        <?php endif; ?>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  </div>
+</div>
 
-      <div class="mb-3 position-relative">
-        <label class="form-label">Kategori</label>
-        <div class="dropdown w-100" data-bs-auto-close="outside">
-          <button class="custom-select-dropdown" id="dropdownKategori_penyelenggara" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Pilih Kategori
+<!-- PROVINSI DAN KABUPATEN/KOTA -->
+<div class="row g-3 mb-3">
+  <!-- PROVINSI -->
+  <div class="col-6">
+    <label class="form-label">Provinsi</label>
+    <div class="dropdown w-100" data-bs-auto-close="outside">
+      <button class="custom-select-dropdown w-100" id="dropdownProvinsi" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Pilih Provinsi
+      </button>
+      <ul class="dropdown-menu w-100 p-1" id="dropdownListProvinsi" style="max-height: 250px; overflow-y: auto;">
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="">
+            Semua
+          </label>
+        </li>
+        <?php foreach ($listProvinsi as $prov): ?>
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="<?= esc(
+              $prov['provinsi'],
+            ) ?>">
+            <?= esc($prov['provinsi']) ?>
+          </label>
+        </li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  </div>
+
+  <!-- KABUPATEN/KOTA -->
+  <div class="col-6">
+    <label class="form-label">Kabupaten/Kota</label>
+    <div class="dropdown w-100" data-bs-auto-close="outside">
+      <button class="custom-select-dropdown w-100" id="dropdownKabupatenKota" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Pilih Kabupaten/Kota
+      </button>
+      <ul class="dropdown-menu w-100 p-1" id="dropdownListKabupatenKota" style="max-height: 250px; overflow-y: auto;">
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="">
+            Semua
+          </label>
+        </li>
+        <?php foreach ($listKabupatenKota as $kk): ?>
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="<?= esc(
+              $kk['kabupaten_kota'],
+            ) ?>">
+            <?= esc($kk['kabupaten_kota']) ?>
+          </label>
+        </li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- APPLY BUTTON -->
+<div class="row mb-3">
+  <div class="col-12 text-end">
+    <button id="applyFilter" class="btn btn-primary">
+      Terapkan Filter
+    </button>
+  </div>
+</div>
+
+
+<div class="row g-3 mb-3 align-items-end">
+  <!-- PERTAHUN -->
+  <div class="col-md-3 col-sm-6 mt-0">
+    <label for="filterTahun" class="form-label">Per Tahun</label>
+    <select id="filterTahun" class="form-select">
+      <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
+      <?php foreach ($listTahun as $thn): ?>
+      <option value="<?= esc($thn['tahun']) ?>"><?= esc($thn['tahun']) ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+
+  <!-- TOTAL RS -->
+  <div class="col d-flex justify-content-end fw-bold">
+    <div>
+      Total RS: <span id="totalCount" class="ms-2">0</span>
+    </div>
+  </div>
+</div>
+
+<!-- CHARTS -->
+<div id="chartsContainer">
+  <!-- BAR CHART JENIS RS -->
+  <div class="chart-wrapper position-relative mb-3 border rounded" id="chartJenisWrapper" style="display:none;">
+    <canvas id="chartJenis" height="340"></canvas>
+    <div id="barLoadingJenis" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
+        d-flex justify-content-center align-items-center">
+      <div class="spinner-border text-secondary" role="status"></div>
+    </div>
+  </div>
+
+  <!-- BAR CHART KELAS RS -->
+  <div class="chart-wrapper position-relative mb-3 border rounded" id="chartKelasWrapper" style="display:none;">
+    <canvas id="chartKelas" height="340"></canvas>
+    <div id="barLoadingKelas" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
+        d-flex justify-content-center align-items-center">
+      <div class="spinner-border text-secondary" role="status"></div>
+    </div>
+  </div>
+
+  <!-- BAR CHART PENYELENGGARA RS -->
+  <div class="chart-wrapper position-relative mb-3 border rounded" id="chartPenyelenggaraWrapper" style="display:none;">
+    <canvas id="chartPenyelenggara" height="340"></canvas>
+    <div id="barLoadingPenyelenggara" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
+        d-flex justify-content-center align-items-center">
+      <div class="spinner-border text-secondary" role="status"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-3">
+  <div class="col-md-3 col-sm-6 mt-3">
+    <label class="form-label">Rentang Tahun</label>
+    <div class="d-flex align-items-center">
+      <select id="tahunAwal" class="form-select me-2" style="max-width:120px;">
+        <?php foreach ($listTahun as $thn): ?>
+        <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $minTahun ? 'selected' : '' ?>>
+          <?= esc($thn['tahun']) ?>
+        </option>
+        <?php endforeach; ?>
+      </select>
+      <span class="mx-2">sampai</span>
+      <select id="tahunAkhir" class="form-select ms-2" style="max-width:120px;">
+        <?php foreach ($listTahun as $thn): ?>
+        <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $maxTahun ? 'selected' : '' ?>>
+          <?= esc($thn['tahun']) ?>
+        </option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="chart-wrapper position-relative mb-3 border rounded">
+  <canvas id="linechart" height="400"></canvas>
+  <div id="lineLoading" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
+      d-flex justify-content-center align-items-center">
+    <div class="spinner-border text-secondary" role="status"></div>
+  </div>
+</div>
+
+<!-- TABEL DATA -->
+<div class="accordion mb-3" id="accordionRS">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingRS">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRS"
+        aria-expanded="false" aria-controls="collapseRS">
+        Tabel Rumah Sakit
+      </button>
+    </h2>
+    <div id="collapseRS" class="accordion-collapse collapse" aria-labelledby="headingRS" data-bs-parent="#accordionRS">
+      <div class="accordion-body">
+        <div class="d-flex justify-content-end mb-3">
+          <button class="btn btn-sm btn-outline-secondary me-2 export-csv" data-table="rsTable" id="exportCsvBtn">
+            <i class="bi bi-filetype-csv me-1"></i> Export CSV
           </button>
-          <ul class="dropdown-menu w-100 p-2" aria-labelledby="dropdownKategori_penyelenggara"
-            id="dropdownKategoriList_penyelenggara" style="max-height: 250px; overflow-y: auto;">
-            <li class="text-center text-muted small">Memuat data...</li>
-          </ul>
+          <button class="btn btn-sm btn-outline-success export-xls" data-table="rsTable" id="exportXlsBtn">
+            <i class="bi bi-file-earmark-excel me-1"></i> Export XLS
+          </button>
         </div>
-      </div>
-
-      <div class="col-md-2 mb-4">
-        <label for="penyelenggara_filterTahun" class="form-label">Per Tahun</label>
-        <select id="penyelenggara_filterTahun" class="form-select">
-          <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
-          <?php foreach ($listTahun as $thn): ?>
-          <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == ($selectedTahun ?? '') ? 'selected' : '' ?>>
-            <?= esc($thn['tahun']) ?>
-          </option>
-          <?php endforeach; ?>
-        </select>
-      </div>
-
-      <div class="d-flex justify-content-end mb-2 fw-bold">
-        Total RS: <span id="totalCount_penyelenggara" class="ms-2">0</span>
-      </div>
-
-      <div class="chart-wrapper position-relative mb-3 border rounded p-2">
-        <canvas id="barchart_penyelenggara" height="340"></canvas>
-        <div id="barLoading_penyelenggara" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
-          d-flex justify-content-center align-items-center">
-          <div class="spinner-border text-secondary" role="status"></div>
-        </div>
-      </div>
-
-      <div class="row g-3 mb-3">
-        <div class="col-md-12">
-          <label class="form-label">Rentang Tahun</label>
-          <div class="d-flex align-items-center">
-            <select id="penyelenggara_tahunAwal" class="form-select me-2" style="max-width:120px;">
-              <?php foreach ($listTahun as $thn): ?>
-              <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $minTahun ? 'selected' : '' ?>>
-                <?= esc($thn['tahun']) ?>
-              </option>
-              <?php endforeach; ?>
-            </select>
-            <span class="mx-2">sampai</span>
-            <select id="penyelenggara_tahunAkhir" class="form-select ms-2" style="max-width:120px;">
-              <?php foreach ($listTahun as $thn): ?>
-              <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $maxTahun ? 'selected' : '' ?>>
-                <?= esc($thn['tahun']) ?>
-              </option>
-              <?php endforeach; ?>
-            </select>
+        <div id="tableWrapper" class="position-relative">
+          <div id="tableLoading"
+            class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
+            <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;"></div>
           </div>
-        </div>
-      </div>
-
-      <div class="chart-wrapper position-relative mb-3 border rounded p-2">
-        <canvas id="linechart_penyelenggara" height="400"></canvas>
-        <div id="lineLoading_penyelenggara" class="position-absolute w-100 h-100 top-0 start-0 d-none bg-white bg-opacity-75 
-          d-flex justify-content-center align-items-center">
-          <div class="spinner-border text-secondary" role="status"></div>
-        </div>
-      </div>
-
-      <div class="accordion mb-3" id="accordion_penyelenggara">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading_penyelenggara">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse_penyelenggara" aria-expanded="false" aria-controls="collapse_penyelenggara">
-              Tabel Rumah Sakit
-            </button>
-          </h2>
-          <div id="collapse_penyelenggara" class="accordion-collapse collapse" aria-labelledby="heading_penyelenggara"
-            data-bs-parent="#accordion_penyelenggara">
-            <div class="accordion-body">
-              <div class="d-flex justify-content-end mb-3">
-                <button class="btn btn-sm btn-outline-secondary me-2 export-csv" data-table="rsTable_penyelenggara"
-                  data-tipe="penyelenggara">
-                  <i class="bi bi-filetype-csv me-1"></i> Export CSV
-                </button>
-                <button class="btn btn-sm btn-outline-success export-xls" data-table="rsTable_penyelenggara"
-                  data-tipe="penyelenggara">
-                  <i class="bi bi-file-earmark-excel me-1"></i> Export XLS
-                </button>
-              </div>
-              <div id="tableWrapper_penyelenggara" class="position-relative">
-                <div id="tableLoading_penyelenggara"
-                  class="d-none position-absolute top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center">
-                  <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
-                  </div>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-hover align-middle mb-0" id="rsTable_penyelenggara">
-                    <thead class="text-center align-middle">
-                      <tr>
-                        <th style="width: 25%;">Nama RS</th>
-                        <th style="width: 10%;">Jenis</th>
-                        <th style="width: 10%;">Kelas</th>
-                        <th style="width: 25%;">Alamat</th>
-                        <th style="width: 10%;">Kabupaten/Kota</th>
-                        <th style="width: 10%;">Provinsi</th>
-                        <th style="width: 10%;">Penyelenggara Grup</th>
-                        <th style="width: 10%;">Penyelenggara Kategori</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td colspan="8" class="text-center text-muted py-4">
-                          Klik tombol accordion untuk memuat data.
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="rsTable">
+              <thead class="text-center align-middle">
+                <tr>
+                  <th style="width: 25%;">Nama RS</th>
+                  <th style="width: 10%;">Jenis</th>
+                  <th style="width: 10%;">Kelas</th>
+                  <th style="width: 25%;">Alamat</th>
+                  <th style="width: 10%;">Kabupaten/Kota</th>
+                  <th style="width: 10%;">Provinsi</th>
+                  <th style="width: 10%;">Penyelenggara Grup</th>
+                  <th style="width: 10%;">Penyelenggara Kategori</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="8" class="text-center text-muted py-4">
+                    Data belum dimuat
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -503,96 +303,16 @@ const fixedColors = [
   "#c026d3", "#ea580c", "#0284c7"
 ];
 
-function getSelectedKategoriParam(tipe) {
-  return [...document.querySelectorAll(`#dropdownKategoriList_${tipe} .kategori-checkbox:checked`)]
-    .map(cb => cb.value.trim())
-    .filter(Boolean)
-    .join(',');
-}
+const jenisRSList = [
+  "RSU", "RSIA", "RSK Jiwa", "RSK Mata", "RSK GM", "RSK Bedah", "RSK Jantung",
+  "RSK Paru", "RSK Orthopedi", "RSK Kanker", "RSK THT-KL", "RSK Infeksi",
+  "RSK Ginjal", "RS Bergerak", "RSK Otak", "RSKO", "RSK Stroke"
+];
 
-async function getData(tipe, jenisChart, limit = 0) {
-  const qs = new URLSearchParams({
-    provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
-    kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
-  });
-  if (limit > 0) qs.append('limit', limit);
-
-  const kategori = getSelectedKategoriParam(tipe);
-  if (kategori) qs.append('kategori', kategori);
-
-  let endpoint;
-  if (jenisChart === 'bar') {
-    const tahun = document.getElementById(`${tipe}_filterTahun`)?.value || '';
-    qs.append('tahun', tahun);
-    endpoint = `<?= base_url('dashboard/bar/') ?>${tipe}`;
-  } else {
-    const tahunAwal = document.getElementById(`${tipe}_tahunAwal`)?.value || '';
-    const tahunAkhir = document.getElementById(`${tipe}_tahunAkhir`)?.value || '';
-    qs.append('tahunAwal', tahunAwal);
-    qs.append('tahunAkhir', tahunAkhir);
-    endpoint = `<?= base_url('dashboard/line/') ?>${tipe}`;
-  }
-
-  const res = await fetch(`${endpoint}?${qs.toString()}`);
-  if (!res.ok) return [];
-  return res.json();
-}
-
-function toggleLoading(tipe, chartType, show = true) {
-  const chartId = `${chartType}chart_${tipe}`;
-  const loader = document.getElementById(`${chartType}Loading_${tipe}`);
-  const canvas = document.getElementById(chartId);
-  const emptyMsg = document.getElementById(`${chartId}_empty`);
-
-  const checkboxes = document.querySelectorAll(`#dropdownKategoriList_${tipe} .kategori-checkbox`);
-  checkboxes.forEach(cb => cb.disabled = show);
-
-  if (!canvas || !loader) return;
-
-  loader.classList.toggle('d-none', !show);
-
-  if (emptyMsg) emptyMsg.style.display = show ? 'none' : '';
-}
-
-function toggleTableLoading(tipe, show = true) {
-  const tableWrapper = document.getElementById(`tableWrapper_${tipe}`);
-  const loader = document.getElementById(`tableLoading_${tipe}`);
-  const table = document.getElementById(`rsTable_${tipe}`);
-
-  if (!loader || !table) return;
-
-  loader.classList.toggle("d-none", !show);
-  table.style.filter = show ? "blur(4px)" : "none";
-  if (tableWrapper) tableWrapper.style.position = "relative";
-}
-
-const verticalLinePlugin = {
-  id: 'verticalLine',
-  beforeDatasetsDraw(chart) {
-    const {
-      ctx,
-      tooltip,
-      scales
-    } = chart;
-    const active = tooltip?._active?. [0];
-    if (!active) return;
-
-    const {
-      x
-    } = active.element;
-    const yAxis = scales.y;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(x, yAxis.top);
-    ctx.lineTo(x, yAxis.bottom);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#e5e7eb';
-    ctx.setLineDash([8, 4]);
-    ctx.stroke();
-    ctx.restore();
-  }
-};
+const warnaJenisRS = {};
+jenisRSList.forEach((jenis, index) => {
+  warnaJenisRS[jenis] = fixedColors[index % fixedColors.length];
+});
 
 Chart.Tooltip.positioners.middleLine = function(elements) {
   if (!elements.length) return false;
@@ -626,67 +346,342 @@ Chart.Tooltip.positioners.middleLine = function(elements) {
   };
 };
 
-function renderBarChart(tipe, data) {
-  const dataset = Array.isArray(data) ?
-    data :
-    Array.isArray(data?.data) ?
-    data.data : [];
+function updateDropdownButtonText(dropdown) {
+  const button = dropdown.querySelector('.custom-select-dropdown');
+  const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+  const checked = Array.from(checkboxes)
+    .filter(c => c.checked && c.value)
+    .map(c => c.value)
+    .filter(v => v !== "Semua");
 
-  const ctxId = `barchart_${tipe}`;
-  const ctx = document.getElementById(ctxId);
-  if (!ctx) return;
+  let buttonText;
 
-  document.getElementById(`${ctxId}_empty`)?.remove();
-  ctx.style.display = "block";
-
-  if (ctx.chartInstance) {
-    ctx.chartInstance.destroy();
-    ctx.chartInstance = null;
+  if (checked.length === 0) {
+    buttonText = button.getAttribute('data-default') || "Pilih";
+  } else if (checked.length === checkboxes.length - 1) {
+    buttonText = "Semua";
+  } else {
+    buttonText = checked.join(', ');
   }
 
-  if (!dataset.length) {
-    showEmptyMessage(ctx, ctxId, "Data tidak tersedia untuk tahun dan wilayah yang dipilih.");
+  button.textContent = buttonText;
+}
+
+function getCheckedValues(selector) {
+  const checkboxes = document.querySelectorAll(`${selector} input[type="checkbox"]:checked`);
+  const values = Array.from(checkboxes)
+    .map(cb => cb.value.trim())
+    .filter(v => v !== "" && v !== "Semua");
+
+  return values.length ? values : null;
+}
+
+async function applyFilter(isInitial = false) {
+  const jenis = getCheckedValues("#dropdownListJenis");
+  const kelas = getCheckedValues("#dropdownListKelas");
+  const penyelenggara = getCheckedValues("#dropdownListPenyelenggara");
+  const provinsi = getCheckedValues("#dropdownListProvinsi");
+  const kabupaten = getCheckedValues("#dropdownListKabupatenKota");
+  const tahun = document.getElementById("filterTahun")?.value || null;
+
+  const filters = {
+    jenis_rs: jenis || [],
+    kelas_rs: kelas || [],
+    penyelenggara_grup: penyelenggara || [],
+    provinsi: provinsi &&
+      provinsi.length !==
+      document.querySelectorAll("#dropdownListProvinsi input[type='checkbox']").length - 1 ?
+      provinsi[0] : null,
+    kabupaten_kota: kabupaten &&
+      kabupaten.length !==
+      document.querySelectorAll("#dropdownListKabupatenKota input[type='checkbox']").length - 1 ?
+      kabupaten[0] : null,
+    tahun: tahun || null,
+  };
+
+  console.log(filters)
+
+  if (
+    !filters.tahun &&
+    !filters.provinsi &&
+    !filters.kabupaten_kota &&
+    (!filters.jenis_rs || filters.jenis_rs.length === 0) &&
+    (!filters.kelas_rs || filters.kelas_rs.length === 0) &&
+    (!filters.penyelenggara_grup || filters.penyelenggara_grup.length === 0)
+  ) {
+    document.querySelectorAll(".chart-wrapper").forEach(w => (w.style.display = "none"));
     return;
   }
 
-  const urutanKelas = ["A", "B", "C", "D", "D PRATAMA", "Belum Ditetapkan"];
-  const sortedData = dataset
-    .filter(d => Number(d.total) > 0)
-    .sort((a, b) => tipe === 'kelas' ?
-      urutanKelas.indexOf(a.kelas_rs) - urutanKelas.indexOf(b.kelas_rs) :
-      b.total - a.total
+  await loadBarChartOnly(filters, isInitial);
+}
+
+async function loadBarChartOnly(filters, isInitial = false) {
+  // 🔹 Atur tampilan awal chart wrapper
+  const chartJenisWrapper = document.getElementById("chartJenisWrapper");
+  const chartKelasWrapper = document.getElementById("chartKelasWrapper");
+  const chartPenyWrapper = document.getElementById("chartPenyelenggaraWrapper");
+
+  // Pastikan wrapper memiliki posisi relatif agar pesan loading bisa ditengah
+  [chartJenisWrapper, chartKelasWrapper, chartPenyWrapper].forEach(w => {
+    if (w) w.style.position = "relative";
+  });
+
+  // Jenis RS selalu tampil
+  chartJenisWrapper.style.display = "block";
+
+  // 🔸 Fungsi bantu untuk tampilkan pesan loading tanpa hapus canvas
+  const showLoading = (wrapper, message) => {
+    let msg = wrapper.querySelector(".loading-msg");
+    if (!msg) {
+      msg = document.createElement("div");
+      msg.className = "loading-msg text-secondary position-absolute";
+      msg.style.top = "50%";
+      msg.style.left = "50%";
+      msg.style.transform = "translate(-50%, -50%)";
+      msg.style.zIndex = "5";
+      msg.textContent = message;
+      wrapper.appendChild(msg);
+    }
+  };
+
+  // 🔸 Fungsi bantu untuk sembunyikan pesan loading
+  const hideLoading = (wrapper) => {
+    const msg = wrapper.querySelector(".loading-msg");
+    if (msg) msg.remove();
+  };
+
+  // Jika user memilih kelas → tampilkan wrapper-nya dulu
+  if (Array.isArray(filters.kelas_rs) && filters.kelas_rs.length > 0) {
+    chartKelasWrapper.style.display = "block";
+    showLoading(chartKelasWrapper, "⏳ Memuat chart kelas...");
+  } else {
+    chartKelasWrapper.style.display = "none";
+  }
+
+  // Jika user memilih penyelenggara → tampilkan wrapper-nya dulu
+  if (Array.isArray(filters.penyelenggara_grup) && filters.penyelenggara_grup.length > 0) {
+    chartPenyWrapper.style.display = "block";
+    showLoading(chartPenyWrapper, "⏳ Memuat chart penyelenggara...");
+  } else {
+    chartPenyWrapper.style.display = "none";
+  }
+
+  // 🔹 Tentukan mana yang perlu di-fetch
+  const shouldLoadKelas = Array.isArray(filters.kelas_rs) && filters.kelas_rs.length > 0;
+  const shouldLoadPeny = Array.isArray(filters.penyelenggara_grup) && filters.penyelenggara_grup.length > 0;
+
+  const params = new URLSearchParams();
+  if (filters.tahun) params.append("tahun", filters.tahun);
+  if (filters.provinsi) params.append("provinsi", filters.provinsi);
+  if (filters.kabupaten_kota) params.append("kabupaten", filters.kabupaten_kota);
+  if (filters.jenis_rs?.length) params.append("jenis_rs", filters.jenis_rs.join(","));
+  if (shouldLoadKelas) params.append("kelas_rs", filters.kelas_rs.join(","));
+  if (shouldLoadPeny) params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
+  const query = params.toString();
+
+  try {
+    // ✅ Jenis chart selalu dimuat
+    const resJenis = await fetch(`/dashboard/bar/jenis_rs?${query}`);
+    const dataJenis = await resJenis.json();
+    renderBarChart("jenis", Array.isArray(dataJenis) ? dataJenis : dataJenis.data || [], filters);
+    hideLoading(chartJenisWrapper);
+
+    // ✅ Hanya load kelas jika ada filter kelas
+    if (shouldLoadKelas) {
+      const resKelas = await fetch(`/dashboard/bar/kelas_rs?${query}&subkolom=jenis_rs`);
+      const dataKelas = await resKelas.json();
+      renderBarChart("kelas", Array.isArray(dataKelas) ? dataKelas : dataKelas.data || [], filters, true);
+      hideLoading(chartKelasWrapper);
+    }
+
+    // ✅ Hanya load penyelenggara jika ada filter penyelenggara
+    if (shouldLoadPeny) {
+      const resPeny = await fetch(`/dashboard/bar/penyelenggara_grup?${query}&subkolom=jenis_rs`);
+      const dataPeny = await resPeny.json();
+      renderBarChart("penyelenggara", Array.isArray(dataPeny) ? dataPeny : dataPeny.data || [], filters, true);
+      hideLoading(chartPenyWrapper);
+    }
+  } catch (error) {
+    console.error("❌ Gagal memuat data chart:", error);
+  }
+}
+
+function renderBarChart(tipe, data, filters = {}, isStackedOverride = false) {
+  let canvasId = '',
+    wrapperId = '';
+
+  switch (tipe) {
+    case 'jenis':
+      canvasId = 'chartJenis';
+      wrapperId = 'chartJenisWrapper';
+      break;
+    case 'kelas':
+      canvasId = 'chartKelas';
+      wrapperId = 'chartKelasWrapper';
+      break;
+    case 'penyelenggara':
+      canvasId = 'chartPenyelenggara';
+      wrapperId = 'chartPenyelenggaraWrapper';
+      break;
+    default:
+      console.error('Tipe chart tidak dikenali:', tipe);
+      return;
+  }
+
+  const wrapper = document.getElementById(wrapperId);
+  const canvas = document.getElementById(canvasId);
+  if (!wrapper || !canvas) return;
+
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    wrapper.style.display = 'none';
+    return;
+  }
+
+  data.sort((a, b) => (b.jumlah || b.count || b.total || 0) - (a.jumlah || a.count || a.total || 0));
+
+  wrapper.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  if (ctx.chartInstance) ctx.chartInstance.destroy();
+
+  const labelKey =
+    tipe === 'jenis' ? 'jenis' :
+    tipe === 'kelas' ? 'kelas_rs' :
+    'penyelenggara_grup';
+
+  const first = data[0] || {};
+  const possibleKeys = Object.keys(first).filter(
+    (k) => ![labelKey, 'jumlah', 'total', 'count', 'nama', 'kategori', 'total_semua'].includes(k)
+  );
+
+  const isStacked =
+    isStackedOverride ||
+    possibleKeys.length > 0 ||
+    ((tipe === 'kelas' || tipe === 'penyelenggara') &&
+      Array.isArray(filters.jenis_rs) &&
+      filters.jenis_rs.length > 1);
+
+  let chartData;
+  if (isStacked) {
+    if (data[0]?.nama && data[0]?.kategori) {
+      const grouped = {};
+      data.forEach((d) => {
+        if (!grouped[d.nama]) grouped[d.nama] = {};
+        grouped[d.nama][d.kategori] = d.total || 0;
+      });
+
+      const labels = Object.keys(grouped);
+      const subKeys = [...new Set(data.map((d) => d.kategori))];
+
+      const totalPerNama = labels.map((nama) => ({
+        nama,
+        total: Object.values(grouped[nama]).reduce((a, b) => a + b, 0),
+      }));
+
+      totalPerNama.sort((a, b) => b.total - a.total);
+      const sortedLabels = totalPerNama.map((item) => item.nama);
+
+      const totalPerKategori = subKeys.map((kategori) => {
+        const total = sortedLabels.reduce(
+          (sum, nama) => sum + (grouped[nama][kategori] || 0),
+          0
+        );
+        return {
+          kategori,
+          total
+        };
+      });
+
+      totalPerKategori.sort((a, b) => b.total - a.total);
+      const sortedSubKeys = totalPerKategori.map((item) => item.kategori);
+
+      chartData = {
+        labels: sortedLabels,
+        datasets: sortedSubKeys.map((sub, i) => ({
+          label: sub,
+          data: sortedLabels.map((l) => grouped[l][sub] || 0),
+          backgroundColor: warnaJenisRS[sub] || fixedColors[i % fixedColors.length],
+        })),
+      };
+    } else {
+      const subKeys = possibleKeys.length ? possibleKeys : (filters.jenis_rs || []);
+
+      const totalPerLabel = data.map((d) => ({
+        label: d[labelKey],
+        total: subKeys.reduce((sum, sub) => sum + (d[sub] || 0), 0),
+      }));
+
+      totalPerLabel.sort((a, b) => b.total - a.total);
+      const sortedLabels = totalPerLabel.map((d) => d.label);
+
+      const totalPerSub = subKeys.map((sub) => ({
+        sub,
+        total: data.reduce((sum, d) => sum + (d[sub] || 0), 0),
+      }));
+      totalPerSub.sort((a, b) => b.total - a.total);
+      const sortedSubKeys = totalPerSub.map((s) => s.sub);
+
+      chartData = {
+        labels: sortedLabels,
+        datasets: sortedSubKeys.map((sub, i) => ({
+          label: sub,
+          data: sortedLabels.map(
+            (l) => (data.find((d) => d[labelKey] === l)?. [sub]) || 0
+          ),
+          backgroundColor: warnaJenisRS[sub] || fixedColors[i % fixedColors.length],
+        })),
+      };
+    }
+  } else {
+    const labels = data.map(
+      (item) =>
+      item.jenis ||
+      item.jenis_rs ||
+      item.kelas_rs ||
+      item.penyelenggara_grup ||
+      item.nama
     );
 
-  if (!sortedData.length) {
-    showEmptyMessage(ctx, ctxId, "Data tidak tersedia untuk wilayah yang dipilih.");
-    return;
+    const values = data.map(
+      (item) => item.jumlah || item.count || item.total || 0
+    );
+
+    chartData = {
+      labels,
+      datasets: [{
+        label: "Jumlah",
+        data: values,
+        borderWidth: 1,
+        backgroundColor: labels.map(
+          (label) => warnaJenisRS[label] || "#999999"
+        ),
+      }, ],
+    };
   }
 
-  const labels = sortedData.map(d =>
-    d.nama || d.jenis_rs || d.kelas_rs || d.nama_kategori || d.label || "Tidak Diketahui"
-  );
-  const values = sortedData.map(d => Number(d.total));
-  updateTotalCount(tipe, sortedData);
+  const barHeight = 30;
+  const topBottomPadding = 80;
+  const dynamicHeight = data.length * barHeight;
+
+  const totalHeight = dynamicHeight + topBottomPadding;
+  canvas.height = dynamicHeight;
+  wrapper.style.height = totalHeight + 'px';
+
+  wrapper.style.display = 'flex';
+  wrapper.style.alignItems = 'center';
+  wrapper.style.justifyContent = 'center';
 
   ctx.chartInstance = new Chart(ctx, {
     type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Jumlah Rumah Sakit',
-        data: values,
-        borderWidth: 1,
-        backgroundColor: fixedColors.slice(0, labels.length)
-      }]
-    },
+    data: chartData,
     options: {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
       layout: {
         padding: {
-          right: 40
-        }
+          right: 50
+        },
       },
       plugins: {
         legend: {
@@ -694,690 +689,272 @@ function renderBarChart(tipe, data) {
         },
         tooltip: {
           mode: 'nearest',
-          intersect: true
+          intersect: true,
         },
         datalabels: {
-          anchor: 'end',
-          align: 'right',
-          offset: 4,
-          color: '#000',
+          anchor: isStacked ? 'center' : 'end',
+          align: isStacked ? 'center' : 'right',
+          color: isStacked ? '#fff' : '#000',
           font: {
             weight: 'bold'
           },
-          formatter: v => Number(v).toLocaleString()
-        }
+          formatter: (v, context) => {
+            if (!v || v <= 0) return '';
+            if (isStacked) {
+              const meta = context.chart.getDatasetMeta(context.datasetIndex);
+              const rect = meta.data[context.dataIndex];
+              if (rect.width < 16) return '';
+            }
+            return Number(v).toLocaleString();
+          },
+        },
       },
       scales: {
         x: {
           display: false,
-          beginAtZero: true
+          beginAtZero: true,
+          stacked: isStacked,
+          grid: {
+            drawBorder: false,
+            drawTicks: false,
+            lineWidth: false,
+          },
+          ticks: {
+            display: false,
+          }
         },
         y: {
+          stacked: isStacked,
           grid: {
+            display: false,
+            drawBorder: false,
+          },
+          ticks: {
+            padding: 10,
+            maxWidth: 100,
+          },
+          afterFit: (axis) => {
+            axis.width = 120;
+          },
+        },
+      },
+    },
+    plugins: [
+      ChartDataLabels,
+      {
+        id: 'stackedTotalLabels',
+        afterDatasetsDraw(chart) {
+          if (!isStacked) return;
+
+          const {
+            ctx,
+            scales
+          } = chart;
+          const xAxis = scales.x;
+          const yAxis = scales.y;
+          ctx.save();
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillStyle = '#000';
+
+          const meta = chart.getDatasetMeta(0);
+          const barThickness = meta?.data?. [0]?.height || 20;
+
+          chart.data.labels.forEach((label, index) => {
+            const datasets = chart.data.datasets;
+            let total = 0;
+            datasets.forEach(ds => {
+              total += ds.data[index] || 0;
+            });
+
+            const x = xAxis.getPixelForValue(total);
+
+            const barElement = meta.data[index];
+            const y = barElement?.y || yAxis.getPixelForTick(index);
+            const centerY = y;
+
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(total.toLocaleString(), x + 10, centerY);
+          });
+
+          ctx.restore();
+        },
+      },
+    ],
+  });
+}
+
+function renderLineChart(tipe, data) {
+
+  ctx.chartInstance = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: data.labels,
+      datasets
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false,
+        axis: "x"
+      },
+      plugins: {
+        legend: {
+          position: "right",
+          labels: {
+            generateLabels: chart => {
+              const base = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+              return base.sort((a, b) => {
+                const da = datasets.find(d => d.label === a.text);
+                const db = datasets.find(d => d.label === b.text);
+                const totalA = da?.data.reduce((s, n) => s + +n, 0) || 0;
+                const totalB = db?.data.reduce((s, n) => s + +n, 0) || 0;
+                return totalB - totalA;
+              });
+            }
+          }
+        },
+        tooltip: {
+          position: "middleLine",
+          mode: "index",
+          intersect: false,
+          backgroundColor: "#ffffff",
+          titleColor: "#1e293b",
+          bodyColor: "#1e293b",
+          borderColor: "#e5e7eb",
+          borderWidth: 1,
+          padding: {
+            top: 8,
+            right: 12,
+            bottom: 8,
+            left: 12
+          },
+          callbacks: {
+            beforeBody(items) {
+              items.sort((a, b) => b.parsed.y - a.parsed.y);
+            },
+            label(ctx) {
+              return `${ctx.dataset.label}: ${Number(ctx.parsed.y).toLocaleString()}`;
+            }
+          }
+        },
+        datalabels: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            drawOnChartArea: true
+          },
+          border: {
+            display: false
+          }
+        },
+        x: {
+          grid: {
+            drawOnChartArea: false
+          },
+          border: {
             display: false
           }
         }
       }
     },
-    plugins: [ChartDataLabels]
+    plugins: [ChartDataLabels, verticalLinePlugin]
   });
 }
 
-function renderLineChart(tipe, data) {
-  const ctx = document.getElementById(`linechart_${tipe}`);
-  if (!ctx) return;
+function initDropdowns() {
+  document.querySelectorAll('.dropdown').forEach(dropdown => {
+    const button = dropdown.querySelector('.custom-select-dropdown');
+    const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+    const menu = dropdown.querySelector('.dropdown-menu');
 
-  document.getElementById(`${ctx.id}_empty`)?.remove();
-
-  const isInvalid = !data ||
-    (data.status && data.status !== "success") ||
-    !Array.isArray(data.labels) ||
-    data.labels.length === 0 ||
-    !Array.isArray(data.datasets) ||
-    data.datasets.length === 0;
-
-  if (isInvalid) {
-    ctx.chartInstance?.destroy();
-    ctx.chartInstance = null;
-    showEmptyMessage(ctx, ctx.id, "Data tidak tersedia untuk rentang tahun ini.");
-    return;
-  }
-
-  ctx.style.display = "block";
-  ctx.parentNode.classList.add("position-relative");
-  ctx.parentNode.style.minHeight = "400px";
-
-  const sortedDatasets =
-    data.datasets.length > 1 ? [...data.datasets].sort((a, b) => {
-      const totalA = a.data.reduce((s, v) => s + (+v || 0), 0);
-      const totalB = b.data.reduce((s, v) => s + (+v || 0), 0);
-      return totalB - totalA;
-    }) :
-    data.datasets;
-
-  const datasets = sortedDatasets.map((ds, i) => ({
-    ...ds,
-    borderColor: fixedColors[i % fixedColors.length],
-    backgroundColor: fixedColors[i % fixedColors.length],
-    borderWidth: 2,
-    tension: 0.3,
-    pointRadius: 4,
-    pointHoverRadius: 6,
-    fill: false,
-    data: ds.data.map(v => +v || 0)
-  }));
-
-  ctx.chartInstance?.destroy();
-  ctx.chartInstance = null;
-
-  try {
-    ctx.chartInstance = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: data.labels,
-        datasets
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          mode: "index",
-          intersect: false,
-          axis: "x"
-        },
-        plugins: {
-          legend: {
-            position: "right",
-            labels: {
-              generateLabels: chart => {
-                const base = Chart.defaults.plugins.legend.labels.generateLabels(chart);
-                return base.sort((a, b) => {
-                  const da = datasets.find(d => d.label === a.text);
-                  const db = datasets.find(d => d.label === b.text);
-                  const totalA = da?.data.reduce((s, n) => s + +n, 0) || 0;
-                  const totalB = db?.data.reduce((s, n) => s + +n, 0) || 0;
-                  return totalB - totalA;
-                });
-              }
-            }
-          },
-          tooltip: {
-            position: "middleLine",
-            mode: "index",
-            intersect: false,
-            backgroundColor: "#ffffff",
-            titleColor: "#1e293b",
-            bodyColor: "#1e293b",
-            borderColor: "#e5e7eb",
-            borderWidth: 1,
-            padding: {
-              top: 8,
-              right: 12,
-              bottom: 8,
-              left: 12
-            },
-            callbacks: {
-              beforeBody(items) {
-                items.sort((a, b) => b.parsed.y - a.parsed.y);
-              },
-              label(ctx) {
-                return `${ctx.dataset.label}: ${Number(ctx.parsed.y).toLocaleString()}`;
-              }
-            }
-          },
-          datalabels: {
-            display: false
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              drawOnChartArea: true
-            },
-            border: {
-              display: false
-            }
-          },
-          x: {
-            grid: {
-              drawOnChartArea: false
-            },
-            border: {
-              display: false
-            }
-          }
-        }
-      },
-      plugins: [ChartDataLabels, verticalLinePlugin]
-    });
-  } catch (error) {
-    console.error(`Gagal membuat chart untuk ${tipe}:`, error);
-  }
-}
-
-function showEmptyMessage(ctx, ctxId, message) {
-  const existing = document.getElementById(`${ctxId}_empty`);
-  if (existing) existing.remove();
-
-  const msg = document.createElement('div');
-  msg.id = `${ctxId}_empty`;
-  msg.className = "text-center text-muted fw-semibold position-absolute top-50 start-50 translate-middle";
-  msg.textContent = message;
-
-  ctx.parentNode.appendChild(msg);
-  ctx.style.display = "none";
-}
-
-function updateTotalCount(tipe, dataset) {
-  const el = document.getElementById(`totalCount_${tipe}`);
-  if (!el) return;
-
-  const total = Array.isArray(dataset) && dataset.length ?
-    dataset.reduce((sum, d) => sum + (+d.total || 0), 0) :
-    0;
-
-  el.textContent = total.toLocaleString();
-}
-
-
-async function updateKabupatenOptions(tipe) {
-  const provSelect = document.getElementById(`${tipe}_filterProvinsi`);
-  const kabSelect = document.getElementById(`${tipe}_filterKabupatenKota`);
-  if (!provSelect || !kabSelect) return;
-
-  kabSelect.innerHTML = '<option value="">Semua</option>';
-  const prov = provSelect.value?.trim();
-  if (!prov) return;
-
-  try {
-    const url = `<?= base_url('dashboard/getKabupatenByProvinsi') ?>?provinsi=${encodeURIComponent(prov)}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error();
-
-    const data = await res.json();
-    if (!Array.isArray(data) || data.length === 0) {
-      kabSelect.innerHTML = '<option value="">Tidak ada data</option>';
-      return;
-    }
-
-    const fragment = document.createDocumentFragment();
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = 'Semua';
-    fragment.appendChild(defaultOption);
-
-    for (const kab of data) {
-      const opt = document.createElement('option');
-      opt.value = kab.kabupaten_kota ?? '';
-      opt.textContent = kab.kabupaten_kota ?? 'Tidak diketahui';
-      fragment.appendChild(opt);
-    }
-
-    kabSelect.innerHTML = '';
-    kabSelect.appendChild(fragment);
-  } catch {
-    kabSelect.innerHTML = '<option value="">Gagal memuat</option>';
-  }
-}
-
-function filterTahunDropdown(tipe) {
-  const tahunAwalEl = document.getElementById(`${tipe}_tahunAwal`);
-  const tahunAkhirEl = document.getElementById(`${tipe}_tahunAkhir`);
-  if (!tahunAwalEl || !tahunAkhirEl) return;
-
-  const tahunAwal = parseInt(tahunAwalEl.value);
-  const tahunAkhir = parseInt(tahunAkhirEl.value);
-  const allYears = Array.from(tahunAwalEl.options, opt => parseInt(opt.value));
-
-  const createOptions = (filterFn) => {
-    const frag = document.createDocumentFragment();
-    allYears.filter(filterFn).forEach(t => {
-      const opt = document.createElement('option');
-      opt.value = t;
-      opt.textContent = t;
-      frag.appendChild(opt);
-    });
-    return frag;
-  };
-
-  tahunAkhirEl.innerHTML = '';
-  tahunAkhirEl.appendChild(createOptions(t => t > tahunAwal));
-  if (!tahunAkhirEl.value || parseInt(tahunAkhirEl.value) <= tahunAwal) {
-    tahunAkhirEl.value = tahunAkhirEl.options[0]?.value || '';
-  }
-
-  tahunAwalEl.innerHTML = '';
-  tahunAwalEl.appendChild(createOptions(t => t < tahunAkhir));
-  if (!tahunAwalEl.value || parseInt(tahunAwalEl.value) >= tahunAkhir) {
-    tahunAwalEl.value = tahunAwalEl.options[tahunAwalEl.options.length - 1]?.value || '';
-  }
-}
-
-async function loadBarChartOnly(tipe) {
-  try {
-    toggleLoading(tipe, 'bar', true);
-    const data = await getData(tipe, 'bar');
-    renderBarChart(tipe, data);
-  } catch (err) {
-    console.error('Gagal memuat bar chart:', err);
-  } finally {
-    toggleLoading(tipe, 'bar', false);
-  }
-}
-
-async function loadLineChartOnly(tipe) {
-  try {
-    toggleLoading(tipe, 'line', true);
-    const data = await getData(tipe, 'line');
-    renderLineChart(tipe, data);
-  } catch (err) {
-    console.error('Gagal memuat line chart:', err);
-  } finally {
-    toggleLoading(tipe, 'line', false);
-  }
-}
-
-async function loadTableOnly(tipe, selectedKategori = [], forceReload = false, limit = 0) {
-  toggleTableLoading(tipe, true);
-
-  const tahun = document.getElementById(`${tipe}_filterTahun`)?.value ?? '';
-  const provinsi = document.getElementById(`${tipe}_filterProvinsi`)?.value ?? '';
-  const kabupaten = document.getElementById(`${tipe}_filterKabupatenKota`)?.value ?? '';
-  const kategoriParam = selectedKategori.length ? selectedKategori.join(',') : '';
-
-  try {
-    const cacheKey = `${provinsi}|${kabupaten}|${kategoriParam}|${tahun}|${limit}`;
-    const tableBody = document.querySelector(`#rsTable_${tipe} tbody`);
-
-    if (!forceReload && loadedData[tipe].has(cacheKey)) {
-      tableBody.innerHTML = loadedData[tipe].get(cacheKey);
-      return;
-    }
-
-    const url =
-      `<?= base_url(
-        'dashboard/getTableData',
-      ) ?>?tipe=${tipe}&provinsi=${encodeURIComponent(provinsi)}&kabupaten=${encodeURIComponent(kabupaten)}&kategori=${encodeURIComponent(kategoriParam)}&tahun=${encodeURIComponent(tahun)}&limit=${limit}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-
-    const dataset = Array.isArray(json.data) ? json.data : [];
-
-    let limited = dataset;
-    let showNotice = false;
-    if (dataset.length > 100) {
-      limited = dataset.slice(0, 100);
-      showNotice = true;
-    }
-
-    loadedData[tipe].set(cacheKey + "_full", dataset);
-
-    const html = limited.map(d => `
-      <tr style="color: #1e293b;">
-        <td>${d.rumah_sakit || '-'}</td>
-        <td>${d.jenis_rs || '-'}</td>
-        <td>${d.kelas_rs || '-'}</td>
-        <td>${d.alamat || '-'}</td>
-        <td>${d.kabupaten_kota || '-'}</td>
-        <td>${d.provinsi || '-'}</td>
-        <td>${d.penyelenggara_grup || '-'}</td>
-        <td>${d.penyelenggara_kategori || '-'}</td>
-      </tr>
-    `).join('');
-
-    let finalHtml = html;
-    if (showNotice) {
-      finalHtml += `
-        <tr>
-          <td colspan="8" class="text-center fw-semibold p-3" style="color: #1e293b;">
-            Data lebih dari 100 baris. Silakan lihat data lengkapnya melalui fitur
-            <span class="text-secondary">Download CSV</span> atau
-            <span class="text-success">Download XLS</span>.
-          </td>
-        </tr>`;
-    }
-
-    tableBody.innerHTML = finalHtml;
-    loadedData[tipe].set(cacheKey, finalHtml);
-
-  } catch (err) {
-    console.error(`Gagal memuat tabel ${tipe}:`, err);
-  } finally {
-    toggleTableLoading(tipe, false);
-  }
-}
-
-const loadedData = {
-  jenis: new Map(),
-  kelas: new Map(),
-  penyelenggara: new Map()
-};
-
-const fetchControllers = {};
-
-async function loadAllData(tipe, selectedKategori = [], forceReloadTable = false, limit = 0) {
-  toggleLoading(tipe, 'bar', true);
-  toggleLoading(tipe, 'line', true);
-
-  try {
-    const [barData, lineData] = await Promise.all([
-      getData(tipe, 'bar', limit),
-      getData(tipe, 'line', limit)
-    ]);
-
-    renderBarChart(tipe, barData);
-    renderLineChart(tipe, lineData);
-    await loadTableOnly(tipe, selectedKategori, forceReloadTable, 0);
-  } catch (err) {
-    console.error('❌ Gagal memuat data:', err);
-  } finally {
-    toggleLoading(tipe, 'bar', false);
-    toggleLoading(tipe, 'line', false);
-  }
-}
-
-function exportTableToCSV(tableId, filename, tipe) {
-  const cacheKey = getCurrentCacheKey(tipe);
-  const fullData = loadedData[tipe]?.get(cacheKey + "_full");
-
-  let csvContent = "";
-
-  if (fullData && fullData.length) {
-    const headers = Object.keys(fullData[0]);
-    csvContent = [
-      headers.join(";"),
-      ...fullData.map(obj =>
-        headers.map(h => {
-          let val = (obj[h] ?? "")
-            .toString()
-            .replace(/"/g, '""')
-            .replace(/\r?\n|\r/g, ' ')
-            .trim();
-          return `"${val}"`;
-        }).join(";")
-      )
-    ].join("\n");
-  } else {
-    const table = document.getElementById(tableId);
-    if (!table) return;
-    const rows = Array.from(table.querySelectorAll("tr"));
-    csvContent = rows.map(row =>
-      Array.from(row.querySelectorAll("th, td"))
-      .map(col =>
-        `"${col.innerText.replace(/"/g, '""').replace(/\r?\n|\r/g, ' ').trim()}"`
-      ).join(";")
-    ).join("\n");
-  }
-
-  const BOM = "\uFEFF";
-  const blob = new Blob([BOM + csvContent], {
-    type: "text/csv;charset=utf-8;"
-  });
-
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
-  link.href = url;
-  link.download = filename.endsWith(".csv") ? filename : filename + ".csv";
-
-  link.type = "application/vnd.ms-excel";
-
-  document.body.appendChild(link);
-  link.click();
-  setTimeout(() => {
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }, 100);
-}
-
-async function exportTableToXls(tipe, tableId) {
-  const params = new URLSearchParams({
-    tipe,
-    tahun: document.getElementById(`${tipe}_filterTahun`)?.value || '',
-    provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
-    kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
-    kategori: getSelectedKategoriParam(tipe),
-  });
-
-  const url = `<?= base_url('dashboard/exportXLS') ?>?${params}`;
-
-  try {
-    const res = await fetch(url, {
-      method: 'GET'
-    });
-
-    if (!res.ok) throw new Error(`Gagal mengambil file XLS: ${res.statusText}`);
-
-    const blob = await res.blob();
-    const downloadUrl = window.URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = `${tableId}_data_full.xlsx`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } catch (err) {
-    alert('Gagal mengekspor data XLS. Periksa koneksi atau log server.');
-  }
-}
-
-function getCurrentCacheKey(tipe) {
-  const prov = document.getElementById(`${tipe}_filterProvinsi`)?.value || '';
-  const kab = document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '';
-  const tahun = document.getElementById(`${tipe}_filterTahun`)?.value || '';
-  const kategori = (window.selectedKategori || []).join(',');
-  return `${prov}|${kab}|${kategori}|${tahun}`;
-}
-
-function setupFilterListeners(tipe) {
-  const el = (id) => document.getElementById(`${tipe}_${id}`);
-  const provSelect = el('filterProvinsi');
-  const kabSelect = el('filterKabupatenKota');
-  const tahunSelect = el('filterTahun');
-  const tahunAwal = el('tahunAwal');
-  const tahunAkhir = el('tahunAkhir');
-
-  const reloadAll = async (updateKab = false) => {
-    if (updateKab) await updateKabupatenOptions(tipe);
-    await loadAllData(tipe, window.selectedKategori || [], true);
-  };
-
-  provSelect?.addEventListener('change', () => reloadAll(true));
-  kabSelect?.addEventListener('change', () => reloadAll());
-  tahunSelect?.addEventListener('change', () => reloadAll());
-  tahunAwal?.addEventListener('change', () => reloadAll());
-  tahunAkhir?.addEventListener('change', () => reloadAll());
-}
-
-async function applyAllFilters() {
-  for (const tipe of ['jenis', 'kelas', 'penyelenggara']) {
-    ensureAccordionVisibleThenRender(tipe, true);
-  }
-}
-
-function resetTableMessage(tipe) {
-  const tableBody = document.querySelector(`#rsTable_${tipe} tbody`);
-  if (tableBody) {
-    tableBody.innerHTML = `
-      <tr><td colspan="8" class="text-center text-muted py-4">
-        Filter belum dipilih atau data dapat dilihat di halaman Data RS
-      </td></tr>`;
-  }
-  loadedData[tipe] = null;
-}
-
-function setupAccordionListener() {
-  ['jenis', 'kelas', 'penyelenggara'].forEach(tipe => {
-    const collapseEl = document.getElementById(`collapse_${tipe}`);
-    if (!collapseEl) return;
-
-    collapseEl.removeEventListener('shown.bs.collapse', collapseEl._listenerRef);
-    collapseEl._listenerRef = async () => {
-      await loadTableOnly(tipe, window.selectedKategori || [], false);
-    };
-    collapseEl.addEventListener('shown.bs.collapse', collapseEl._listenerRef);
-  });
-}
-
-async function loadKategoriList(tipe) {
-  const dropdownList = document.getElementById(`dropdownKategoriList_${tipe}`);
-  if (!dropdownList) return;
-
-  dropdownList.innerHTML = '<li class="text-muted small text-center">Memuat...</li>';
-
-  try {
-    const res = await fetch(`<?= base_url('dashboard/getDropdownList/') ?>${tipe}`);
-    if (!res.ok) throw new Error('Network error');
-    const data = await res.json();
-
-    if (!Array.isArray(data) || data.length === 0) {
-      dropdownList.innerHTML = '<li class="text-muted small text-center">Tidak ada data</li>';
-      return;
-    }
-
-    const itemsHTML = data.map(item => {
-      const safeValue = (item.nama ?? '').toString().trim();
-      const inputId = `chk_${tipe}_${safeValue.replace(/\s+/g, '_')}`;
-      return `
-        <li>
-          <div class="form-check">
-            <input class="form-check-input kategori-checkbox" type="checkbox" value="${safeValue}" id="${inputId}">
-            <label class="form-check-label" for="${inputId}">${safeValue}</label>
-          </div>
-        </li>`;
-    }).join('');
-
-    dropdownList.innerHTML = itemsHTML;
-
-  } catch (err) {
-    console.error('Gagal memuat kategori:', err);
-    dropdownList.innerHTML = '<li class="text-danger small text-center">Gagal memuat data</li>';
-  }
-}
-
-let isReloading = false;
-let isInitialLoad = true;
-
-document.addEventListener('change', function(e) {
-  if (!e.target.classList.contains('kategori-checkbox')) return;
-
-  const list = e.target.closest(`[id^="dropdownKategoriList_"]`);
-  if (!list) return;
-
-  const tipe = list.id.replace('dropdownKategoriList_', '');
-  const tombol = document.getElementById(`dropdownKategori_${tipe}`);
-  if (!tombol) return;
-
-  const selected = Array.from(list.querySelectorAll('.kategori-checkbox:checked'))
-    .map(cb => cb.value);
-
-  tombol.textContent =
-    selected.length === 0 ? 'Pilih Kategori' : selected.join(', ');
-
-  window.selectedKategori = selected;
-
-  if (isReloading) return;
-  isReloading = true;
-
-  toggleLoading(tipe, 'bar', true);
-  toggleLoading(tipe, 'line', true);
-
-  requestAnimationFrame(async () => {
-    await loadAllData(tipe, selected, true);
-    isReloading = false;
-  });
-});
-
-document.addEventListener("click", async function(e) {
-  if (e.target.closest(".export-xls")) {
-    const btn = e.target.closest(".export-xls");
-    const tableId = btn.getAttribute("data-table");
-    const tipe = btn.getAttribute("data-tipe");
-
-    await exportTableToXls(tipe, tableId);
-  }
-
-  if (e.target.closest(".export-csv")) {
-    const btn = e.target.closest(".export-csv");
-    const tipe = btn.getAttribute("data-tipe");
-
-    const params = new URLSearchParams({
-      tipe,
-      tahun: document.getElementById(`${tipe}_filterTahun`)?.value || '',
-      provinsi: document.getElementById(`${tipe}_filterProvinsi`)?.value || '',
-      kabupaten: document.getElementById(`${tipe}_filterKabupatenKota`)?.value || '',
-      kategori: getSelectedKategoriParam(tipe),
-    });
-
-    const url = `<?= base_url('dashboard/exportCSV') ?>?${params}`;
-
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('Gagal mengambil data CSV');
-
-      const blob = await res.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = `data_rs_full_${tipe}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (err) {
-      console.error("❌ Gagal ekspor CSV:", err);
-      alert("Gagal mengekspor data CSV. Periksa koneksi atau log server.");
-    }
-  }
-});
-
-document.addEventListener('DOMContentLoaded', async () => {
-  document.querySelectorAll('.dropdown-menu').forEach(menu => {
     menu.addEventListener('click', e => e.stopPropagation());
+    button.setAttribute('data-default', button.textContent);
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        if (!cb.value) {
+          const checked = cb.checked;
+          checkboxes.forEach(c => c.checked = checked);
+        }
+        updateDropdownButtonText(dropdown);
+      });
+    });
+
+    const selectAll = checkboxes[0];
+    if (selectAll) {
+      selectAll.addEventListener('change', () => {
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        updateDropdownButtonText(dropdown);
+      });
+      checkboxes.forEach(cb => {
+        if (cb === selectAll) return;
+        cb.addEventListener('change', () => {
+          selectAll.checked = Array.from(checkboxes).slice(1).every(c => c.checked);
+          updateDropdownButtonText(dropdown);
+        });
+      });
+    }
   });
+}
 
-  ['jenis', 'kelas', 'penyelenggara'].forEach(tipe => {
-    toggleLoading(tipe, 'bar', true);
-    toggleLoading(tipe, 'line', true);
+document.querySelectorAll('.dropdown').forEach(dropdown => {
+  const button = dropdown.querySelector('.custom-select-dropdown');
+  const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+  const menu = dropdown.querySelector('.dropdown-menu');
+
+  menu.addEventListener('click', e => e.stopPropagation());
+
+  button.setAttribute('data-default', button.textContent);
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      if (!cb.value) {
+        const isChecked = cb.checked;
+        checkboxes.forEach(c => c.checked = isChecked);
+      }
+
+      const checked = Array.from(checkboxes)
+        .filter(c => c.checked && c.value)
+        .map(c => c.value);
+
+      let buttonText;
+      if (checked.length === 0 || checked.length === checkboxes.length - 1) {
+        buttonText = "Semua";
+      } else {
+        buttonText = checked.join(', ');
+      }
+
+      if (!checked.length && !checkboxes[0].checked) {
+        buttonText = button.getAttribute('data-default');
+      }
+
+      button.textContent = buttonText;
+    });
   });
-
-  await Promise.all([
-    loadKategoriList('jenis'),
-    loadKategoriList('kelas'),
-    loadKategoriList('penyelenggara'),
-  ]);
-
-  ['jenis', 'kelas', 'penyelenggara'].forEach(setupFilterListeners);
-  setupAccordionListener();
-
-  await Promise.all([
-    loadAllData('jenis', []),
-    loadAllData('kelas', []),
-    loadAllData('penyelenggara', [])
-  ]);
-
-  isInitialLoad = false;
 });
 
-document.addEventListener('shown.bs.tab', async event => {
-  const btn = event.target;
-  if (!btn.matches('button[data-bs-toggle="tab"]')) return;
+document.addEventListener("DOMContentLoaded", () => {
+  initDropdowns();
 
-  const target = btn.dataset.bsTarget?.slice(1);
-  if (!target) return;
+  const defaults = ["#dropdownListJenis", "#dropdownListProvinsi", "#dropdownListKabupatenKota"];
+  defaults.forEach(id => {
+    const menu = document.querySelector(id);
+    if (!menu) return;
+    const checkboxes = menu.querySelectorAll("input[type='checkbox']");
+    checkboxes.forEach(cb => (cb.checked = true));
+    const dropdown = menu.closest(".dropdown");
+    updateDropdownButtonText(dropdown);
+  });
 
-  if (isReloading) return;
-  isReloading = true;
+  applyFilter(true);
 
-  await loadAllData(target, window.selectedKategori || [], true);
-
-  const barChartCanvas = document.getElementById(`barchart_${target}`);
-  const lineChartCanvas = document.getElementById(`linechart_${target}`);
-  if (barChartCanvas?.chartInstance) barChartCanvas.chartInstance.resize();
-  if (lineChartCanvas?.chartInstance) lineChartCanvas.chartInstance.resize();
-
-  isReloading = false;
+  document.getElementById("applyFilter")?.addEventListener("click", () => applyFilter(false));
 });
 </script>

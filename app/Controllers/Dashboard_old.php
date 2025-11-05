@@ -20,15 +20,10 @@ class Dashboard extends BaseController
 
   public function index()
   {
-    $this->cache->clean();
-
     $cacheKeys = [
       'listProvinsi' => fn() => $this->dashboardModel->getListProvinsi(),
       'listKabupatenKota' => fn() => $this->dashboardModel->getListKabupatenKota(),
       'listTahun' => fn() => $this->dashboardModel->getListTahun(),
-      'listJenisRS' => fn() => $this->dashboardModel->getListJenisRS(),
-      'listKelasRS' => fn() => $this->dashboardModel->getListKelasRS(),
-      'listPenyelenggaraRS' => fn() => $this->dashboardModel->getListPenyelenggaraRS(),
     ];
 
     $dataCache = [];
@@ -46,9 +41,6 @@ class Dashboard extends BaseController
         'listProvinsi' => $dataCache['listProvinsi'],
         'listKabupatenKota' => $dataCache['listKabupatenKota'],
         'listTahun' => $dataCache['listTahun'],
-        'listJenisRS' => $dataCache['listJenisRS'],
-        'listKelasRS' => $dataCache['listKelasRS'],
-        'listPenyelenggaraRS' => $dataCache['listPenyelenggaraRS'],
         'selectedProvinsi' => '',
         'selectedKabupatenKota' => '',
         'selectedTahun' => $maxTahun,
@@ -58,54 +50,40 @@ class Dashboard extends BaseController
       view('templates/footer');
   }
 
-  public function getBarData($kolom = null)
+  public function getBarData($tipe)
   {
+    $tahun = trim($this->request->getGet('tahun') ?? '');
+    $provinsi = trim($this->request->getGet('provinsi') ?? '');
+    $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
+    $kategori = trim($this->request->getGet('kategori') ?? '');
+
+    $kolom = $this->getKolomByTipe($tipe);
     if (!$kolom) {
-      return $this->response->setJSON(['error' => 'Kolom harus diisi']);
+      return $this->response->setStatusCode(400)->setJSON(['error' => 'Tipe tidak valid']);
     }
 
-    $subkolom = $this->request->getGet('subkolom') ?: null;
-
-    $filters = [
-      'tahun' => $this->request->getGet('tahun') ?: null,
-      'provinsi' => $this->request->getGet('provinsi') ?: null,
-      'kabupaten_kota' => $this->request->getGet('kabupaten') ?: null,
-      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
-      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
-      // 🔧 perbaikan di sini:
-      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
-      'penyelenggara_kategori' => $this->parseList($this->request->getGet('kategori_rs')),
-    ];
-
-    $payload = [
-      'kolom' => $kolom,
-      'subkolom' => $subkolom,
-      'filters' => $filters,
-    ];
-
-    log_message('debug', '📊 [Dashboard::getBarData] Payload: ' . json_encode($payload));
-
-    $data = $this->dashboardModel->getBarData($kolom, $filters, $subkolom);
-
-    if ($this->request->getGet('debug') === '1') {
-      return $this->response->setJSON([
-        'payload_dikirim' => $payload,
-        'hasil_sql' => $data,
-      ]);
+    if ($tahun === '') {
+      $listTahun = $this->cache->get('listTahun') ?? $this->dashboardModel->getListTahun();
+      $tahun = !empty($listTahun) ? max(array_column($listTahun, 'tahun')) : date('Y');
+      $this->cache->save('listTahun', $listTahun, 3600);
     }
 
-    return $this->response->setJSON($data);
-  }
+    $data = $this->dashboardModel->getBarData($kolom, $tahun, $provinsi, $kabupaten);
 
-  private function parseList($param)
-  {
-    if (empty($param)) {
-      return null;
+    if (!empty($kategori)) {
+      $kategoriList = array_map('strtolower', array_map('trim', explode(',', $kategori)));
+      $data = array_values(
+        array_filter($data, fn($row) => in_array(strtolower(trim($row['nama'] ?? '')), $kategoriList, true)),
+      );
     }
-    if (is_array($param)) {
-      return $param;
-    }
-    return array_map('trim', explode(',', $param));
+
+    $total_semua = array_sum(array_column($data, 'total'));
+
+    return $this->response->setJSON([
+      'status' => 'success',
+      'total_semua' => $total_semua,
+      'data' => $data,
+    ]);
   }
 
   public function getLineData($tipe)
@@ -349,7 +327,6 @@ class Dashboard extends BaseController
       }
 
       $elapsed = round(microtime(true) - $startTime, 3);
-      log_message('debug', "⏳ Export XLS untuk tipe '{$tipe}' selesai disiapkan dalam {$elapsed} detik.");
 
       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -360,11 +337,9 @@ class Dashboard extends BaseController
       $writer->save('php://output');
 
       $totalTime = round(microtime(true) - $startTime, 3);
-      log_message('debug', "✅ File XLS '{$filename}' dikirim ke browser dalam total {$totalTime} detik.");
 
       exit();
     } catch (\Throwable $e) {
-      log_message('error', '❌ Export XLS gagal: ' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Gagal ekspor XLS']);
     }
   }
