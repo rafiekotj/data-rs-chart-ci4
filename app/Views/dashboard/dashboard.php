@@ -376,6 +376,66 @@ function getCheckedValues(selector) {
   return values.length ? values : null;
 }
 
+async function updateKabupatenDropdown(selectedProvinsi) {
+  const dropdownList = document.getElementById("dropdownListKabupatenKota");
+
+  dropdownList.innerHTML = `
+    <li class="text-center py-3">
+      <div class="spinner-border text-primary spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="small text-muted mt-2">Memuat data kabupaten...</div>
+    </li>`;
+
+  try {
+    if (!selectedProvinsi || selectedProvinsi.length === 0) {
+      dropdownList.innerHTML = `
+        <li><label class="dropdown-item text-muted">Pilih provinsi terlebih dahulu</label></li>`;
+      return;
+    }
+
+    const encodedProv = encodeURIComponent(selectedProvinsi.join(","));
+    const res = await fetch(`/dashboard/getKabupatenByProvinsi?provinsi=${encodedProv}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = await res.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      dropdownList.innerHTML = `
+        <li><label class="dropdown-item text-muted">Tidak ada data kabupaten</label></li>`;
+      return;
+    }
+
+    renderKabupatenList(data);
+  } catch (err) {
+    console.error("❌ Gagal memuat kabupaten:", err);
+    dropdownList.innerHTML = `
+      <li><label class="dropdown-item text-danger">Gagal memuat data</label></li>`;
+  }
+
+  function renderKabupatenList(data) {
+    let html = `
+      <li>
+        <label class="dropdown-item d-flex align-items-center">
+          <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="">
+          Semua
+        </label>
+      </li>`;
+
+    data.forEach(item => {
+      html += `
+        <li>
+          <label class="dropdown-item d-flex align-items-center">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="${item.kabupaten_kota}">
+            ${item.kabupaten_kota} <small class="text-muted ms-1">(${item.provinsi})</small>
+          </label>
+        </li>`;
+    });
+
+    dropdownList.innerHTML = html;
+  }
+}
+
 async function applyFilter(isInitial = false) {
   const jenis = getCheckedValues("#dropdownListJenis");
   const kelas = getCheckedValues("#dropdownListKelas");
@@ -417,59 +477,64 @@ async function applyFilter(isInitial = false) {
 }
 
 async function loadBarChartOnly(filters, isInitial = false) {
-  // 🔹 Atur tampilan awal chart wrapper
   const chartJenisWrapper = document.getElementById("chartJenisWrapper");
   const chartKelasWrapper = document.getElementById("chartKelasWrapper");
   const chartPenyWrapper = document.getElementById("chartPenyelenggaraWrapper");
 
-  // Pastikan wrapper memiliki posisi relatif agar pesan loading bisa ditengah
   [chartJenisWrapper, chartKelasWrapper, chartPenyWrapper].forEach(w => {
     if (w) w.style.position = "relative";
   });
 
-  // Jenis RS selalu tampil
   chartJenisWrapper.style.display = "block";
 
-  // 🔸 Fungsi bantu untuk tampilkan pesan loading tanpa hapus canvas
-  const showLoading = (wrapper, message) => {
-    let msg = wrapper.querySelector(".loading-msg");
-    if (!msg) {
-      msg = document.createElement("div");
-      msg.className = "loading-msg text-secondary position-absolute";
-      msg.style.top = "50%";
-      msg.style.left = "50%";
-      msg.style.transform = "translate(-50%, -50%)";
-      msg.style.zIndex = "5";
-      msg.textContent = message;
-      wrapper.appendChild(msg);
+  const showLoading = (wrapper) => {
+    if (!wrapper) return;
+
+    let overlay = wrapper.querySelector(".loading-overlay");
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.className = "loading-overlay position-absolute w-100 h-100 top-0 start-0";
+      overlay.style.backdropFilter = "blur(4px)";
+      overlay.style.backgroundColor = "rgba(255, 255, 255, 0.4)";
+      overlay.style.zIndex = "5";
+      overlay.style.borderRadius = "inherit";
+      overlay.style.pointerEvents = "none";
+      wrapper.appendChild(overlay);
+    }
+
+    let spinner = wrapper.querySelector(".loading-spinner");
+    if (!spinner) {
+      spinner = document.createElement("div");
+      spinner.className = "loading-spinner position-absolute d-flex align-items-center justify-content-center";
+      spinner.style.top = "50%";
+      spinner.style.left = "50%";
+      spinner.style.transform = "translate(-50%, -50%)";
+      spinner.style.zIndex = "10";
+      spinner.innerHTML = `
+        <div class="spinner-border text-secondary" role="status" style="width: 2.5rem; height: 2.5rem;">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      `;
+      wrapper.appendChild(spinner);
     }
   };
 
-  // 🔸 Fungsi bantu untuk sembunyikan pesan loading
   const hideLoading = (wrapper) => {
-    const msg = wrapper.querySelector(".loading-msg");
-    if (msg) msg.remove();
+    if (!wrapper) return;
+    const overlay = wrapper.querySelector(".loading-overlay");
+    const spinner = wrapper.querySelector(".loading-spinner");
+    if (overlay) overlay.remove();
+    if (spinner) spinner.remove();
   };
 
-  // Jika user memilih kelas → tampilkan wrapper-nya dulu
-  if (Array.isArray(filters.kelas_rs) && filters.kelas_rs.length > 0) {
-    chartKelasWrapper.style.display = "block";
-    showLoading(chartKelasWrapper, "⏳ Memuat chart kelas...");
-  } else {
-    chartKelasWrapper.style.display = "none";
-  }
-
-  // Jika user memilih penyelenggara → tampilkan wrapper-nya dulu
-  if (Array.isArray(filters.penyelenggara_grup) && filters.penyelenggara_grup.length > 0) {
-    chartPenyWrapper.style.display = "block";
-    showLoading(chartPenyWrapper, "⏳ Memuat chart penyelenggara...");
-  } else {
-    chartPenyWrapper.style.display = "none";
-  }
-
-  // 🔹 Tentukan mana yang perlu di-fetch
   const shouldLoadKelas = Array.isArray(filters.kelas_rs) && filters.kelas_rs.length > 0;
   const shouldLoadPeny = Array.isArray(filters.penyelenggara_grup) && filters.penyelenggara_grup.length > 0;
+
+  chartKelasWrapper.style.display = shouldLoadKelas ? "block" : "none";
+  chartPenyWrapper.style.display = shouldLoadPeny ? "block" : "none";
+
+  if (shouldLoadKelas) showLoading(chartKelasWrapper);
+  if (shouldLoadPeny) showLoading(chartPenyWrapper);
 
   const params = new URLSearchParams();
   if (filters.tahun) params.append("tahun", filters.tahun);
@@ -481,29 +546,34 @@ async function loadBarChartOnly(filters, isInitial = false) {
   const query = params.toString();
 
   try {
-    // ✅ Jenis chart selalu dimuat
-    const resJenis = await fetch(`/dashboard/bar/jenis_rs?${query}`);
-    const dataJenis = await resJenis.json();
+    showLoading(chartJenisWrapper);
+
+    const promises = [
+      fetch(`/dashboard/bar/jenis_rs?${query}`).then(r => r.json())
+    ];
+    if (shouldLoadKelas)
+      promises.push(fetch(`/dashboard/bar/kelas_rs?${query}&subkolom=jenis_rs`).then(r => r.json()));
+    if (shouldLoadPeny)
+      promises.push(fetch(`/dashboard/bar/penyelenggara_grup?${query}&subkolom=jenis_rs`).then(r => r.json()));
+
+    const [dataJenis, dataKelas, dataPeny] = await Promise.all(promises);
+
     renderBarChart("jenis", Array.isArray(dataJenis) ? dataJenis : dataJenis.data || [], filters);
     hideLoading(chartJenisWrapper);
 
-    // ✅ Hanya load kelas jika ada filter kelas
     if (shouldLoadKelas) {
-      const resKelas = await fetch(`/dashboard/bar/kelas_rs?${query}&subkolom=jenis_rs`);
-      const dataKelas = await resKelas.json();
       renderBarChart("kelas", Array.isArray(dataKelas) ? dataKelas : dataKelas.data || [], filters, true);
       hideLoading(chartKelasWrapper);
     }
 
-    // ✅ Hanya load penyelenggara jika ada filter penyelenggara
     if (shouldLoadPeny) {
-      const resPeny = await fetch(`/dashboard/bar/penyelenggara_grup?${query}&subkolom=jenis_rs`);
-      const dataPeny = await resPeny.json();
       renderBarChart("penyelenggara", Array.isArray(dataPeny) ? dataPeny : dataPeny.data || [], filters, true);
       hideLoading(chartPenyWrapper);
     }
+
   } catch (error) {
     console.error("❌ Gagal memuat data chart:", error);
+    [chartJenisWrapper, chartKelasWrapper, chartPenyWrapper].forEach(hideLoading);
   }
 }
 
@@ -904,6 +974,13 @@ function initDropdowns() {
   });
 }
 
+document.querySelectorAll("#dropdownListProvinsi input[type='checkbox']").forEach(cb => {
+  cb.addEventListener("change", async () => {
+    const selectedProvinsi = getCheckedValues("#dropdownListProvinsi");
+    await updateKabupatenDropdown(selectedProvinsi);
+  });
+});
+
 document.querySelectorAll('.dropdown').forEach(dropdown => {
   const button = dropdown.querySelector('.custom-select-dropdown');
   const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
@@ -940,21 +1017,31 @@ document.querySelectorAll('.dropdown').forEach(dropdown => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  initDropdowns();
+document.addEventListener("DOMContentLoaded", async () => {
+  await initDropdowns();
 
   const defaults = ["#dropdownListJenis", "#dropdownListProvinsi", "#dropdownListKabupatenKota"];
   defaults.forEach(id => {
     const menu = document.querySelector(id);
     if (!menu) return;
+
     const checkboxes = menu.querySelectorAll("input[type='checkbox']");
     checkboxes.forEach(cb => (cb.checked = true));
+
     const dropdown = menu.closest(".dropdown");
-    updateDropdownButtonText(dropdown);
+    if (dropdown) updateDropdownButtonText(dropdown);
+  });
+
+  ["#dropdownListProvinsi", "#dropdownListKabupatenKota"].forEach(selector => {
+    const checkboxes = document.querySelectorAll(`${selector} input[type="checkbox"]`);
+    checkboxes.forEach(cb => (cb.checked = false));
   });
 
   applyFilter(true);
 
-  document.getElementById("applyFilter")?.addEventListener("click", () => applyFilter(false));
+  const applyBtn = document.getElementById("applyFilter");
+  if (applyBtn) {
+    applyBtn.addEventListener("click", () => applyFilter(false));
+  }
 });
 </script>

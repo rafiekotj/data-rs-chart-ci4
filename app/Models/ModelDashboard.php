@@ -117,9 +117,21 @@ class ModelDashboard extends Model
 
   public function getListKabupatenKota(): array
   {
+    $cache = cache();
+    $cacheKey = 'kabupaten_semua_provinsi';
+
+    $cached = $cache->get($cacheKey);
+    if (is_array($cached)) {
+      return $cached;
+    }
+
     $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => 'semua']);
-    return $this->mapUnique($data, 'kabupaten_kota');
+    $mapped = $this->mapUnique($data, 'kabupaten_kota');
+
+    $cache->save($cacheKey, $mapped, 604800); // cache 7 hari
+    return $mapped;
   }
+
   public function getListTahun(): array
   {
     $data = $this->callRPC('get_unique_tahun');
@@ -148,8 +160,27 @@ class ModelDashboard extends Model
 
   public function getKabupatenByProvinsi(string $provinsi): array
   {
+    log_message('debug', '🟩 Query kabupaten untuk provinsi: ' . $provinsi);
+
+    // Gunakan cache lokal model, bukan cuma di callRPC
+    $cache = cache();
+    $cacheKey = 'kabupaten_by_provinsi_' . md5($provinsi);
+
+    // 🔹 Cek cache lebih dulu
+    $cached = $cache->get($cacheKey);
+    if (is_array($cached)) {
+      log_message('debug', "📦 Cache hit untuk provinsi: {$provinsi}");
+      return $cached;
+    }
+
+    // 🔹 Kalau belum ada di cache → ambil dari Supabase
     $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => $provinsi]);
-    return $this->mapUnique($data, 'kabupaten_kota');
+    $mapped = $this->mapUnique($data, 'kabupaten_kota');
+
+    // 🔹 Simpan cache selama 7 hari (karena jarang berubah)
+    $cache->save($cacheKey, $mapped, 604800);
+
+    return $mapped;
   }
 
   public function getBarData(string $kolom, array $filters = [], ?string $subkolom = null): array

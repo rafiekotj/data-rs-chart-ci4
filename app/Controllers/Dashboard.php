@@ -184,31 +184,52 @@ class Dashboard extends BaseController
 
   public function getKabupatenByProvinsi()
   {
-    $provinsi = trim($this->request->getGet('provinsi') ?? '');
-    $kabupaten =
-      $provinsi === '' || strtolower($provinsi) === 'semua'
-        ? $this->dashboardModel->getListKabupatenKota()
-        : $this->dashboardModel->getKabupatenByProvinsi($provinsi);
+    helper('text'); // optional, untuk string clean
+    $provinsiParam = trim($this->request->getGet('provinsi') ?? '');
+    $kabupaten = [];
 
-    return $this->response->setJSON($kabupaten ?: []);
-  }
+    try {
+      if ($provinsiParam === '' || strtolower($provinsiParam) === 'semua') {
+        // Ambil semua kabupaten langsung dari model
+        $kabupaten = $this->dashboardModel->getListKabupatenKota();
+      } else {
+        $provinsiList = array_map('trim', explode(',', $provinsiParam));
 
-  public function getDropdownList(string $tipe)
-  {
-    $cacheKey = "dropdown_{$tipe}";
-    $list = $this->cache->get($cacheKey);
+        foreach ($provinsiList as $prov) {
+          try {
+            $result = $this->dashboardModel->getKabupatenByProvinsi($prov);
 
-    if (!is_array($list) || empty($list)) {
-      $list = match ($tipe) {
-        'jenis' => $this->dashboardModel->getListJenisRS(),
-        'kelas' => $this->dashboardModel->getListKelasRS(),
-        'penyelenggara' => $this->dashboardModel->getListPenyelenggaraRS(),
-        default => [],
-      };
-      $this->cache->save($cacheKey, $list, 3600);
+            if (!is_array($result)) {
+              log_message('error', "⚠️ getKabupatenByProvinsi('$prov') tidak mengembalikan array");
+              continue;
+            }
+
+            // Urutkan alfabetis per provinsi
+            usort($result, fn($a, $b) => strcmp($a['kabupaten_kota'] ?? '', $b['kabupaten_kota'] ?? ''));
+
+            foreach ($result as $row) {
+              if (!empty($row['kabupaten_kota'])) {
+                $kabupaten[] = [
+                  'provinsi' => $prov,
+                  'kabupaten_kota' => trim($row['kabupaten_kota']),
+                ];
+              }
+            }
+          } catch (\Throwable $innerErr) {
+            log_message('error', "❌ Error getKabupaten($prov): " . $innerErr->getMessage());
+          }
+        }
+      }
+
+      // Pastikan selalu JSON valid
+      return $this->response->setJSON($kabupaten ?: []);
+    } catch (\Throwable $e) {
+      log_message('error', '❌ getKabupatenByProvinsi global error: ' . $e->getMessage());
+      return $this->response->setJSON([
+        'error' => true,
+        'message' => $e->getMessage(),
+      ]);
     }
-
-    return $this->response->setJSON($list);
   }
 
   public function getTableData()

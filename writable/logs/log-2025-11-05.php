@@ -235,3 +235,260 @@ DEBUG - 2025-11-05 04:56:40 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"
 DEBUG - 2025-11-05 04:56:52 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
 DEBUG - 2025-11-05 04:56:55 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
 DEBUG - 2025-11-05 04:57:47 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:08:10 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:08:35 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:08:39 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:08:53 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:08:57 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:11:49 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:11:57 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:12:00 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:12:07 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:12:10 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:13:59 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:14:10 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:14:13 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:18:43 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:18:52 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:18:55 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:19:12 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:19:12 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:19:22 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:19:25 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:19:38 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:19:41 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:22:13 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":"Aceh","kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:22:16 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Aceh","kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:22:31 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":"Aceh","kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:22:34 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Aceh","kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 06:56:08 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 07:03:01 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 07:08:43 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 07:48:04 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 07:55:34 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:05:50 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:08:49 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+CRITICAL - 2025-11-05 08:14:21 --> ErrorException: Undefined variable $kabupaten
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Controllers\Dashboard.php on line 212.
+ 1 APPPATH\Controllers\Dashboard.php(212): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $kabupaten', 'C:\\xampp\\htdocs\\rschartsapi\\app\\Controllers\\Dashboard.php', 212)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->getKabupatenByProvinsi()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\rschartsapi\\public\\index.php')
+DEBUG - 2025-11-05 08:18:44 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:22:49 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:25:37 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+CRITICAL - 2025-11-05 08:27:11 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 56.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-05 08:29:31 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+CRITICAL - 2025-11-05 08:30:39 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 56.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-05 08:32:08 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+CRITICAL - 2025-11-05 08:33:13 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 56.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-05 08:36:29 --> 🟩 Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-05 08:36:29 --> 🟩 Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-05 08:36:53 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:37:00 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:37:02 --> 🟩 Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-05 08:37:04 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:37:06 --> 🟩 Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-05 08:37:08 --> 🟩 Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-05 08:37:09 --> 🟩 Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-05 08:37:11 --> 🟩 Query kabupaten untuk provinsi: Gorontalo
+DEBUG - 2025-11-05 08:37:13 --> 🟩 Query kabupaten untuk provinsi: Jambi
+DEBUG - 2025-11-05 08:37:15 --> 🟩 Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-05 08:37:17 --> 🟩 Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-05 08:37:20 --> 🟩 Query kabupaten untuk provinsi: Jawa Timur
+DEBUG - 2025-11-05 08:37:22 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Barat
+DEBUG - 2025-11-05 08:37:24 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Selatan
+DEBUG - 2025-11-05 08:37:26 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Tengah
+DEBUG - 2025-11-05 08:37:28 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Timur
+DEBUG - 2025-11-05 08:37:30 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Utara
+DEBUG - 2025-11-05 08:37:32 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Bangka Belitung
+DEBUG - 2025-11-05 08:37:35 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Riau
+DEBUG - 2025-11-05 08:37:37 --> 🟩 Query kabupaten untuk provinsi: Lampung
+DEBUG - 2025-11-05 08:37:39 --> 🟩 Query kabupaten untuk provinsi: Maluku
+DEBUG - 2025-11-05 08:37:42 --> 🟩 Query kabupaten untuk provinsi: Maluku Utara
+DEBUG - 2025-11-05 08:37:46 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Barat
+DEBUG - 2025-11-05 08:37:47 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Timur
+DEBUG - 2025-11-05 08:37:50 --> 🟩 Query kabupaten untuk provinsi: Papua
+DEBUG - 2025-11-05 08:37:53 --> 🟩 Query kabupaten untuk provinsi: Papua Barat
+DEBUG - 2025-11-05 08:37:56 --> 🟩 Query kabupaten untuk provinsi: Papua Barat Daya
+DEBUG - 2025-11-05 08:37:58 --> 🟩 Query kabupaten untuk provinsi: Papua Pegunungan
+CRITICAL - 2025-11-05 08:38:00 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 56.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-05 08:38:00 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:38:01 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:38:01 --> 🟩 Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-05 08:38:02 --> 🟩 Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-05 08:38:02 --> 🟩 Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-05 08:41:01 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:41:09 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:41:11 --> 🟩 Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-05 08:41:12 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:41:14 --> 🟩 Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-05 08:41:16 --> 🟩 Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-05 08:41:18 --> 🟩 Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-05 08:41:20 --> 🟩 Query kabupaten untuk provinsi: Gorontalo
+DEBUG - 2025-11-05 08:41:22 --> 🟩 Query kabupaten untuk provinsi: Jambi
+DEBUG - 2025-11-05 08:41:24 --> 🟩 Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-05 08:41:26 --> 🟩 Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-05 08:41:27 --> 🟩 Query kabupaten untuk provinsi: Jawa Timur
+DEBUG - 2025-11-05 08:41:29 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Barat
+DEBUG - 2025-11-05 08:41:32 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Selatan
+DEBUG - 2025-11-05 08:41:34 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Tengah
+DEBUG - 2025-11-05 08:41:36 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Timur
+DEBUG - 2025-11-05 08:41:38 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Utara
+DEBUG - 2025-11-05 08:41:40 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Bangka Belitung
+DEBUG - 2025-11-05 08:41:43 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Riau
+DEBUG - 2025-11-05 08:41:45 --> 🟩 Query kabupaten untuk provinsi: Lampung
+DEBUG - 2025-11-05 08:41:47 --> 🟩 Query kabupaten untuk provinsi: Maluku
+DEBUG - 2025-11-05 08:41:49 --> 🟩 Query kabupaten untuk provinsi: Maluku Utara
+DEBUG - 2025-11-05 08:41:52 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Barat
+DEBUG - 2025-11-05 08:41:54 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Timur
+DEBUG - 2025-11-05 08:41:56 --> 🟩 Query kabupaten untuk provinsi: Papua
+DEBUG - 2025-11-05 08:41:58 --> 🟩 Query kabupaten untuk provinsi: Papua Barat
+DEBUG - 2025-11-05 08:42:01 --> 🟩 Query kabupaten untuk provinsi: Papua Barat Daya
+DEBUG - 2025-11-05 08:42:03 --> 🟩 Query kabupaten untuk provinsi: Papua Pegunungan
+DEBUG - 2025-11-05 08:42:06 --> 🟩 Query kabupaten untuk provinsi: Papua Selatan
+DEBUG - 2025-11-05 08:42:08 --> 🟩 Query kabupaten untuk provinsi: Papua Tengah
+CRITICAL - 2025-11-05 08:42:10 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 56.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-05 08:42:11 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:42:11 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:42:11 --> 🟩 Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-05 08:42:12 --> 🟩 Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-05 08:42:12 --> 🟩 Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-05 08:42:51 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:42:58 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:43:00 --> 🟩 Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-05 08:43:02 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:43:05 --> 🟩 Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-05 08:43:08 --> 🟩 Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-05 08:43:10 --> 🟩 Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-05 08:43:12 --> 🟩 Query kabupaten untuk provinsi: Gorontalo
+DEBUG - 2025-11-05 08:43:14 --> 🟩 Query kabupaten untuk provinsi: Jambi
+DEBUG - 2025-11-05 08:43:16 --> 🟩 Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-05 08:43:19 --> 🟩 Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-05 08:43:21 --> 🟩 Query kabupaten untuk provinsi: Jawa Timur
+DEBUG - 2025-11-05 08:43:23 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Barat
+DEBUG - 2025-11-05 08:43:25 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Selatan
+DEBUG - 2025-11-05 08:43:26 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Tengah
+DEBUG - 2025-11-05 08:43:30 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Timur
+DEBUG - 2025-11-05 08:43:33 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Utara
+DEBUG - 2025-11-05 08:43:35 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Bangka Belitung
+DEBUG - 2025-11-05 08:43:38 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Riau
+DEBUG - 2025-11-05 08:43:41 --> 🟩 Query kabupaten untuk provinsi: Lampung
+DEBUG - 2025-11-05 08:43:44 --> 🟩 Query kabupaten untuk provinsi: Maluku
+DEBUG - 2025-11-05 08:43:46 --> 🟩 Query kabupaten untuk provinsi: Maluku Utara
+DEBUG - 2025-11-05 08:43:49 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Barat
+DEBUG - 2025-11-05 08:43:52 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Timur
+DEBUG - 2025-11-05 08:43:54 --> 🟩 Query kabupaten untuk provinsi: Papua
+CRITICAL - 2025-11-05 08:43:59 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 56.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-05 08:44:01 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:44:02 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:44:02 --> 🟩 Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-05 08:44:36 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:44:43 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:44:45 --> 🟩 Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-05 08:44:47 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:44:49 --> 🟩 Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-05 08:44:51 --> 🟩 Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-05 08:44:53 --> 🟩 Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-05 08:44:54 --> 🟩 Query kabupaten untuk provinsi: Gorontalo
+DEBUG - 2025-11-05 08:44:56 --> 🟩 Query kabupaten untuk provinsi: Jambi
+DEBUG - 2025-11-05 08:44:58 --> 🟩 Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-05 08:44:59 --> 🟩 Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-05 08:45:01 --> 🟩 Query kabupaten untuk provinsi: Jawa Timur
+DEBUG - 2025-11-05 08:45:03 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Barat
+DEBUG - 2025-11-05 08:45:05 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Selatan
+DEBUG - 2025-11-05 08:45:07 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Tengah
+DEBUG - 2025-11-05 08:45:09 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Timur
+DEBUG - 2025-11-05 08:45:10 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Utara
+DEBUG - 2025-11-05 08:45:12 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Bangka Belitung
+DEBUG - 2025-11-05 08:45:14 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Riau
+DEBUG - 2025-11-05 08:45:16 --> 🟩 Query kabupaten untuk provinsi: Lampung
+DEBUG - 2025-11-05 08:45:17 --> 🟩 Query kabupaten untuk provinsi: Maluku
+DEBUG - 2025-11-05 08:45:19 --> 🟩 Query kabupaten untuk provinsi: Maluku Utara
+DEBUG - 2025-11-05 08:45:22 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Barat
+DEBUG - 2025-11-05 08:45:25 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Timur
+DEBUG - 2025-11-05 08:45:26 --> 🟩 Query kabupaten untuk provinsi: Papua
+DEBUG - 2025-11-05 08:45:28 --> 🟩 Query kabupaten untuk provinsi: Papua Barat
+DEBUG - 2025-11-05 08:45:30 --> 🟩 Query kabupaten untuk provinsi: Papua Barat Daya
+DEBUG - 2025-11-05 08:45:32 --> 🟩 Query kabupaten untuk provinsi: Papua Pegunungan
+DEBUG - 2025-11-05 08:45:34 --> 🟩 Query kabupaten untuk provinsi: Papua Selatan
+DEBUG - 2025-11-05 08:45:36 --> 🟩 Query kabupaten untuk provinsi: Papua Tengah
+DEBUG - 2025-11-05 08:45:38 --> 🟩 Query kabupaten untuk provinsi: Riau
+DEBUG - 2025-11-05 08:45:40 --> 🟩 Query kabupaten untuk provinsi: Sulawesi Barat
+DEBUG - 2025-11-05 08:45:42 --> 🟩 Query kabupaten untuk provinsi: Sulawesi Selatan
+CRITICAL - 2025-11-05 08:45:45 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 56.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-05 08:45:46 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:45:47 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:45:47 --> 🟩 Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-05 08:46:31 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:46:36 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:46:38 --> 🟩 Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-05 08:46:40 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:46:41 --> 🟩 Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-05 08:46:43 --> 🟩 Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-05 08:46:45 --> 🟩 Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-05 08:46:47 --> 🟩 Query kabupaten untuk provinsi: Gorontalo
+DEBUG - 2025-11-05 08:46:49 --> 🟩 Query kabupaten untuk provinsi: Jambi
+DEBUG - 2025-11-05 08:46:51 --> 🟩 Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-05 08:46:52 --> 🟩 Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-05 08:46:54 --> 🟩 Query kabupaten untuk provinsi: Jawa Timur
+DEBUG - 2025-11-05 08:46:56 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Barat
+DEBUG - 2025-11-05 08:46:57 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Selatan
+DEBUG - 2025-11-05 08:46:59 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Tengah
+DEBUG - 2025-11-05 08:47:01 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Timur
+DEBUG - 2025-11-05 08:47:03 --> 🟩 Query kabupaten untuk provinsi: Kalimantan Utara
+DEBUG - 2025-11-05 08:47:05 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Bangka Belitung
+DEBUG - 2025-11-05 08:47:07 --> 🟩 Query kabupaten untuk provinsi: Kepulauan Riau
+DEBUG - 2025-11-05 08:47:09 --> 🟩 Query kabupaten untuk provinsi: Lampung
+DEBUG - 2025-11-05 08:47:11 --> 🟩 Query kabupaten untuk provinsi: Maluku
+DEBUG - 2025-11-05 08:47:12 --> 🟩 Query kabupaten untuk provinsi: Maluku Utara
+DEBUG - 2025-11-05 08:47:14 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Barat
+DEBUG - 2025-11-05 08:47:16 --> 🟩 Query kabupaten untuk provinsi: Nusa Tenggara Timur
+DEBUG - 2025-11-05 08:47:18 --> 🟩 Query kabupaten untuk provinsi: Papua
+DEBUG - 2025-11-05 08:47:19 --> 🟩 Query kabupaten untuk provinsi: Papua Barat
+DEBUG - 2025-11-05 08:47:22 --> 🟩 Query kabupaten untuk provinsi: Papua Barat Daya
+DEBUG - 2025-11-05 08:47:24 --> 🟩 Query kabupaten untuk provinsi: Papua Pegunungan
+DEBUG - 2025-11-05 08:47:25 --> 🟩 Query kabupaten untuk provinsi: Papua Selatan
+DEBUG - 2025-11-05 08:47:27 --> 🟩 Query kabupaten untuk provinsi: Papua Tengah
+DEBUG - 2025-11-05 08:47:29 --> 🟩 Query kabupaten untuk provinsi: Riau
+DEBUG - 2025-11-05 08:47:31 --> 🟩 Query kabupaten untuk provinsi: Sulawesi Barat
+DEBUG - 2025-11-05 08:47:32 --> 🟩 Query kabupaten untuk provinsi: Sulawesi Selatan
+DEBUG - 2025-11-05 08:47:34 --> 🟩 Query kabupaten untuk provinsi: Sulawesi Tengah
+CRITICAL - 2025-11-05 08:47:36 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 56.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-05 08:47:36 --> 🟩 Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-05 08:47:50 --> 📊 [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-05 08:50:11 --> 🟩 Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-05 08:50:13 --> 🟩 Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-05 08:50:15 --> 🟩 Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-05 08:50:17 --> 🟩 Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-05 08:50:20 --> 🟩 Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-05 08:50:24 --> 🟩 Query kabupaten untuk provinsi: Gorontalo
