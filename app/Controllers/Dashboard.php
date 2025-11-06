@@ -72,7 +72,6 @@ class Dashboard extends BaseController
       'kabupaten_kota' => $this->request->getGet('kabupaten') ?: null,
       'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
       'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
-      // 🔧 perbaikan di sini:
       'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
       'penyelenggara_kategori' => $this->parseList($this->request->getGet('kategori_rs')),
     ];
@@ -83,7 +82,7 @@ class Dashboard extends BaseController
       'filters' => $filters,
     ];
 
-    log_message('debug', '📊 [Dashboard::getBarData] Payload: ' . json_encode($payload));
+    log_message('debug', '[Dashboard::getBarData] Payload: ' . json_encode($payload));
 
     $data = $this->dashboardModel->getBarData($kolom, $filters, $subkolom);
 
@@ -184,13 +183,12 @@ class Dashboard extends BaseController
 
   public function getKabupatenByProvinsi()
   {
-    helper('text'); // optional, untuk string clean
+    helper('text');
     $provinsiParam = trim($this->request->getGet('provinsi') ?? '');
     $kabupaten = [];
 
     try {
       if ($provinsiParam === '' || strtolower($provinsiParam) === 'semua') {
-        // Ambil semua kabupaten langsung dari model
         $kabupaten = $this->dashboardModel->getListKabupatenKota();
       } else {
         $provinsiList = array_map('trim', explode(',', $provinsiParam));
@@ -204,7 +202,6 @@ class Dashboard extends BaseController
               continue;
             }
 
-            // Urutkan alfabetis per provinsi
             usort($result, fn($a, $b) => strcmp($a['kabupaten_kota'] ?? '', $b['kabupaten_kota'] ?? ''));
 
             foreach ($result as $row) {
@@ -221,7 +218,6 @@ class Dashboard extends BaseController
         }
       }
 
-      // Pastikan selalu JSON valid
       return $this->response->setJSON($kabupaten ?: []);
     } catch (\Throwable $e) {
       log_message('error', '❌ getKabupatenByProvinsi global error: ' . $e->getMessage());

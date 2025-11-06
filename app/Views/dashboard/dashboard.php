@@ -545,6 +545,8 @@ async function loadBarChartOnly(filters, isInitial = false) {
   if (shouldLoadPeny) params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
   const query = params.toString();
 
+  document.getElementById("totalCount").textContent = "0";
+
   try {
     showLoading(chartJenisWrapper);
 
@@ -557,6 +559,17 @@ async function loadBarChartOnly(filters, isInitial = false) {
       promises.push(fetch(`/dashboard/bar/penyelenggara_grup?${query}&subkolom=jenis_rs`).then(r => r.json()));
 
     const [dataJenis, dataKelas, dataPeny] = await Promise.all(promises);
+
+    let totalSemua = 0;
+    if (Array.isArray(dataJenis) && dataJenis.length > 0 && dataJenis[0].total_semua) {
+      totalSemua = dataJenis[0].total_semua;
+    } else if (Array.isArray(dataKelas) && dataKelas.length > 0 && dataKelas[0].total_semua) {
+      totalSemua = dataKelas[0].total_semua;
+    } else if (Array.isArray(dataPeny) && dataPeny.length > 0 && dataPeny[0].total_semua) {
+      totalSemua = dataPeny[0].total_semua;
+    }
+
+    document.getElementById("totalCount").textContent = totalSemua.toLocaleString("id-ID");
 
     renderBarChart("jenis", Array.isArray(dataJenis) ? dataJenis : dataJenis.data || [], filters);
     hideLoading(chartJenisWrapper);
@@ -1017,31 +1030,29 @@ document.querySelectorAll('.dropdown').forEach(dropdown => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await initDropdowns();
+document.addEventListener("DOMContentLoaded", () => {
+  initDropdowns();
 
   const defaults = ["#dropdownListJenis", "#dropdownListProvinsi", "#dropdownListKabupatenKota"];
   defaults.forEach(id => {
     const menu = document.querySelector(id);
     if (!menu) return;
-
     const checkboxes = menu.querySelectorAll("input[type='checkbox']");
     checkboxes.forEach(cb => (cb.checked = true));
-
     const dropdown = menu.closest(".dropdown");
-    if (dropdown) updateDropdownButtonText(dropdown);
-  });
-
-  ["#dropdownListProvinsi", "#dropdownListKabupatenKota"].forEach(selector => {
-    const checkboxes = document.querySelectorAll(`${selector} input[type="checkbox"]`);
-    checkboxes.forEach(cb => (cb.checked = false));
+    updateDropdownButtonText(dropdown);
   });
 
   applyFilter(true);
 
-  const applyBtn = document.getElementById("applyFilter");
-  if (applyBtn) {
-    applyBtn.addEventListener("click", () => applyFilter(false));
+  document.getElementById("applyFilter")?.addEventListener("click", () => applyFilter(false));
+
+  const tahunSelect = document.getElementById("filterTahun");
+  if (tahunSelect) {
+    tahunSelect.addEventListener("change", () => {
+      console.log("🕓 Tahun diubah ke:", tahunSelect.value);
+      applyFilter(false);
+    });
   }
 });
 </script>

@@ -128,7 +128,7 @@ class ModelDashboard extends Model
     $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => 'semua']);
     $mapped = $this->mapUnique($data, 'kabupaten_kota');
 
-    $cache->save($cacheKey, $mapped, 604800); // cache 7 hari
+    $cache->save($cacheKey, $mapped, 604800);
     return $mapped;
   }
 
@@ -160,24 +160,20 @@ class ModelDashboard extends Model
 
   public function getKabupatenByProvinsi(string $provinsi): array
   {
-    log_message('debug', '🟩 Query kabupaten untuk provinsi: ' . $provinsi);
+    log_message('debug', 'Query kabupaten untuk provinsi: ' . $provinsi);
 
-    // Gunakan cache lokal model, bukan cuma di callRPC
     $cache = cache();
     $cacheKey = 'kabupaten_by_provinsi_' . md5($provinsi);
 
-    // 🔹 Cek cache lebih dulu
     $cached = $cache->get($cacheKey);
     if (is_array($cached)) {
-      log_message('debug', "📦 Cache hit untuk provinsi: {$provinsi}");
+      log_message('debug', "Cache hit untuk provinsi: {$provinsi}");
       return $cached;
     }
 
-    // 🔹 Kalau belum ada di cache → ambil dari Supabase
     $data = $this->callRPC('get_kabupaten_by_provinsi', ['selected_provinsi' => $provinsi]);
     $mapped = $this->mapUnique($data, 'kabupaten_kota');
 
-    // 🔹 Simpan cache selama 7 hari (karena jarang berubah)
     $cache->save($cacheKey, $mapped, 604800);
 
     return $mapped;
@@ -250,7 +246,7 @@ class ModelDashboard extends Model
     $unique = [];
     foreach ($data as $row) {
       $val = '';
-      $keyName = ''; // tambahkan untuk nama kolom dinamis
+      $keyName = '';
 
       match ($rpcName) {
         'get_unique_jenis' => ($keyName = 'jenis_rs') && ($val = trim($row['jenis_rs'] ?? '')),
@@ -265,7 +261,6 @@ class ModelDashboard extends Model
       }
     }
 
-    // Sort berdasarkan nama aslinya
     uasort($unique, fn($a, $b) => strcmp(reset($a), reset($b)));
 
     return array_values($unique);
