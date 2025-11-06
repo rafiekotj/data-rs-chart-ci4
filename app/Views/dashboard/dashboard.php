@@ -346,6 +346,34 @@ Chart.Tooltip.positioners.middleLine = function(elements) {
   };
 };
 
+const verticalLinePlugin = {
+  id: 'verticalLine',
+  beforeDatasetsDraw(chart) {
+    const {
+      ctx,
+      tooltip,
+      scales
+    } = chart;
+    const active = tooltip?._active?. [0];
+    if (!active) return;
+
+    const {
+      x
+    } = active.element;
+    const yAxis = scales.y;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x, yAxis.top);
+    ctx.lineTo(x, yAxis.bottom);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.setLineDash([8, 4]);
+    ctx.stroke();
+    ctx.restore();
+  }
+};
+
 function updateDropdownButtonText(dropdown) {
   const button = dropdown.querySelector('.custom-select-dropdown');
   const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
@@ -459,7 +487,7 @@ async function applyFilter(isInitial = false) {
     tahun: tahun || null,
   };
 
-  console.log(filters)
+  console.log("🎯 [applyFilter] Filter aktif:", filters);
 
   if (
     !filters.tahun &&
@@ -473,7 +501,10 @@ async function applyFilter(isInitial = false) {
     return;
   }
 
-  await loadBarChartOnly(filters, isInitial);
+  await Promise.all([
+    loadBarChartOnly(filters, isInitial),
+    loadLineChartOnly(filters, isInitial)
+  ]).catch(err => console.error("❌ Gagal memuat salah satu chart:", err));
 }
 
 async function loadBarChartOnly(filters, isInitial = false) {
@@ -867,7 +898,104 @@ function renderBarChart(tipe, data, filters = {}, isStackedOverride = false) {
   });
 }
 
+async function loadLineChartOnly(filters, isInitial = false) {
+  console.log("📈 [loadLineChartOnly] Muat chart tren berdasarkan filter:", filters);
+
+  const lineWrapper = document.querySelector("#linechart").closest(".chart-wrapper");
+  const lineLoading = document.getElementById("lineLoading");
+
+  lineWrapper.style.display = "block";
+  lineLoading.classList.remove("d-none");
+
+  const tahunAwal = filters.tahun_awal || 2024;
+  const tahunAkhir = filters.tahun_akhir || 2025;
+  const baseParams = new URLSearchParams();
+
+  if (filters.provinsi) baseParams.append("provinsi", filters.provinsi);
+  if (filters.kabupaten_kota) baseParams.append("kabupaten_kota", filters.kabupaten_kota);
+  if (filters.jenis_rs) baseParams.append("jenis_rs", filters.jenis_rs);
+  if (filters.kelas_rs) baseParams.append("kelas_rs", filters.kelas_rs);
+  if (filters.penyelenggara_grup) baseParams.append("penyelenggara_grup", filters.penyelenggara_grup);
+
+  const allData = [];
+
+  try {
+    for (let tahun = tahunAwal; tahun <= tahunAkhir; tahun++) {
+      const params = new URLSearchParams(baseParams);
+      params.append("tahun_awal", tahun);
+      params.append("tahun_akhir", tahun);
+
+      const res = await fetch(`/dashboard/line/jenis_rs?${params.toString()}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      data.forEach(row => {
+        allData.push({
+          tahun: row.tahun,
+          jenis: row.nama || "-",
+          total: Number(row.total || 0),
+        });
+      });
+    }
+
+    console.log("📊 Data gabungan tren RS:", allData);
+
+    if (allData.length === 0) {
+      const ctx = document.getElementById("linechart").getContext("2d");
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.font = "14px Arial";
+      ctx.fillText("Tidak ada data untuk ditampilkan", 100, 100);
+      return;
+    }
+
+    const tahunLabels = [...new Set(allData.map(d => d.tahun))].sort((a, b) => a - b);
+    const grouped = {};
+    allData.forEach(row => {
+      if (!grouped[row.jenis]) grouped[row.jenis] = {};
+      grouped[row.jenis][row.tahun] = row.total;
+    });
+
+    const datasets = Object.entries(grouped).map(([jenis, values], i) => ({
+      label: jenis,
+      data: tahunLabels.map(th => values[th] || 0),
+      borderColor: warnaJenisRS[jenis] || fixedColors[i % fixedColors.length],
+      backgroundColor: warnaJenisRS[jenis] || fixedColors[i % fixedColors.length],
+      tension: 0.3,
+      fill: false,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+    }));
+
+    renderLineChart("jenis", {
+      labels: tahunLabels,
+      datasets: datasets
+    });
+  } catch (err) {
+    console.error("❌ [loadLineChartOnly] Gagal memuat data tren:", err);
+  } finally {
+    lineLoading.classList.add("d-none");
+  }
+}
+
 function renderLineChart(tipe, data) {
+  const canvas = document.getElementById("linechart");
+  const ctx = canvas.getContext("2d");
+
+  if (ctx.chartInstance) {
+    try {
+      ctx.chartInstance.destroy();
+    } catch (e) {
+      console.warn("⚠️ Gagal destroy chart lama:", e);
+    }
+  }
+
+  const datasets = data.datasets.map(ds => ({
+    ...ds,
+    borderWidth: 2,
+    pointStyle: "circle",
+    pointBackgroundColor: ds.backgroundColor,
+    pointBorderColor: "#fff",
+  }));
 
   ctx.chartInstance = new Chart(ctx, {
     type: "line",
@@ -886,6 +1014,7 @@ function renderLineChart(tipe, data) {
       plugins: {
         legend: {
           position: "right",
+          onClick: null,
           labels: {
             generateLabels: chart => {
               const base = Chart.defaults.plugins.legend.labels.generateLabels(chart);

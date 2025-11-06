@@ -107,78 +107,27 @@ class Dashboard extends BaseController
     return array_map('trim', explode(',', $param));
   }
 
-  public function getLineData($tipe)
+  public function getLineData($kolom)
   {
-    $tahunAwal = (int) ($this->request->getGet('tahunAwal') ?? date('Y') - 4);
-    $tahunAkhir = (int) ($this->request->getGet('tahunAkhir') ?? date('Y'));
-    $provinsi = trim($this->request->getGet('provinsi') ?? '');
-    $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
-    $kategori = trim($this->request->getGet('kategori') ?? '');
+    $filters = [
+      'tahun_awal' => (int) $this->request->getGet('tahun_awal') ?: null,
+      'tahun_akhir' => (int) $this->request->getGet('tahun_akhir') ?: null,
+      'provinsi' => $this->request->getGet('provinsi') ?: null,
+      'kabupaten_kota' => $this->request->getGet('kabupaten_kota') ?: null,
+      'jenis_rs' => $this->request->getGet('jenis_rs') ? explode(',', $this->request->getGet('jenis_rs')) : null,
+      'kelas_rs' => $this->request->getGet('kelas_rs') ? explode(',', $this->request->getGet('kelas_rs')) : null,
+      'penyelenggara_grup' => $this->request->getGet('penyelenggara_grup')
+        ? explode(',', $this->request->getGet('penyelenggara_grup'))
+        : null,
+    ];
 
-    $kolom = $this->getKolomByTipe($tipe);
-    if (!$kolom) {
-      return $this->response->setStatusCode(400)->setJSON([
-        'status' => 'error',
-        'message' => 'Tipe tidak valid',
-      ]);
+    $data = $this->dashboardModel->getLineData($kolom, $filters);
+
+    if (empty($data)) {
+      return $this->response->setJSON(['message' => 'Tidak ada data tren ditemukan']);
     }
 
-    $hasil = $this->dashboardModel->getLineData($kolom, $tahunAwal, $tahunAkhir, $provinsi, $kabupaten);
-    if (empty($hasil)) {
-      return $this->response->setJSON([
-        'status' => 'success',
-        'labels' => [],
-        'datasets' => [],
-      ]);
-    }
-
-    if (!empty($kategori)) {
-      $kategoriList = array_map('strtolower', array_map('trim', explode(',', $kategori)));
-      foreach ($hasil as &$tahunData) {
-        $tahunData['data'] = array_values(
-          array_filter(
-            $tahunData['data'],
-            fn($row) => in_array(strtolower(trim($row['nama'] ?? '')), $kategoriList, true),
-          ),
-        );
-      }
-      unset($tahunData);
-    }
-
-    $labelsTahun = array_column($hasil, 'tahun');
-
-    $semuaNama = [];
-    foreach ($hasil as $tahunItem) {
-      foreach ($tahunItem['data'] as $row) {
-        $nama = trim($row['nama'] ?? '');
-        if ($nama !== '') {
-          $semuaNama[$nama] = true;
-        }
-      }
-    }
-
-    $datasets = [];
-    foreach (array_keys($semuaNama) as $label) {
-      $dataPerTahun = array_map(
-        fn($tahunItem) => (int) ($tahunItem['data'][array_search($label, array_column($tahunItem['data'], 'nama'))][
-          'total'
-        ] ?? 0),
-        $hasil,
-      );
-      $datasets[] = [
-        'label' => $label,
-        'data' => $dataPerTahun,
-        'borderWidth' => 2,
-        'tension' => 0.3,
-        'fill' => false,
-      ];
-    }
-
-    return $this->response->setJSON([
-      'status' => 'success',
-      'labels' => $labelsTahun,
-      'datasets' => $datasets,
-    ]);
+    return $this->response->setJSON($data);
   }
 
   public function getKabupatenByProvinsi()

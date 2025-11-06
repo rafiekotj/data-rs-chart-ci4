@@ -233,6 +233,11 @@ body {
   color: #fff;
 }
 
+.spinner-border {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+}
+
 #rsTable,
 #rsTable_jenis,
 #rsTable_kelas,

@@ -196,44 +196,66 @@ class ModelDashboard extends Model
     return $this->callRPC('get_rs_summary', $payload);
   }
 
-  public function getLineData(
-    string $kolom,
-    int $tahunAwal,
-    int $tahunAkhir,
-    ?string $provinsi = null,
-    ?string $kabupaten = null,
-  ): array {
-    $hasil = [];
+  public function getLineData($kolom, array $filters = [])
+  {
+    $tahunAwal = $filters['tahun_awal'] ?? null;
+    $tahunAkhir = $filters['tahun_akhir'] ?? null;
 
+    if (!$tahunAwal || !$tahunAkhir) {
+      log_message('error', '[DashboardModel::getLineData] Tahun awal/akhir belum ditentukan.');
+      return [];
+    }
+
+    $allData = [];
+
+    // 🔁 Loop setiap tahun dalam rentang
     for ($tahun = $tahunAwal; $tahun <= $tahunAkhir; $tahun++) {
       $payload = [
         'kolom' => $kolom,
+        'subkolom' => null, // ⬅️ tidak pakai kategori
         'tahun_filter' => $tahun,
-        'prov_filter' => $provinsi ? trim($provinsi) : null,
-        'kab_filter' => $kabupaten ? trim($kabupaten) : null,
+        'prov_filter' => $filters['provinsi'] ?? null,
+        'kab_filter' => $filters['kabupaten_kota'] ?? null,
+        'jenis_list' => !empty($filters['jenis_rs']) ? $filters['jenis_rs'] : null,
+        'kelas_list' => !empty($filters['kelas_rs']) ? $filters['kelas_rs'] : null,
+        'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? $filters['penyelenggara_grup'] : null,
+        'kategori_list' => null,
       ];
 
-      $data = $this->callRPC('get_rs_summary', $payload);
-      if (empty($data)) {
-        $hasil[] = ['tahun' => $tahun, 'data' => []];
+      // 🔹 Ambil data dari Supabase (fungsi get_rs_summary)
+      $response = $this->callRPC('get_rs_summary', $payload);
+
+      if (!$response || !is_array($response)) {
+        log_message('debug', "[DashboardModel::getLineData] Tidak ada data untuk tahun {$tahun}");
         continue;
       }
 
-      $filtered = array_map(
-        static fn($r) => [
-          'nama' => $r[$kolom] ?? 'Tidak Diketahui',
-          'total' => (int) ($r['total'] ?? 0),
-        ],
-        $data,
-      );
-
-      $hasil[] = [
-        'tahun' => $tahun,
-        'data' => $filtered,
-      ];
+      // Tambahkan tahun ke setiap hasil
+      foreach ($response as $row) {
+        $row['tahun'] = $tahun;
+        $allData[] = $row;
+      }
     }
 
-    return $hasil;
+    // 🔹 Gabungkan total berdasarkan nama + tahun
+    $grouped = [];
+    foreach ($allData as $row) {
+      $nama = $row['nama'] ?? '-';
+      $tahun = $row['tahun'] ?? 0;
+      $key = "{$nama}_{$tahun}";
+
+      if (!isset($grouped[$key])) {
+        $grouped[$key] = [
+          'nama' => $nama,
+          'tahun' => $tahun,
+          'total' => (int) ($row['total'] ?? 0),
+        ];
+      } else {
+        $grouped[$key]['total'] += (int) ($row['total'] ?? 0);
+      }
+    }
+
+    return array_values($grouped);
   }
 
   private function getGenericList(string $rpcName): array
