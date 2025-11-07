@@ -197,43 +197,6 @@ class Dashboard extends BaseController
     return $this->response->setJSON($data);
   }
 
-  public function getTableData()
-  {
-    $tipe = trim($this->request->getGet('tipe') ?? '');
-    $provinsi = trim($this->request->getGet('provinsi') ?? '');
-    $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
-    $kategori = trim($this->request->getGet('kategori') ?? '');
-    $tahun = trim($this->request->getGet('tahun') ?? '');
-    $limit = (int) ($this->request->getGet('limit') ?? 200);
-    $kolom = $this->getKolomByTipe($tipe);
-
-    if (!$kolom) {
-      return $this->response->setStatusCode(400)->setJSON(['error' => 'Tipe tidak valid']);
-    }
-
-    $data = $this->dashboardModel->getAllFilteredForExport($kolom, $tahun, $provinsi, $kabupaten, $kategori);
-
-    if ($limit > 0 && count($data) > $limit) {
-      $data = array_slice($data, 0, $limit);
-    }
-
-    return $this->response->setJSON([
-      'status' => 'success',
-      'data' => $data,
-      'count' => count($data),
-    ]);
-  }
-
-  private function getKolomByTipe(string $tipe): ?string
-  {
-    $map = [
-      'jenis' => 'jenis_rs',
-      'kelas' => 'kelas_rs',
-      'penyelenggara' => 'penyelenggara_grup',
-    ];
-    return $map[$tipe] ?? null;
-  }
-
   public function exportCsv()
   {
     $filters = [
@@ -310,11 +273,52 @@ class Dashboard extends BaseController
     $data = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs');
     $tahun = $filters['tahun'] ?? '-';
 
+    $jenisOrder = [
+      'RSU',
+      'RSIA',
+      'RSK Jiwa',
+      'RSK Mata',
+      'RSK GM',
+      'RSK Bedah',
+      'RSK Jantung',
+      'RSK Paru',
+      'RSK Orthopedi',
+      'RSK Kanker',
+      'RSK THT-KL',
+      'RSK Infeksi',
+      'RSK Ginjal',
+      'RS Bergerak',
+      'RSK Otak',
+      'RSKO',
+      'RSK Stroke',
+    ];
+
+    usort($data, function ($a, $b) use ($jenisOrder) {
+      $idxA = array_search($a['jenis_rs'] ?? '', $jenisOrder);
+      $idxB = array_search($b['jenis_rs'] ?? '', $jenisOrder);
+
+      if ($idxA !== $idxB) {
+        if ($idxA === false) {
+          return 1;
+        }
+        if ($idxB === false) {
+          return -1;
+        }
+        return $idxA - $idxB;
+      }
+
+      $provCompare = strcmp($a['provinsi'] ?? '', $b['provinsi'] ?? '');
+      if ($provCompare !== 0) {
+        return $provCompare;
+      }
+
+      return strcmp($a['kabupaten_kota'] ?? '', $b['kabupaten_kota'] ?? '');
+    });
+
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
 
     $headers = [
-      'Tahun',
       'Rumah Sakit',
       'Jenis RS',
       'Kelas RS',
@@ -323,6 +327,7 @@ class Dashboard extends BaseController
       'Provinsi',
       'Penyelenggara Grup',
       'Penyelenggara Kategori',
+      'Tahun',
     ];
     $sheet->fromArray($headers, null, 'A1');
 
@@ -330,7 +335,6 @@ class Dashboard extends BaseController
     foreach ($data as $row) {
       $sheet->fromArray(
         [
-          $tahun,
           $row['rumah_sakit'] ?? '',
           $row['jenis_rs'] ?? '',
           $row['kelas_rs'] ?? '',
@@ -339,6 +343,7 @@ class Dashboard extends BaseController
           $row['provinsi'] ?? '',
           $row['penyelenggara_grup'] ?? '',
           $row['penyelenggara_kategori'] ?? '',
+          $tahun,
         ],
         null,
         "A{$rowIndex}",
@@ -346,13 +351,21 @@ class Dashboard extends BaseController
       $rowIndex++;
     }
 
-    $writer = new Xlsx($spreadsheet);
+    $sheet->getStyle('A1:I1')->getFont()->setBold(true);
+    $sheet->setTitle("Data RS {$tahun}");
+
     $filename = "data_rs_{$tahun}_" . date('Ymd_His') . '.xlsx';
 
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="' . $filename . '"');
-    header('Cache-Control: max-age=0');
+    if (ob_get_length()) {
+      ob_end_clean();
+    }
 
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header("Content-Disposition: attachment; filename=\"{$filename}\"");
+    header('Cache-Control: max-age=0');
+    header('Pragma: public');
+
+    $writer = new Xlsx($spreadsheet);
     $writer->save('php://output');
     exit();
   }

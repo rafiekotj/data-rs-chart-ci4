@@ -1199,68 +1199,30 @@ function exportTableToCSV(filename) {
   link.click();
 }
 
-function exportTableToXLS(filename) {
-  const table = document.getElementById("rsTable");
-  const tableClone = table.cloneNode(true);
-  const tahun = document.getElementById("filterTahun")?.value || "-";
-  const headerRow = tableClone.querySelector("thead tr");
-  const bodyRows = tableClone.querySelectorAll("tbody tr");
-
-  if (headerRow && !Array.from(headerRow.children).some(th => th.textContent === "Tahun")) {
-    const th = document.createElement("th");
-    th.textContent = "Tahun";
-    headerRow.appendChild(th);
-
-    bodyRows.forEach(tr => {
-      const td = document.createElement("td");
-      td.textContent = tahun;
-      tr.appendChild(td);
-    });
-  }
-
-  const styles = `
-  <style>
-    table, th, td {
-      border: 1px solid #d0d0d0;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 4px 6px;
-      text-align: left;
-      font-weight: normal;
-      background-color: white;
-    }
-  </style>
-`;
-
-  const html = `
-    <html xmlns:o="urn:schemas-microsoft-com:office:office"
-          xmlns:x="urn:schemas-microsoft-com:office:excel"
-          xmlns="http://www.w3.org/TR/REC-html40">
-    <head>
-      <meta charset="UTF-8">
-      ${styles}
-    </head>
-    <body>${tableClone.outerHTML}</body>
-    </html>`;
-
-  const blob = new Blob([html], {
-    type: "application/vnd.ms-excel"
-  });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
-}
-
 document.getElementById("exportCsvBtn").addEventListener("click", () => {
   const tahun = document.getElementById("filterTahun")?.value || "-";
   exportTableToCSV(`Data_RS_${tahun}.csv`);
 });
 
 document.getElementById("exportXlsBtn").addEventListener("click", () => {
-  const tahun = document.getElementById("filterTahun")?.value || new Date().getFullYear();
-  exportTableToXLS(`Data_RS_${tahun}.xls`);
+  const filters = lastFilters;
+
+  const params = new URLSearchParams();
+  params.append("kolom", "kelas_rs");
+  params.append("subkolom", "jenis_rs");
+
+  if (filters.tahun) params.append("tahun", filters.tahun);
+  if (filters.provinsi) params.append("provinsi", filters.provinsi);
+  if (filters.kabupaten_kota) params.append("kabupaten_kota", filters.kabupaten_kota);
+  if (filters.jenis_rs?.length) params.append("jenis_rs", filters.jenis_rs.join(","));
+  if (filters.kelas_rs?.length) params.append("kelas_rs", filters.kelas_rs.join(","));
+  if (filters.penyelenggara_grup?.length) params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
+  if (filters.penyelenggara_kategori?.length) params.append("penyelenggara_kategori", filters.penyelenggara_kategori
+    .join(","));
+
+  const url = `/dashboard/exportXls?${params.toString()}`;
+  console.log("🔗 Export URL:", url);
+  window.location.href = url;
 });
 
 function initDropdowns() {

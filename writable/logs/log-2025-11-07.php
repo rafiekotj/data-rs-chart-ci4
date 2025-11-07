@@ -110,3 +110,135 @@ DEBUG - 2025-11-07 03:52:15 --> [Dashboard::getBarData] Payload: {"kolom":"jenis
 DEBUG - 2025-11-07 03:55:44 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
 DEBUG - 2025-11-07 03:57:07 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
 DEBUG - 2025-11-07 03:57:10 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:08:51 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:22:25 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:22:31 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:24:55 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:25:46 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:25:49 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:31:39 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:32:03 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 04:32:06 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:05:22 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:07:07 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:07:10 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:11:16 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:11:29 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:11:33 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:12:45 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:13:37 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+CRITICAL - 2025-11-07 06:24:30 --> ErrorException: Array to string conversion
+[Method: GET, Route: dashboard/exportXls]
+in APPPATH\Models\ModelDashboard.php on line 272.
+ 1 APPPATH\Models\ModelDashboard.php(272): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\rschartsapi\\app\\Models\\ModelDashboard.php', 272)
+ 2 APPPATH\Controllers\Dashboard.php(310): App\Models\ModelDashboard->getFilteredTable('kelas_rs', [...], 'jenis_rs')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->exportXls()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 9 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\rschartsapi\\public\\index.php')
+CRITICAL - 2025-11-07 06:24:39 --> ErrorException: Array to string conversion
+[Method: GET, Route: dashboard/exportXls]
+in APPPATH\Models\ModelDashboard.php on line 272.
+ 1 APPPATH\Models\ModelDashboard.php(272): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\rschartsapi\\app\\Models\\ModelDashboard.php', 272)
+ 2 APPPATH\Controllers\Dashboard.php(310): App\Models\ModelDashboard->getFilteredTable('kelas_rs', [...], 'jenis_rs')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->exportXls()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 9 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\rschartsapi\\public\\index.php')
+DEBUG - 2025-11-07 06:25:46 --> getFilteredTable() payload: Array
+(
+    [kolom] => kelas_rs
+    [subkolom] => jenis_rs
+    [tahun_filter] => 2025
+    [prov_filter] => 
+    [kab_filter] => 
+    [jenis_list] => 
+    [kelas_list] => 
+    [penyelenggara_list] => 
+    [kategori_list] => 
+)
+
+DEBUG - 2025-11-07 06:25:50 --> getFilteredTable() result count: 0
+DEBUG - 2025-11-07 06:26:23 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:26:46 --> getFilteredTable() payload: Array
+(
+    [kolom] => kelas_rs
+    [subkolom] => jenis_rs
+    [tahun_filter] => 2025
+    [prov_filter] => 
+    [kab_filter] => 
+    [jenis_list] => Array
+        (
+            [0] => RSU
+            [1] => RSIA
+        )
+
+    [kelas_list] => Array
+        (
+            [0] => B
+            [1] => C
+        )
+
+    [penyelenggara_list] => 
+    [kategori_list] => 
+)
+
+DEBUG - 2025-11-07 06:26:48 --> getFilteredTable() result count: 0
+DEBUG - 2025-11-07 06:28:59 --> getFilteredTable() payload: Array
+(
+    [kolom] => kelas_rs
+    [subkolom] => jenis_rs
+    [tahun_filter] => 2025
+    [prov_filter] => 
+    [kab_filter] => 
+    [jenis_list] => {RSU,RSIA}
+    [kelas_list] => {B,C}
+    [penyelenggara_list] => 
+    [kategori_list] => 
+)
+
+DEBUG - 2025-11-07 06:29:02 --> getFilteredTable() result count: 0
+DEBUG - 2025-11-07 06:30:51 --> getFilteredTable() ordered payload: Array
+(
+    [kolom] => kelas_rs
+    [subkolom] => jenis_rs
+    [tahun_filter] => 2025
+    [prov_filter] => 
+    [kab_filter] => 
+    [jenis_list] => {RSU,RSIA}
+    [kelas_list] => {B,C}
+    [penyelenggara_list] => 
+    [kategori_list] => 
+)
+
+DEBUG - 2025-11-07 06:30:53 --> getFilteredTable() result count: 0
+DEBUG - 2025-11-07 06:45:01 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:46:43 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:46:46 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 06:49:41 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:00:49 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:01:09 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:01:18 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:04:19 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:04:43 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:04:47 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:07:25 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:07:45 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:07:54 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:12:30 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:12:47 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:12:55 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:18:36 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:18:58 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:19:00 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:23:44 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:25:16 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:25:20 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:25:56 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2024","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:25:59 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2024","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
