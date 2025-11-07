@@ -48,7 +48,8 @@ class ModelDashboard extends Model
           'Content-Type: application/json',
           'Accept: application/json',
           'Range-Unit: items',
-          'Range: 0-999999',
+          'Range: 0-*',
+          'Prefer: count=exact',
         ],
         CURLOPT_TIMEOUT => 30,
       ]);
@@ -269,53 +270,5 @@ class ModelDashboard extends Model
     ];
 
     return $this->callRPC('get_rs_filtered', $payload);
-  }
-
-  public function getAllFilteredForExport(
-    string $kolom,
-    ?string $tahun = null,
-    ?string $provinsi = null,
-    ?string $kabupaten = null,
-    ?string $kategori = null,
-  ): array {
-    $allData = [];
-    $offset = 0;
-    $batchSize = 1000;
-
-    do {
-      $payload = [
-        'kolom' => (string) $kolom,
-        'tahun_filter' => is_numeric($tahun) && $tahun !== '' ? (int) $tahun : null,
-        'prov_filter' => $provinsi === 'semua' || $provinsi === '' ? null : trim((string) $provinsi),
-        'kab_filter' => $kabupaten === 'semua' || $kabupaten === '' ? null : trim((string) $kabupaten),
-        'kategori' => $kategori === 'semua' || $kategori === '' ? null : trim((string) $kategori),
-        'limit_val' => $batchSize,
-        'offset_val' => $offset,
-      ];
-
-      $data = $this->callRPC('get_rs_filtered', $payload);
-
-      if (empty($data)) {
-        break;
-      }
-
-      foreach ($data as $row) {
-        $allData[] = [
-          'rumah_sakit' => trim($row['rumah_sakit'] ?? ''),
-          'alamat' => trim($row['alamat'] ?? ''),
-          'kelas_rs' => trim($row['kelas_rs'] ?? ''),
-          'jenis_rs' => trim($row['jenis_rs'] ?? ''),
-          'kabupaten_kota' => trim($row['kabupaten_kota'] ?? ''),
-          'provinsi' => trim($row['provinsi'] ?? ''),
-          'penyelenggara_grup' => trim($row['penyelenggara_grup'] ?? ''),
-          'penyelenggara_kategori' => trim($row['penyelenggara_kategori'] ?? ''),
-          'tahun' => (int) ($row['tahun'] ?? 0),
-        ];
-      }
-
-      $offset += $batchSize;
-    } while (count($data) === $batchSize);
-
-    return $allData;
   }
 }

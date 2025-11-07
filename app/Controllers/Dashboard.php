@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\ModelDashboard;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Dashboard extends BaseController
 {
@@ -234,124 +234,126 @@ class Dashboard extends BaseController
     return $map[$tipe] ?? null;
   }
 
-  public function exportCSV()
+  public function exportCsv()
   {
-    $tipe = trim($this->request->getGet('tipe') ?? '');
-    $provinsi = trim($this->request->getGet('provinsi') ?? '');
-    $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
-    $kategori = trim($this->request->getGet('kategori') ?? '');
-    $tahun = trim($this->request->getGet('tahun') ?? '');
-    $kolom = $this->getKolomByTipe($tipe);
+    $filters = [
+      'tahun' => $this->request->getGet('tahun'),
+      'provinsi' => $this->request->getGet('provinsi'),
+      'kabupaten_kota' => $this->request->getGet('kabupaten_kota'),
+      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
+    ];
 
-    if (!$kolom) {
-      return $this->response->setStatusCode(400)->setJSON(['error' => 'Tipe tidak valid']);
+    $data = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs');
+    $tahun = $filters['tahun'] ?? '-';
+    $filename = "data_rs_{$tahun}_" . date('Ymd_His') . '.csv';
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+    $output = fopen('php://output', 'w');
+
+    fprintf($output, chr(0xef) . chr(0xbb) . chr(0xbf));
+
+    fputcsv(
+      $output,
+      [
+        'Tahun',
+        'Rumah Sakit',
+        'Jenis RS',
+        'Kelas RS',
+        'Alamat',
+        'Kabupaten/Kota',
+        'Provinsi',
+        'Penyelenggara Grup',
+        'Penyelenggara Kategori',
+      ],
+      ';',
+    );
+
+    foreach ($data as $row) {
+      fputcsv(
+        $output,
+        [
+          $tahun,
+          $row['rumah_sakit'] ?? '',
+          $row['jenis_rs'] ?? '',
+          $row['kelas_rs'] ?? '',
+          $row['alamat'] ?? '',
+          $row['kabupaten_kota'] ?? '',
+          $row['provinsi'] ?? '',
+          $row['penyelenggara_grup'] ?? '',
+          $row['penyelenggara_kategori'] ?? '',
+        ],
+        ';',
+      );
     }
 
-    try {
-      $data = $this->dashboardModel->getAllFilteredForExport($kolom, $tahun, $provinsi, $kabupaten, $kategori);
-
-      if (empty($data)) {
-        return $this->response->setJSON([
-          'status' => 'empty',
-          'message' => 'Tidak ada data yang bisa diekspor.',
-          'data' => [],
-        ]);
-      }
-
-      $filename = 'data_rs_full_' . $tipe . '_' . date('Ymd_His') . '.csv';
-
-      ob_start();
-
-      echo chr(0xef) . chr(0xbb) . chr(0xbf);
-
-      $output = fopen('php://output', 'w');
-
-      fputcsv($output, array_keys($data[0]), ';');
-
-      foreach ($data as $row) {
-        $cleanRow = array_map(function ($val) {
-          return is_null($val) ? '' : trim(preg_replace('/\s+/', ' ', (string) $val));
-        }, $row);
-        fputcsv($output, $cleanRow, ';');
-      }
-
-      fclose($output);
-
-      $csvContent = ob_get_clean();
-
-      return $this->response
-        ->setHeader('Content-Type', 'text/csv; charset=utf-8')
-        ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
-        ->setHeader('Pragma', 'no-cache')
-        ->setHeader('Expires', '0')
-        ->setBody($csvContent);
-    } catch (\Throwable $e) {
-      return $this->response->setStatusCode(500)->setJSON([
-        'error' => 'Gagal mengekspor data CSV.',
-        'message' => $e->getMessage(),
-      ]);
-    }
+    fclose($output);
+    exit();
   }
 
-  public function exportXLS()
+  public function exportXls()
   {
-    $startTime = microtime(true);
+    $filters = [
+      'tahun' => $this->request->getGet('tahun'),
+      'provinsi' => $this->request->getGet('provinsi'),
+      'kabupaten_kota' => $this->request->getGet('kabupaten_kota'),
+      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
+    ];
 
-    $tipe = trim($this->request->getGet('tipe') ?? '');
-    $provinsi = trim($this->request->getGet('provinsi') ?? '');
-    $kabupaten = trim($this->request->getGet('kabupaten') ?? '');
-    $kategori = trim($this->request->getGet('kategori') ?? '');
-    $tahun = trim($this->request->getGet('tahun') ?? '');
-    $kolom = $this->getKolomByTipe($tipe);
+    $data = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs');
+    $tahun = $filters['tahun'] ?? '-';
 
-    if (!$kolom) {
-      return $this->response->setStatusCode(400)->setJSON(['error' => 'Tipe tidak valid']);
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $headers = [
+      'Tahun',
+      'Rumah Sakit',
+      'Jenis RS',
+      'Kelas RS',
+      'Alamat',
+      'Kabupaten/Kota',
+      'Provinsi',
+      'Penyelenggara Grup',
+      'Penyelenggara Kategori',
+    ];
+    $sheet->fromArray($headers, null, 'A1');
+
+    $rowIndex = 2;
+    foreach ($data as $row) {
+      $sheet->fromArray(
+        [
+          $tahun,
+          $row['rumah_sakit'] ?? '',
+          $row['jenis_rs'] ?? '',
+          $row['kelas_rs'] ?? '',
+          $row['alamat'] ?? '',
+          $row['kabupaten_kota'] ?? '',
+          $row['provinsi'] ?? '',
+          $row['penyelenggara_grup'] ?? '',
+          $row['penyelenggara_kategori'] ?? '',
+        ],
+        null,
+        "A{$rowIndex}",
+      );
+      $rowIndex++;
     }
 
-    try {
-      $data = $this->dashboardModel->getAllFilteredForExport($kolom, $tahun, $provinsi, $kabupaten, $kategori);
+    $writer = new Xlsx($spreadsheet);
+    $filename = "data_rs_{$tahun}_" . date('Ymd_His') . '.xlsx';
 
-      if (empty($data)) {
-        return $this->response->setJSON(['status' => 'empty', 'message' => 'Tidak ada data.']);
-      }
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Cache-Control: max-age=0');
 
-      $spreadsheet = new Spreadsheet();
-      $sheet = $spreadsheet->getActiveSheet();
-
-      $headers = array_keys($data[0]);
-      $rows = array_map('array_values', $data);
-      array_unshift($rows, $headers);
-
-      $sheet->fromArray($rows, null, 'A1');
-
-      $filename = 'data_rs_full_' . $tipe . '_' . date('Ymd_His') . '.xlsx';
-
-      if (ob_get_length() > 0) {
-        ob_end_clean();
-      }
-
-      while (ob_get_level()) {
-        ob_end_clean();
-      }
-
-      $elapsed = round(microtime(true) - $startTime, 3);
-      log_message('debug', "⏳ Export XLS untuk tipe '{$tipe}' selesai disiapkan dalam {$elapsed} detik.");
-
-      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      header('Content-Disposition: attachment; filename="' . $filename . '"');
-      header('Cache-Control: max-age=0');
-
-      $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-      $writer->setPreCalculateFormulas(false);
-      $writer->save('php://output');
-
-      $totalTime = round(microtime(true) - $startTime, 3);
-      log_message('debug', "✅ File XLS '{$filename}' dikirim ke browser dalam total {$totalTime} detik.");
-
-      exit();
-    } catch (\Throwable $e) {
-      log_message('error', '❌ Export XLS gagal: ' . $e->getMessage());
-      return $this->response->setStatusCode(500)->setJSON(['error' => 'Gagal ekspor XLS']);
-    }
+    $writer->save('php://output');
+    exit();
   }
 }

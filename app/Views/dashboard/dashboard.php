@@ -464,6 +464,8 @@ async function updateKabupatenDropdown(selectedProvinsi) {
   }
 }
 
+let lastFilters = {};
+
 async function applyFilter(isInitial = false) {
   const jenis = getCheckedValues("#dropdownListJenis");
   const kelas = getCheckedValues("#dropdownListKelas");
@@ -486,6 +488,8 @@ async function applyFilter(isInitial = false) {
       kabupaten[0] : null,
     tahun: tahun || null,
   };
+
+  lastFilters = filters;
 
   console.log("🎯 [applyFilter] Filter aktif:", filters);
 
@@ -1103,6 +1107,8 @@ async function loadFilteredTable(filters) {
     const res = await fetch(`/dashboard/getFilteredTable?${params.toString()}`);
     let data = await res.json();
 
+    console.log("✅ Jumlah data diterima dari backend:", data.length);
+
     const jenisOrder = [
       "RSU", "RSIA", "RSK Jiwa", "RSK Mata", "RSK GM", "RSK Bedah", "RSK Jantung",
       "RSK Paru", "RSK Orthopedi", "RSK Kanker", "RSK THT-KL", "RSK Infeksi",
@@ -1164,6 +1170,98 @@ function renderTable(data) {
     tableBody.appendChild(tr);
   });
 }
+
+function exportTableToCSV(filename) {
+  const rows = document.querySelectorAll("#rsTable tr");
+  const csv = [];
+  const tahun = document.getElementById("filterTahun")?.value || "-";
+
+  rows.forEach((row, rowIndex) => {
+    const cols = row.querySelectorAll("td, th");
+    const rowData = Array.from(cols).map(col => `"${col.innerText.replace(/"/g, '""')}"`);
+
+    if (rowIndex === 0) {
+      rowData.push('"Tahun"');
+    } else {
+      rowData.push(`"${tahun}"`);
+    }
+
+    csv.push(rowData.join(";"));
+  });
+
+  const csvContent = csv.join("\n");
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;"
+  });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+}
+
+function exportTableToXLS(filename) {
+  const table = document.getElementById("rsTable");
+  const tableClone = table.cloneNode(true);
+  const tahun = document.getElementById("filterTahun")?.value || "-";
+  const headerRow = tableClone.querySelector("thead tr");
+  const bodyRows = tableClone.querySelectorAll("tbody tr");
+
+  if (headerRow && !Array.from(headerRow.children).some(th => th.textContent === "Tahun")) {
+    const th = document.createElement("th");
+    th.textContent = "Tahun";
+    headerRow.appendChild(th);
+
+    bodyRows.forEach(tr => {
+      const td = document.createElement("td");
+      td.textContent = tahun;
+      tr.appendChild(td);
+    });
+  }
+
+  const styles = `
+  <style>
+    table, th, td {
+      border: 1px solid #d0d0d0;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 4px 6px;
+      text-align: left;
+      font-weight: normal;
+      background-color: white;
+    }
+  </style>
+`;
+
+  const html = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <meta charset="UTF-8">
+      ${styles}
+    </head>
+    <body>${tableClone.outerHTML}</body>
+    </html>`;
+
+  const blob = new Blob([html], {
+    type: "application/vnd.ms-excel"
+  });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+}
+
+document.getElementById("exportCsvBtn").addEventListener("click", () => {
+  const tahun = document.getElementById("filterTahun")?.value || "-";
+  exportTableToCSV(`Data_RS_${tahun}.csv`);
+});
+
+document.getElementById("exportXlsBtn").addEventListener("click", () => {
+  const tahun = document.getElementById("filterTahun")?.value || new Date().getFullYear();
+  exportTableToXLS(`Data_RS_${tahun}.xls`);
+});
 
 function initDropdowns() {
   document.querySelectorAll('.dropdown').forEach(dropdown => {
