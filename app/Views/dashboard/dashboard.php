@@ -955,7 +955,7 @@ async function loadLineChartOnly(filters, isInitial = false) {
       grouped[row.jenis][row.tahun] = row.total;
     });
 
-    const datasets = Object.entries(grouped).map(([jenis, values], i) => ({
+    let datasets = Object.entries(grouped).map(([jenis, values], i) => ({
       label: jenis,
       data: tahunLabels.map(th => values[th] || 0),
       borderColor: warnaJenisRS[jenis] || fixedColors[i % fixedColors.length],
@@ -965,6 +965,12 @@ async function loadLineChartOnly(filters, isInitial = false) {
       pointRadius: 4,
       pointHoverRadius: 6,
     }));
+
+    datasets.sort((a, b) => {
+      const totalA = a.data.reduce((sum, n) => sum + n, 0);
+      const totalB = b.data.reduce((sum, n) => sum + n, 0);
+      return totalB - totalA;
+    });
 
     renderLineChart("jenis", {
       labels: tahunLabels,

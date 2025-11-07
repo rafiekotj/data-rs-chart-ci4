@@ -208,11 +208,10 @@ class ModelDashboard extends Model
 
     $allData = [];
 
-    // 🔁 Loop setiap tahun dalam rentang
     for ($tahun = $tahunAwal; $tahun <= $tahunAkhir; $tahun++) {
       $payload = [
         'kolom' => $kolom,
-        'subkolom' => null, // ⬅️ tidak pakai kategori
+        'subkolom' => null,
         'tahun_filter' => $tahun,
         'prov_filter' => $filters['provinsi'] ?? null,
         'kab_filter' => $filters['kabupaten_kota'] ?? null,
@@ -222,7 +221,6 @@ class ModelDashboard extends Model
         'kategori_list' => null,
       ];
 
-      // 🔹 Ambil data dari Supabase (fungsi get_rs_summary)
       $response = $this->callRPC('get_rs_summary', $payload);
 
       if (!$response || !is_array($response)) {
@@ -230,14 +228,12 @@ class ModelDashboard extends Model
         continue;
       }
 
-      // Tambahkan tahun ke setiap hasil
       foreach ($response as $row) {
         $row['tahun'] = $tahun;
         $allData[] = $row;
       }
     }
 
-    // 🔹 Gabungkan total berdasarkan nama + tahun
     $grouped = [];
     foreach ($allData as $row) {
       $nama = $row['nama'] ?? '-';
