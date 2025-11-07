@@ -503,7 +503,8 @@ async function applyFilter(isInitial = false) {
 
   await Promise.all([
     loadBarChartOnly(filters, isInitial),
-    loadLineChartOnly(filters, isInitial)
+    loadLineChartOnly(filters, isInitial),
+    loadFilteredTable(filters)
   ]).catch(err => console.error("❌ Gagal memuat salah satu chart:", err));
 }
 
@@ -1083,6 +1084,84 @@ function renderLineChart(tipe, data) {
       }
     },
     plugins: [ChartDataLabels, verticalLinePlugin]
+  });
+}
+
+async function loadFilteredTable(filters) {
+  const loading = document.getElementById("tableLoading");
+  loading.classList.remove("d-none");
+
+  try {
+    const params = new URLSearchParams();
+    if (filters.tahun) params.append("tahun", filters.tahun);
+    if (filters.provinsi) params.append("provinsi", filters.provinsi);
+    if (filters.kabupaten_kota) params.append("kabupaten_kota", filters.kabupaten_kota);
+    if (filters.jenis_rs?.length) params.append("jenis_rs", filters.jenis_rs.join(","));
+    if (filters.kelas_rs?.length) params.append("kelas_rs", filters.kelas_rs.join(","));
+    if (filters.penyelenggara_grup?.length) params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
+
+    const res = await fetch(`/dashboard/getFilteredTable?${params.toString()}`);
+    let data = await res.json();
+
+    const jenisOrder = [
+      "RSU", "RSIA", "RSK Jiwa", "RSK Mata", "RSK GM", "RSK Bedah", "RSK Jantung",
+      "RSK Paru", "RSK Orthopedi", "RSK Kanker", "RSK THT-KL", "RSK Infeksi",
+      "RSK Ginjal", "RS Bergerak", "RSK Otak", "RSKO", "RSK Stroke"
+    ];
+
+    data.sort((a, b) => {
+      const idxA = jenisOrder.indexOf(a.jenis_rs);
+      const idxB = jenisOrder.indexOf(b.jenis_rs);
+
+      if (idxA !== idxB) {
+        if (idxA === -1) return 1;
+        if (idxB === -1) return -1;
+        return idxA - idxB;
+      }
+
+      const provCompare = (a.provinsi || "").localeCompare(b.provinsi || "");
+      if (provCompare !== 0) return provCompare;
+
+      return (a.kabupaten_kota || "").localeCompare(b.kabupaten_kota || "");
+    });
+
+    console.log("📊 Data tabel setelah sort:", data);
+    renderTable(data);
+  } catch (err) {
+    console.error("❌ Gagal memuat tabel:", err);
+  } finally {
+    loading.classList.add("d-none");
+  }
+}
+
+function renderTable(data) {
+  const tableBody = document.querySelector("#rsTable tbody");
+  tableBody.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="text-center text-muted py-4">
+          Tidak ada data
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  data.forEach((row) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${row.rumah_sakit ?? '-'}</td>
+      <td>${row.jenis_rs ?? '-'}</td>
+      <td>${row.kelas_rs ?? '-'}</td>
+      <td>${row.alamat ?? '-'}</td>
+      <td>${row.kabupaten_kota ?? '-'}</td>
+      <td>${row.provinsi ?? '-'}</td>
+      <td>${row.penyelenggara_grup ?? '-'}</td>
+      <td>${row.penyelenggara_kategori ?? '-'}</td>
+    `;
+    tableBody.appendChild(tr);
   });
 }
 

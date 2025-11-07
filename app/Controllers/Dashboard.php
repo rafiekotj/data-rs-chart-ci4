@@ -177,6 +177,26 @@ class Dashboard extends BaseController
     }
   }
 
+  public function getFilteredTable()
+  {
+    $kolom = $this->request->getGet('kolom') ?? 'kelas_rs';
+    $subkolom = $this->request->getGet('subkolom') ?? 'jenis_rs';
+
+    $filters = [
+      'tahun' => $this->request->getGet('tahun'),
+      'provinsi' => $this->request->getGet('provinsi'),
+      'kabupaten_kota' => $this->request->getGet('kabupaten_kota'),
+      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
+    ];
+
+    $data = $this->dashboardModel->getFilteredTable($kolom, $filters, $subkolom);
+
+    return $this->response->setJSON($data);
+  }
+
   public function getTableData()
   {
     $tipe = trim($this->request->getGet('tipe') ?? '');
