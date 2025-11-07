@@ -68,8 +68,8 @@ class Dashboard extends BaseController
 
     $filters = [
       'tahun' => $this->request->getGet('tahun') ?: null,
-      'provinsi' => $this->request->getGet('provinsi') ?: null,
-      'kabupaten_kota' => $this->request->getGet('kabupaten') ?: null,
+      'provinsi' => $this->parseList($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->parseList($this->request->getGet('kabupaten')),
       'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
       'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
       'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),

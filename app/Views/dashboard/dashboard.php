@@ -481,11 +481,13 @@ async function applyFilter(isInitial = false) {
     provinsi: provinsi &&
       provinsi.length !==
       document.querySelectorAll("#dropdownListProvinsi input[type='checkbox']").length - 1 ?
-      provinsi[0] : null,
+      provinsi :
+      null,
     kabupaten_kota: kabupaten &&
       kabupaten.length !==
       document.querySelectorAll("#dropdownListKabupatenKota input[type='checkbox']").length - 1 ?
-      kabupaten[0] : null,
+      kabupaten :
+      null,
     tahun: tahun || null,
   };
 
@@ -1312,9 +1314,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const menu = document.querySelector(id);
     if (!menu) return;
     const checkboxes = menu.querySelectorAll("input[type='checkbox']");
-    checkboxes.forEach(cb => (cb.checked = true));
+
+    checkboxes.forEach(cb => (cb.checked = false));
+
     const dropdown = menu.closest(".dropdown");
-    updateDropdownButtonText(dropdown);
+    const button = dropdown.querySelector(".custom-select-dropdown");
+    button.textContent = "Semua";
   });
 
   applyFilter(true);

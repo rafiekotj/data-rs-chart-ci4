@@ -242,3 +242,193 @@ DEBUG - 2025-11-07 07:25:16 --> [Dashboard::getBarData] Payload: {"kolom":"kelas
 DEBUG - 2025-11-07 07:25:20 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
 DEBUG - 2025-11-07 07:25:56 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2024","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
 DEBUG - 2025-11-07 07:25:59 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2024","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:32:09 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:32:47 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:32:56 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Aceh","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:34:02 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:02 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:02 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:06 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:06 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:06 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:06 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:06 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:34:09 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:09 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:09 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:09 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:09 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:34:09 --> Cache hit untuk provinsi: Banten
+DEBUG - 2025-11-07 07:34:09 --> Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:34:12 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:12 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:12 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:12 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:12 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:34:12 --> Cache hit untuk provinsi: Banten
+DEBUG - 2025-11-07 07:34:12 --> Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:34:12 --> Cache hit untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:34:12 --> Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-07 07:34:15 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:15 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:34:15 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:15 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:34:15 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:34:15 --> Cache hit untuk provinsi: Banten
+DEBUG - 2025-11-07 07:34:15 --> Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:34:15 --> Cache hit untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:34:15 --> Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-07 07:34:15 --> Cache hit untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-07 07:34:15 --> Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-07 07:34:18 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Aceh","kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:34:55 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Aceh","kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:36:20 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:36:20 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:36:20 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:36:20 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:36:20 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:36:20 --> Cache hit untuk provinsi: Banten
+DEBUG - 2025-11-07 07:36:20 --> Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:36:20 --> Cache hit untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:36:20 --> Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-07 07:36:20 --> Cache hit untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-07 07:36:20 --> Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-07 07:36:20 --> Cache hit untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-07 07:36:21 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:36:21 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:36:21 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:36:21 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:36:21 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:36:21 --> Cache hit untuk provinsi: Banten
+DEBUG - 2025-11-07 07:36:21 --> Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:36:21 --> Cache hit untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:36:21 --> Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-07 07:36:21 --> Cache hit untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-07 07:36:21 --> Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-07 07:36:21 --> Cache hit untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-07 07:36:21 --> Query kabupaten untuk provinsi: Gorontalo
+DEBUG - 2025-11-07 07:36:24 --> Query kabupaten untuk provinsi: Jambi
+DEBUG - 2025-11-07 07:36:27 --> Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-07 07:36:29 --> Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-07 07:36:32 --> Query kabupaten untuk provinsi: Jawa Timur
+DEBUG - 2025-11-07 07:36:34 --> Query kabupaten untuk provinsi: Kalimantan Barat
+DEBUG - 2025-11-07 07:36:36 --> Query kabupaten untuk provinsi: Kalimantan Selatan
+DEBUG - 2025-11-07 07:36:39 --> Query kabupaten untuk provinsi: Kalimantan Tengah
+DEBUG - 2025-11-07 07:36:41 --> Query kabupaten untuk provinsi: Kalimantan Timur
+DEBUG - 2025-11-07 07:36:43 --> Query kabupaten untuk provinsi: Kalimantan Utara
+DEBUG - 2025-11-07 07:36:47 --> Query kabupaten untuk provinsi: Kepulauan Bangka Belitung
+DEBUG - 2025-11-07 07:36:51 --> Query kabupaten untuk provinsi: Kepulauan Riau
+DEBUG - 2025-11-07 07:36:54 --> Query kabupaten untuk provinsi: Lampung
+DEBUG - 2025-11-07 07:36:58 --> Query kabupaten untuk provinsi: Maluku
+DEBUG - 2025-11-07 07:37:01 --> Query kabupaten untuk provinsi: Maluku Utara
+DEBUG - 2025-11-07 07:37:03 --> Query kabupaten untuk provinsi: Nusa Tenggara Barat
+DEBUG - 2025-11-07 07:37:05 --> Query kabupaten untuk provinsi: Nusa Tenggara Timur
+DEBUG - 2025-11-07 07:37:08 --> Query kabupaten untuk provinsi: Papua
+DEBUG - 2025-11-07 07:37:11 --> Query kabupaten untuk provinsi: Papua Barat
+DEBUG - 2025-11-07 07:37:14 --> Query kabupaten untuk provinsi: Papua Barat Daya
+DEBUG - 2025-11-07 07:37:17 --> Query kabupaten untuk provinsi: Papua Pegunungan
+DEBUG - 2025-11-07 07:37:19 --> Query kabupaten untuk provinsi: Papua Selatan
+CRITICAL - 2025-11-07 07:37:21 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 57.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-07 07:37:21 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:37:21 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:37:22 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:37:22 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:37:22 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:37:22 --> Cache hit untuk provinsi: Banten
+DEBUG - 2025-11-07 07:37:23 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:37:23 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:37:23 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:37:23 --> Cache hit untuk provinsi: Banten
+DEBUG - 2025-11-07 07:37:23 --> Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:37:23 --> Cache hit untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:37:28 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal","RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:39:09 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:39:36 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:40:20 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":"kelas_rs","filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:40:38 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":"kelas_rs","filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:41:19 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:41:28 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:41:30 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:41:32 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:41:38 --> Query kabupaten untuk provinsi: Bengkulu
+DEBUG - 2025-11-07 07:41:41 --> Query kabupaten untuk provinsi: DI Yogyakarta
+DEBUG - 2025-11-07 07:41:45 --> Query kabupaten untuk provinsi: DKI Jakarta
+DEBUG - 2025-11-07 07:41:49 --> Query kabupaten untuk provinsi: Gorontalo
+DEBUG - 2025-11-07 07:41:53 --> Query kabupaten untuk provinsi: Jambi
+DEBUG - 2025-11-07 07:41:55 --> Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-07 07:41:58 --> Query kabupaten untuk provinsi: Jawa Tengah
+DEBUG - 2025-11-07 07:42:01 --> Query kabupaten untuk provinsi: Jawa Timur
+DEBUG - 2025-11-07 07:42:04 --> Query kabupaten untuk provinsi: Kalimantan Barat
+DEBUG - 2025-11-07 07:42:06 --> Query kabupaten untuk provinsi: Kalimantan Selatan
+DEBUG - 2025-11-07 07:42:08 --> Query kabupaten untuk provinsi: Kalimantan Tengah
+DEBUG - 2025-11-07 07:42:10 --> Query kabupaten untuk provinsi: Kalimantan Timur
+DEBUG - 2025-11-07 07:42:12 --> Query kabupaten untuk provinsi: Kalimantan Utara
+DEBUG - 2025-11-07 07:42:14 --> Query kabupaten untuk provinsi: Kepulauan Bangka Belitung
+DEBUG - 2025-11-07 07:42:17 --> Query kabupaten untuk provinsi: Kepulauan Riau
+DEBUG - 2025-11-07 07:42:19 --> Query kabupaten untuk provinsi: Lampung
+DEBUG - 2025-11-07 07:42:21 --> Query kabupaten untuk provinsi: Maluku
+DEBUG - 2025-11-07 07:42:23 --> Query kabupaten untuk provinsi: Maluku Utara
+DEBUG - 2025-11-07 07:42:26 --> Query kabupaten untuk provinsi: Nusa Tenggara Barat
+CRITICAL - 2025-11-07 07:42:28 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: dashboard/getKabupatenByProvinsi]
+in APPPATH\Models\ModelDashboard.php on line 57.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2025-11-07 07:42:30 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:42:30 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:42:30 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:42:30 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:42:30 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:42:30 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:42:31 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:42:31 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:42:31 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:42:31 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:42:31 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 07:42:31 --> Cache hit untuk provinsi: Banten
+DEBUG - 2025-11-07 07:42:32 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:42:32 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:42:33 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:42:53 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:42:59 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 07:43:01 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:43:13 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:43:23 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:43:23 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:43:26 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:44:00 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:54:15 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:54:37 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:57:28 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:57:32 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 07:57:32 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 07:57:32 --> Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-07 07:57:45 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Bali","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 07:57:52 --> [DashboardModel::getLineData] Tidak ada data untuk tahun 2024
+DEBUG - 2025-11-07 07:58:31 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:01:54 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:02:16 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":"Bali,Jawa,Barat","kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:05:21 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":["Bali","Jawa","Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:06:51 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":"kelas_rs","filters":{"tahun":"2025","provinsi":["Bali","Jawa","Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:09:03 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":"kelas_rs","filters":{"tahun":"2025","provinsi":["Bali","Jawa","Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:09:57 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":["RSU","RSIA","RSK Jiwa","RSK Mata","RSK GM","RSK Bedah","RSK Jantung","RSK Paru","RSK Orthopedi","RSK Kanker","RSK THT-KL","RSK Infeksi","RSK Ginjal RS Bergerak","RSK Otak","RSKO","RSK Stroke"],"kelas_rs":["A","B","C","D","D PRATAMA","Belum Ditetapkan"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:12:20 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":"kelas_rs","filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:13:32 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:17:18 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 08:17:21 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 08:17:21 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 08:17:21 --> Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-07 08:17:25 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":["Bali"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:17:31 --> [DashboardModel::getLineData] Tidak ada data untuk tahun 2024
+DEBUG - 2025-11-07 08:22:13 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:22:59 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 08:23:01 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 08:23:01 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 08:23:01 --> Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-07 08:23:09 --> [DashboardModel::getLineData] Tidak ada data untuk tahun 2024
+DEBUG - 2025-11-07 08:23:10 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:24:03 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:24:10 --> [DashboardModel::getLineData] Tidak ada data untuk tahun 2024
+DEBUG - 2025-11-07 08:24:12 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}

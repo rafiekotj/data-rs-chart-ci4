@@ -186,12 +186,12 @@ class ModelDashboard extends Model
       'kolom' => $kolom,
       'subkolom' => $subkolom,
       'tahun_filter' => $filters['tahun'] ?? null,
-      'prov_filter' => $filters['provinsi'] ?? null,
-      'kab_filter' => $filters['kabupaten_kota'] ?? null,
-      'jenis_list' => !empty($filters['jenis_rs']) ? $filters['jenis_rs'] : null,
-      'kelas_list' => !empty($filters['kelas_rs']) ? $filters['kelas_rs'] : null,
-      'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? $filters['penyelenggara_grup'] : null,
-      'kategori_list' => !empty($filters['penyelenggara_kategori']) ? $filters['penyelenggara_kategori'] : null,
+      'prov_filter' => !empty($filters['provinsi']) ? (array) $filters['provinsi'] : null,
+      'kab_filter' => !empty($filters['kabupaten_kota']) ? (array) $filters['kabupaten_kota'] : null,
+      'jenis_list' => !empty($filters['jenis_rs']) ? (array) $filters['jenis_rs'] : null,
+      'kelas_list' => !empty($filters['kelas_rs']) ? (array) $filters['kelas_rs'] : null,
+      'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? (array) $filters['penyelenggara_grup'] : null,
+      'kategori_list' => !empty($filters['penyelenggara_kategori']) ? (array) $filters['penyelenggara_kategori'] : null,
     ];
 
     return $this->callRPC('get_rs_summary', $payload);
