@@ -48,8 +48,7 @@ class ModelDashboard extends Model
           'Content-Type: application/json',
           'Accept: application/json',
           'Range-Unit: items',
-          'Range: 0-*',
-          'Prefer: count=exact',
+          'Range: 0-999999',
         ],
         CURLOPT_TIMEOUT => 30,
       ]);
@@ -214,12 +213,14 @@ class ModelDashboard extends Model
         'kolom' => $kolom,
         'subkolom' => null,
         'tahun_filter' => $tahun,
-        'prov_filter' => $filters['provinsi'] ?? null,
-        'kab_filter' => $filters['kabupaten_kota'] ?? null,
-        'jenis_list' => !empty($filters['jenis_rs']) ? $filters['jenis_rs'] : null,
-        'kelas_list' => !empty($filters['kelas_rs']) ? $filters['kelas_rs'] : null,
-        'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? $filters['penyelenggara_grup'] : null,
-        'kategori_list' => null,
+        'prov_filter' => !empty($filters['provinsi']) ? (array) $filters['provinsi'] : null,
+        'kab_filter' => !empty($filters['kabupaten_kota']) ? (array) $filters['kabupaten_kota'] : null,
+        'jenis_list' => !empty($filters['jenis_rs']) ? (array) $filters['jenis_rs'] : null,
+        'kelas_list' => !empty($filters['kelas_rs']) ? (array) $filters['kelas_rs'] : null,
+        'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? (array) $filters['penyelenggara_grup'] : null,
+        'kategori_list' => !empty($filters['penyelenggara_kategori'])
+          ? (array) $filters['penyelenggara_kategori']
+          : null,
       ];
 
       $response = $this->callRPC('get_rs_summary', $payload);
@@ -261,14 +262,30 @@ class ModelDashboard extends Model
       'kolom' => $kolom,
       'subkolom' => $subkolom,
       'tahun_filter' => $filters['tahun'] ?? null,
-      'prov_filter' => $filters['provinsi'] ?? null,
-      'kab_filter' => $filters['kabupaten_kota'] ?? null,
-      'jenis_list' => !empty($filters['jenis_rs']) ? $filters['jenis_rs'] : null,
-      'kelas_list' => !empty($filters['kelas_rs']) ? $filters['kelas_rs'] : null,
-      'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? $filters['penyelenggara_grup'] : null,
-      'kategori_list' => !empty($filters['penyelenggara_kategori']) ? $filters['penyelenggara_kategori'] : null,
+      'prov_filter' => !empty($filters['provinsi']) ? (array) $filters['provinsi'] : null,
+      'kab_filter' => !empty($filters['kabupaten_kota']) ? (array) $filters['kabupaten_kota'] : null,
+      'jenis_list' => !empty($filters['jenis_rs']) ? (array) $filters['jenis_rs'] : null,
+      'kelas_list' => !empty($filters['kelas_rs']) ? (array) $filters['kelas_rs'] : null,
+      'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? (array) $filters['penyelenggara_grup'] : null,
+      'kategori_list' => !empty($filters['penyelenggara_kategori']) ? (array) $filters['penyelenggara_kategori'] : null,
+      'limit_rows' => 10000,
     ];
 
-    return $this->callRPC('get_rs_filtered', $payload);
+    log_message('debug', '[DashboardModel::getFilteredTable] Payload dikirim: ' . json_encode($payload));
+
+    $data = $this->callRPC('get_rs_filtered', $payload);
+
+    if (!is_array($data)) {
+      return [];
+    }
+
+    $total = count($data);
+    $limited = array_slice($data, 0, 500);
+
+    return [
+      'data' => $limited,
+      'total' => $total,
+      'limited' => $total > 500,
+    ];
   }
 }

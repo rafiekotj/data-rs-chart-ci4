@@ -432,3 +432,33 @@ DEBUG - 2025-11-07 08:23:10 --> [Dashboard::getBarData] Payload: {"kolom":"jenis
 DEBUG - 2025-11-07 08:24:03 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
 DEBUG - 2025-11-07 08:24:10 --> [DashboardModel::getLineData] Tidak ada data untuk tahun 2024
 DEBUG - 2025-11-07 08:24:12 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:31:09 --> [Dashboard::getLineData] Filter: {"tahun_awal":null,"tahun_akhir":null,"provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}
+ERROR - 2025-11-07 08:31:09 --> [DashboardModel::getLineData] Tahun awal/akhir belum ditentukan.
+DEBUG - 2025-11-07 08:31:31 --> [Dashboard::getLineData] Filter: {"tahun_awal":2024,"tahun_akhir":2025,"provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 08:31:52 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":"kelas_rs","filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:32:48 --> [Dashboard::getLineData] Filter: {"tahun_awal":2024,"tahun_akhir":2024,"provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 08:32:51 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:33:27 --> [Dashboard::getLineData] Filter: {"tahun_awal":2024,"tahun_akhir":2025,"provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 08:33:48 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 08:33:51 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 08:33:53 --> Query kabupaten untuk provinsi: Aceh
+DEBUG - 2025-11-07 08:33:53 --> Cache hit untuk provinsi: Aceh
+DEBUG - 2025-11-07 08:33:54 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 08:33:54 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 08:33:54 --> Query kabupaten untuk provinsi: Jawa Barat
+DEBUG - 2025-11-07 08:33:57 --> [Dashboard::getLineData] Filter: {"tahun_awal":2024,"tahun_akhir":2024,"provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 08:33:58 --> [Dashboard::getBarData] Payload: {"kolom":"kelas_rs","subkolom":"jenis_rs","filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:34:00 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:34:06 --> [Dashboard::getLineData] Filter: {"tahun_awal":2025,"tahun_akhir":2025,"provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 08:52:49 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:53:06 --> [Dashboard::getLineData] Filter: {"tahun_awal":2024,"tahun_akhir":2024,"provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 08:53:25 --> [Dashboard::getLineData] Filter: {"tahun_awal":2025,"tahun_akhir":2025,"provinsi":null,"kabupaten_kota":null,"jenis_rs":null,"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 08:56:30 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":"kelas_rs","filters":{"tahun":"2025","provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:56:41 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 08:56:45 --> Query kabupaten untuk provinsi: Bali
+DEBUG - 2025-11-07 08:56:45 --> Cache hit untuk provinsi: Bali
+DEBUG - 2025-11-07 08:56:45 --> Query kabupaten untuk provinsi: Banten
+DEBUG - 2025-11-07 08:56:48 --> [Dashboard::getBarData] Payload: {"kolom":"jenis_rs","subkolom":null,"filters":{"tahun":"2025","provinsi":["Bali","Banten"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}}
+DEBUG - 2025-11-07 08:56:55 --> [Dashboard::getLineData] Filter: {"tahun_awal":2024,"tahun_akhir":2024,"provinsi":["Bali","Banten"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 08:56:58 --> [Dashboard::getLineData] Filter: {"tahun_awal":2025,"tahun_akhir":2025,"provinsi":["Bali","Banten"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":null,"penyelenggara_grup":null,"penyelenggara_kategori":null}
+DEBUG - 2025-11-07 09:06:14 --> [Dashboard::getLineData] Filter: {"tahun_awal":2024,"tahun_akhir":2025,"provinsi":["Bali","Jawa Barat"],"kabupaten_kota":null,"jenis_rs":["RSU","RSIA"],"kelas_rs":["A","B"],"penyelenggara_grup":null,"penyelenggara_kategori":null}

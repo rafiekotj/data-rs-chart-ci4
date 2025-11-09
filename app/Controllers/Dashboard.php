@@ -69,7 +69,7 @@ class Dashboard extends BaseController
     $filters = [
       'tahun' => $this->request->getGet('tahun') ?: null,
       'provinsi' => $this->parseList($this->request->getGet('provinsi')),
-      'kabupaten_kota' => $this->parseList($this->request->getGet('kabupaten')),
+      'kabupaten_kota' => $this->parseList($this->request->getGet('kabupaten_kota')),
       'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
       'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
       'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
@@ -112,14 +112,15 @@ class Dashboard extends BaseController
     $filters = [
       'tahun_awal' => (int) $this->request->getGet('tahun_awal') ?: null,
       'tahun_akhir' => (int) $this->request->getGet('tahun_akhir') ?: null,
-      'provinsi' => $this->request->getGet('provinsi') ?: null,
-      'kabupaten_kota' => $this->request->getGet('kabupaten_kota') ?: null,
-      'jenis_rs' => $this->request->getGet('jenis_rs') ? explode(',', $this->request->getGet('jenis_rs')) : null,
-      'kelas_rs' => $this->request->getGet('kelas_rs') ? explode(',', $this->request->getGet('kelas_rs')) : null,
-      'penyelenggara_grup' => $this->request->getGet('penyelenggara_grup')
-        ? explode(',', $this->request->getGet('penyelenggara_grup'))
-        : null,
+      'provinsi' => $this->parseList($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->parseList($this->request->getGet('kabupaten_kota')),
+      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->parseList($this->request->getGet('kategori_rs')),
     ];
+
+    log_message('debug', '[Dashboard::getLineData] Filter: ' . json_encode($filters));
 
     $data = $this->dashboardModel->getLineData($kolom, $filters);
 
@@ -184,17 +185,32 @@ class Dashboard extends BaseController
 
     $filters = [
       'tahun' => $this->request->getGet('tahun'),
-      'provinsi' => $this->request->getGet('provinsi'),
-      'kabupaten_kota' => $this->request->getGet('kabupaten_kota'),
+      'provinsi' => $this->parseList($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->parseList($this->request->getGet('kabupaten_kota')),
       'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
       'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
       'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
       'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
     ];
 
-    $data = $this->dashboardModel->getFilteredTable($kolom, $filters, $subkolom);
+    log_message('debug', '[DashboardController::getFilteredTable] Filters diterima: ' . json_encode($filters));
 
-    return $this->response->setJSON($data);
+    $result = $this->dashboardModel->getFilteredTable($kolom, $filters, $subkolom);
+
+    $response = [
+      'data' => $result['data'] ?? $result,
+      'total' => $result['total'] ?? count($result),
+      'limited' => $result['limited'] ?? false,
+    ];
+
+    if (!empty($response['limited'])) {
+      log_message(
+        'debug',
+        '[DashboardController::getFilteredTable] Hasil dibatasi 500 baris dari total ' . $response['total'],
+      );
+    }
+
+    return $this->response->setJSON($response);
   }
 
   public function exportCsv()

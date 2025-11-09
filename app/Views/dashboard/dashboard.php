@@ -286,6 +286,8 @@
                 </tr>
               </tbody>
             </table>
+
+            <div id="tableFooter" class="mt-2 text-center text-muted small"></div>
           </div>
         </div>
       </div>
@@ -474,38 +476,33 @@ async function applyFilter(isInitial = false) {
   const kabupaten = getCheckedValues("#dropdownListKabupatenKota");
   const tahun = document.getElementById("filterTahun")?.value || null;
 
+  const allProvinsi = Array.from(document.querySelectorAll("#dropdownListProvinsi input[type='checkbox']"))
+    .map(cb => cb.value)
+    .filter(v => v && v !== "Semua");
+
+  const allKabupaten = Array.from(document.querySelectorAll("#dropdownListKabupatenKota input[type='checkbox']"))
+    .map(cb => cb.value)
+    .filter(v => v && v !== "Semua");
+
+  const allJenis = Array.from(document.querySelectorAll("#dropdownListJenis input[type='checkbox']"))
+    .map(cb => cb.value)
+    .filter(v => v && v !== "Semua");
+
   const filters = {
-    jenis_rs: jenis || [],
-    kelas_rs: kelas || [],
-    penyelenggara_grup: penyelenggara || [],
-    provinsi: provinsi &&
-      provinsi.length !==
-      document.querySelectorAll("#dropdownListProvinsi input[type='checkbox']").length - 1 ?
-      provinsi :
-      null,
-    kabupaten_kota: kabupaten &&
-      kabupaten.length !==
-      document.querySelectorAll("#dropdownListKabupatenKota input[type='checkbox']").length - 1 ?
-      kabupaten :
-      null,
     tahun: tahun || null,
+    jenis_rs: jenis && jenis.length > 0 ?
+      (jenis.includes("Semua") || isInitial ? allJenis : jenis) : (isInitial ? allJenis : null),
+    kelas_rs: kelas && kelas.length > 0 ? kelas : null,
+    penyelenggara_grup: penyelenggara && penyelenggara.length > 0 ? penyelenggara : null,
+    provinsi: provinsi && provinsi.length > 0 ?
+      (provinsi.includes("Semua") || isInitial ? allProvinsi : provinsi) : (isInitial ? allProvinsi : null),
+    kabupaten_kota: kabupaten && kabupaten.length > 0 ?
+      (kabupaten.includes("Semua") || isInitial ? allKabupaten : kabupaten) : (isInitial ? allKabupaten : null),
   };
 
   lastFilters = filters;
 
   console.log("🎯 [applyFilter] Filter aktif:", filters);
-
-  if (
-    !filters.tahun &&
-    !filters.provinsi &&
-    !filters.kabupaten_kota &&
-    (!filters.jenis_rs || filters.jenis_rs.length === 0) &&
-    (!filters.kelas_rs || filters.kelas_rs.length === 0) &&
-    (!filters.penyelenggara_grup || filters.penyelenggara_grup.length === 0)
-  ) {
-    document.querySelectorAll(".chart-wrapper").forEach(w => (w.style.display = "none"));
-    return;
-  }
 
   await Promise.all([
     loadBarChartOnly(filters, isInitial),
@@ -1097,6 +1094,8 @@ async function loadFilteredTable(filters) {
   const loading = document.getElementById("tableLoading");
   loading.classList.remove("d-none");
 
+  document.getElementById("tableFooter").innerHTML = "";
+
   try {
     const params = new URLSearchParams();
     if (filters.tahun) params.append("tahun", filters.tahun);
@@ -1104,12 +1103,30 @@ async function loadFilteredTable(filters) {
     if (filters.kabupaten_kota) params.append("kabupaten_kota", filters.kabupaten_kota);
     if (filters.jenis_rs?.length) params.append("jenis_rs", filters.jenis_rs.join(","));
     if (filters.kelas_rs?.length) params.append("kelas_rs", filters.kelas_rs.join(","));
-    if (filters.penyelenggara_grup?.length) params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
+    if (filters.penyelenggara_grup?.length)
+      params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
 
     const res = await fetch(`/dashboard/getFilteredTable?${params.toString()}`);
-    let data = await res.json();
+    const result = await res.json();
+
+    console.log("🧩 Hasil JSON mentah dari backend:", result);
+
+    const data = Array.isArray(result) ? result : result.data || [];
+    const total = result.total ?? data.length;
+    const limited = result.limited ?? false;
 
     console.log("✅ Jumlah data diterima dari backend:", data.length);
+
+    if (limited) {
+      const footer = document.getElementById("tableFooter");
+      if (footer) {
+        footer.innerHTML = `
+          <div class="text-muted small text-center mt-2">
+            Terdapat lebih dari ${data.length} baris data. 
+            Silakan lihat seluruh data melalui fitur <strong>Export CSV</strong> atau <strong>Export XLS</strong>.
+          </div>`;
+      }
+    }
 
     const jenisOrder = [
       "RSU", "RSIA", "RSK Jiwa", "RSK Mata", "RSK GM", "RSK Bedah", "RSK Jantung",
@@ -1120,20 +1137,14 @@ async function loadFilteredTable(filters) {
     data.sort((a, b) => {
       const idxA = jenisOrder.indexOf(a.jenis_rs);
       const idxB = jenisOrder.indexOf(b.jenis_rs);
-
       if (idxA !== idxB) {
         if (idxA === -1) return 1;
         if (idxB === -1) return -1;
         return idxA - idxB;
       }
-
-      const provCompare = (a.provinsi || "").localeCompare(b.provinsi || "");
-      if (provCompare !== 0) return provCompare;
-
-      return (a.kabupaten_kota || "").localeCompare(b.kabupaten_kota || "");
+      return a.provinsi.localeCompare(b.provinsi);
     });
 
-    console.log("📊 Data tabel setelah sort:", data);
     renderTable(data);
   } catch (err) {
     console.error("❌ Gagal memuat tabel:", err);
