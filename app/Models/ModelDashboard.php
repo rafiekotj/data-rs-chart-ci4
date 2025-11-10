@@ -25,15 +25,17 @@ class ModelDashboard extends Model
     $this->supabaseKey = $supabaseKey;
   }
 
-  private function callRPC(string $function, array $payload = []): array
+  private function callRPC(string $function, array $payload = [], bool $useCache = true): array
   {
     $url = "{$this->rpcUrl}/{$function}";
     $cacheKey = 'rpc_' . $function . '_' . md5(json_encode($payload));
     $cache = cache();
 
-    $cached = $cache->get($cacheKey);
-    if (is_array($cached)) {
-      return $cached;
+    if ($useCache) {
+      $cached = $cache->get($cacheKey);
+      if (is_array($cached)) {
+        return $cached;
+      }
     }
 
     try {
@@ -47,10 +49,8 @@ class ModelDashboard extends Model
           "Authorization: Bearer {$this->supabaseKey}",
           'Content-Type: application/json',
           'Accept: application/json',
-          'Range-Unit: items',
-          'Range: 0-999999',
         ],
-        CURLOPT_TIMEOUT => 30,
+        CURLOPT_TIMEOUT => 90,
       ]);
 
       $response = curl_exec($ch);
@@ -58,17 +58,25 @@ class ModelDashboard extends Model
       curl_close($ch);
 
       if ($status !== 200 || !$response) {
+        log_message('error', "[callRPC] Status $status untuk {$function}");
         return [];
       }
 
       $data = json_decode($response, true);
+
       if (!is_array($data)) {
+        log_message('error', "[callRPC] Response bukan array untuk {$function}");
         return [];
       }
 
-      $cache->save($cacheKey, $data, 1800);
+      if ($useCache) {
+        $cache->save($cacheKey, $data, 1800);
+      }
+
+      log_message('debug', '[callRPC] Ambil ' . count($data) . " baris dari {$function}");
       return $data;
-    } catch (\Throwable) {
+    } catch (\Throwable $e) {
+      log_message('error', '[callRPC] Gagal: ' . $e->getMessage());
       return [];
     }
   }
@@ -256,9 +264,25 @@ class ModelDashboard extends Model
     return array_values($grouped);
   }
 
-  public function getFilteredTable(string $kolom, array $filters = [], ?string $subkolom = null): array
-  {
-    $payload = [
+  public function getFilteredTable(
+    string $kolom,
+    array $filters = [],
+    ?string $subkolom = null,
+    int $limit = 500,
+    int $offset = 0,
+    bool $fetchAll = false,
+  ): array {
+    log_message(
+      'debug',
+      sprintf(
+        '[DashboardModel::getFilteredTable] fetchAll=%s | limit=%d | offset=%d',
+        $fetchAll ? 'true' : 'false',
+        $limit,
+        $offset,
+      ),
+    );
+
+    $payloadBase = [
       'kolom' => $kolom,
       'subkolom' => $subkolom,
       'tahun_filter' => $filters['tahun'] ?? null,
@@ -268,24 +292,64 @@ class ModelDashboard extends Model
       'kelas_list' => !empty($filters['kelas_rs']) ? (array) $filters['kelas_rs'] : null,
       'penyelenggara_list' => !empty($filters['penyelenggara_grup']) ? (array) $filters['penyelenggara_grup'] : null,
       'kategori_list' => !empty($filters['penyelenggara_kategori']) ? (array) $filters['penyelenggara_kategori'] : null,
-      'limit_rows' => 10000,
     ];
 
-    log_message('debug', '[DashboardModel::getFilteredTable] Payload dikirim: ' . json_encode($payload));
+    if ($fetchAll) {
+      $allData = [];
+      $offset = 0;
+
+      while (true) {
+        $payload = array_merge($payloadBase, [
+          'limit_rows' => $limit,
+          'offset_rows' => $offset,
+        ]);
+
+        log_message('debug', "[DashboardModel::getFilteredTable] Ambil batch offset={$offset}");
+
+        $batch = $this->callRPC('get_rs_filtered', $payload);
+        if (!is_array($batch) || count($batch) === 0) {
+          log_message('debug', "[DashboardModel::getFilteredTable] Batch kosong di offset {$offset}, berhenti loop.");
+          break;
+        }
+
+        $allData = array_merge($allData, $batch);
+
+        if (count($batch) < $limit) {
+          log_message('debug', '[DashboardModel::getFilteredTable] Batch terakhir (jumlah ' . count($batch) . ')');
+          break;
+        }
+
+        $offset += $limit;
+      }
+
+      log_message('debug', '[DashboardModel::getFilteredTable] Total data terkumpul: ' . count($allData));
+
+      return [
+        'data' => $allData,
+        'total' => count($allData),
+        'limited' => false,
+      ];
+    }
+
+    $payload = array_merge($payloadBase, [
+      'limit_rows' => $limit,
+      'offset_rows' => $offset,
+    ]);
 
     $data = $this->callRPC('get_rs_filtered', $payload);
 
     if (!is_array($data)) {
-      return [];
+      log_message('error', '[DashboardModel::getFilteredTable] Hasil RPC bukan array');
+      return ['data' => [], 'total' => 0, 'limited' => false];
     }
 
     $total = count($data);
-    $limited = array_slice($data, 0, 500);
+    $limited = $total > $limit;
 
     return [
-      'data' => $limited,
+      'data' => array_slice($data, 0, $limit),
       'total' => $total,
-      'limited' => $total > 500,
+      'limited' => $limited,
     ];
   }
 }

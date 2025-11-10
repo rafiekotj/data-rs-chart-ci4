@@ -1121,31 +1121,15 @@ async function loadFilteredTable(filters) {
       const footer = document.getElementById("tableFooter");
       if (footer) {
         footer.innerHTML = `
-          <div class="text-muted small text-center mt-2">
+          <div class="text-muted text-center fs-6 mt-3">
             Terdapat lebih dari ${data.length} baris data. 
             Silakan lihat seluruh data melalui fitur <strong>Export CSV</strong> atau <strong>Export XLS</strong>.
           </div>`;
       }
     }
 
-    const jenisOrder = [
-      "RSU", "RSIA", "RSK Jiwa", "RSK Mata", "RSK GM", "RSK Bedah", "RSK Jantung",
-      "RSK Paru", "RSK Orthopedi", "RSK Kanker", "RSK THT-KL", "RSK Infeksi",
-      "RSK Ginjal", "RS Bergerak", "RSK Otak", "RSKO", "RSK Stroke"
-    ];
-
-    data.sort((a, b) => {
-      const idxA = jenisOrder.indexOf(a.jenis_rs);
-      const idxB = jenisOrder.indexOf(b.jenis_rs);
-      if (idxA !== idxB) {
-        if (idxA === -1) return 1;
-        if (idxB === -1) return -1;
-        return idxA - idxB;
-      }
-      return a.provinsi.localeCompare(b.provinsi);
-    });
-
     renderTable(data);
+
   } catch (err) {
     console.error("❌ Gagal memuat tabel:", err);
   } finally {
@@ -1184,38 +1168,35 @@ function renderTable(data) {
   });
 }
 
-function exportTableToCSV(filename) {
-  const rows = document.querySelectorAll("#rsTable tr");
-  const csv = [];
-  const tahun = document.getElementById("filterTahun")?.value || "-";
-
-  rows.forEach((row, rowIndex) => {
-    const cols = row.querySelectorAll("td, th");
-    const rowData = Array.from(cols).map(col => `"${col.innerText.replace(/"/g, '""')}"`);
-
-    if (rowIndex === 0) {
-      rowData.push('"Tahun"');
-    } else {
-      rowData.push(`"${tahun}"`);
-    }
-
-    csv.push(rowData.join(";"));
-  });
-
-  const csvContent = csv.join("\n");
-  const blob = new Blob([csvContent], {
-    type: "text/csv;charset=utf-8;"
-  });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
-}
-
 document.getElementById("exportCsvBtn").addEventListener("click", () => {
   const tahun = document.getElementById("filterTahun")?.value || "-";
-  exportTableToCSV(`Data_RS_${tahun}.csv`);
+  const provinsi = document.getElementById("filterProvinsi")?.value || "";
+  const kabupaten = document.getElementById("filterKabupaten")?.value || "";
+  const jenis_rs = getSelectedValues("filterJenisRS");
+  const kelas_rs = getSelectedValues("filterKelasRS");
+  const penyelenggara_grup = getSelectedValues("filterPenyelenggaraGrup");
+  const penyelenggara_kategori = getSelectedValues("filterPenyelenggaraKategori");
+
+  const params = new URLSearchParams({
+    tahun,
+    provinsi,
+    kabupaten_kota: kabupaten,
+    jenis_rs: jenis_rs.join(","),
+    kelas_rs: kelas_rs.join(","),
+    penyelenggara_grup: penyelenggara_grup.join(","),
+    penyelenggara_kategori: penyelenggara_kategori.join(","),
+  });
+
+  const url = `/dashboard/exportCsv?${params.toString()}`;
+  console.log("🔗 Export CSV URL:", url);
+  window.location.href = url;
 });
+
+function getSelectedValues(selectId) {
+  const el = document.getElementById(selectId);
+  if (!el) return [];
+  return Array.from(el.selectedOptions).map(opt => opt.value);
+}
 
 document.getElementById("exportXlsBtn").addEventListener("click", () => {
   const filters = lastFilters;

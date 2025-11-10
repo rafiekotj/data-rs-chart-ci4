@@ -12,6 +12,7 @@ $routes->get('/dashboard/line/(:segment)', 'Dashboard::getLineData/$1');
 $routes->get('dashboard/getKabupatenByProvinsi', 'Dashboard::getKabupatenByProvinsi');
 $routes->get('dashboard/getDropdownList/(:segment)', 'Dashboard::getDropdownList/$1');
 $routes->get('dashboard/getFilteredTable', 'Dashboard::getFilteredTable');
+$routes->get('dashboard/exportCsv', 'Dashboard::exportCsv');
 $routes->get('dashboard/exportXls', 'Dashboard::exportXls');
 
 $routes->get('datars', 'Datars::index');

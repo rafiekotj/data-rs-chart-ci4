@@ -82,7 +82,7 @@ class Dashboard extends BaseController
       'filters' => $filters,
     ];
 
-    log_message('debug', '[Dashboard::getBarData] Payload: ' . json_encode($payload));
+    // log_message('debug', '[Dashboard::getBarData] Payload: ' . json_encode($payload));
 
     $data = $this->dashboardModel->getBarData($kolom, $filters, $subkolom);
 
@@ -183,6 +183,8 @@ class Dashboard extends BaseController
     $kolom = $this->request->getGet('kolom') ?? 'kelas_rs';
     $subkolom = $this->request->getGet('subkolom') ?? 'jenis_rs';
 
+    log_message('debug', '[DashboardController::getFilteredTable] Memanggil model getFilteredTable...');
+
     $filters = [
       'tahun' => $this->request->getGet('tahun'),
       'provinsi' => $this->parseList($this->request->getGet('provinsi')),
@@ -193,9 +195,9 @@ class Dashboard extends BaseController
       'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
     ];
 
-    log_message('debug', '[DashboardController::getFilteredTable] Filters diterima: ' . json_encode($filters));
+    // log_message('debug', '[DashboardController::getFilteredTable] Filters diterima: ' . json_encode($filters));
 
-    $result = $this->dashboardModel->getFilteredTable($kolom, $filters, $subkolom);
+    $result = $this->dashboardModel->getFilteredTable($kolom, $filters, $subkolom, 500, 0, false);
 
     $response = [
       'data' => $result['data'] ?? $result,
@@ -215,31 +217,44 @@ class Dashboard extends BaseController
 
   public function exportCsv()
   {
+    helper('filesystem');
+
     $filters = [
       'tahun' => $this->request->getGet('tahun'),
       'provinsi' => $this->request->getGet('provinsi'),
       'kabupaten_kota' => $this->request->getGet('kabupaten_kota'),
-      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
-      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
-      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
-      'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
+      'jenis_rs' => $this->request->getGet('jenis_rs') ? explode(',', $this->request->getGet('jenis_rs')) : null,
+      'kelas_rs' => $this->request->getGet('kelas_rs') ? explode(',', $this->request->getGet('kelas_rs')) : null,
+      'penyelenggara_grup' => $this->request->getGet('penyelenggara_grup')
+        ? explode(',', $this->request->getGet('penyelenggara_grup'))
+        : null,
+      'penyelenggara_kategori' => $this->request->getGet('penyelenggara_kategori')
+        ? explode(',', $this->request->getGet('penyelenggara_kategori'))
+        : null,
     ];
 
-    $data = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs');
-    $tahun = $filters['tahun'] ?? '-';
-    $filename = "data_rs_{$tahun}_" . date('Ymd_His') . '.csv';
+    log_message('debug', '[DashboardController::exportCsv] Mulai ambil semua data tanpa limit');
 
+    // Ambil semua data tanpa pagination (fetchAll = true)
+    $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
+
+    $data = $dataResult['data'] ?? [];
+
+    log_message('debug', '[DashboardController::exportCsv] Total data: ' . count($data));
+
+    if (empty($data)) {
+      return $this->response->setJSON(['error' => 'Tidak ada data']);
+    }
+
+    $filename = 'Data_RS_' . ($filters['tahun'] ?? '-') . '.csv';
     header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header("Content-Disposition: attachment; filename=\"$filename\"");
 
     $output = fopen('php://output', 'w');
-
-    fprintf($output, chr(0xef) . chr(0xbb) . chr(0xbf));
 
     fputcsv(
       $output,
       [
-        'Tahun',
         'Rumah Sakit',
         'Jenis RS',
         'Kelas RS',
@@ -248,6 +263,7 @@ class Dashboard extends BaseController
         'Provinsi',
         'Penyelenggara Grup',
         'Penyelenggara Kategori',
+        'Tahun',
       ],
       ';',
     );
@@ -256,15 +272,15 @@ class Dashboard extends BaseController
       fputcsv(
         $output,
         [
-          $tahun,
-          $row['rumah_sakit'] ?? '',
-          $row['jenis_rs'] ?? '',
-          $row['kelas_rs'] ?? '',
-          $row['alamat'] ?? '',
-          $row['kabupaten_kota'] ?? '',
-          $row['provinsi'] ?? '',
-          $row['penyelenggara_grup'] ?? '',
-          $row['penyelenggara_kategori'] ?? '',
+          $row['rumah_sakit'] ?? '-',
+          $row['jenis_rs'] ?? '-',
+          $row['kelas_rs'] ?? '-',
+          $row['alamat'] ?? '-',
+          $row['kabupaten_kota'] ?? '-',
+          $row['provinsi'] ?? '-',
+          $row['penyelenggara_grup'] ?? '-',
+          $row['penyelenggara_kategori'] ?? '-',
+          $filters['tahun'] ?? '-',
         ],
         ';',
       );
