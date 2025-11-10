@@ -268,8 +268,8 @@ class ModelDashboard extends Model
     string $kolom,
     array $filters = [],
     ?string $subkolom = null,
-    int $limit = 500,
-    int $offset = 0,
+    ?int $limit = 500,
+    ?int $offset = 0,
     bool $fetchAll = false,
   ): array {
     log_message(
@@ -299,10 +299,12 @@ class ModelDashboard extends Model
       $offset = 0;
 
       while (true) {
-        $payload = array_merge($payloadBase, [
-          'limit_rows' => $limit,
-          'offset_rows' => $offset,
-        ]);
+        $payload = $payloadBase;
+
+        if (!empty($limit)) {
+          $payload['limit_rows'] = $limit;
+          $payload['offset_rows'] = $offset;
+        }
 
         log_message('debug', "[DashboardModel::getFilteredTable] Ambil batch offset={$offset}");
 

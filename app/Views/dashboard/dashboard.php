@@ -1117,14 +1117,14 @@ async function loadFilteredTable(filters) {
 
     console.log("✅ Jumlah data diterima dari backend:", data.length);
 
-    if (limited) {
+    if (limited || data.length >= 500) {
       const footer = document.getElementById("tableFooter");
       if (footer) {
         footer.innerHTML = `
-          <div class="text-muted text-center fs-6 mt-3">
-            Terdapat lebih dari ${data.length} baris data. 
-            Silakan lihat seluruh data melalui fitur <strong>Export CSV</strong> atau <strong>Export XLS</strong>.
-          </div>`;
+      <div class="text-muted text-center fs-6 mt-3">
+        Terdapat lebih dari ${data.length} baris data. 
+        Silakan lihat seluruh data melalui fitur <strong>Export CSV</strong> atau <strong>Export XLS</strong>.
+      </div>`;
       }
     }
 

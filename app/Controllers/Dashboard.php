@@ -233,14 +233,13 @@ class Dashboard extends BaseController
         : null,
     ];
 
-    log_message('debug', '[DashboardController::exportCsv] Mulai ambil semua data tanpa limit');
+    // log_message('debug', '[DashboardController::exportCsv] Mulai ambil semua data tanpa limit');
 
-    // Ambil semua data tanpa pagination (fetchAll = true)
     $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
 
     $data = $dataResult['data'] ?? [];
 
-    log_message('debug', '[DashboardController::exportCsv] Total data: ' . count($data));
+    // log_message('debug', '[DashboardController::exportCsv] Total data: ' . count($data));
 
     if (empty($data)) {
       return $this->response->setJSON(['error' => 'Tidak ada data']);
@@ -294,58 +293,26 @@ class Dashboard extends BaseController
   {
     $filters = [
       'tahun' => $this->request->getGet('tahun'),
-      'provinsi' => $this->request->getGet('provinsi'),
-      'kabupaten_kota' => $this->request->getGet('kabupaten_kota'),
-      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
-      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
-      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
-      'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
+      'provinsi' => $this->stringToArray($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->stringToArray($this->request->getGet('kabupaten_kota')),
+      'jenis_rs' => $this->stringToArray($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->stringToArray($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->stringToArray($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->stringToArray($this->request->getGet('penyelenggara_kategori')),
     ];
 
-    $data = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs');
+    // log_message('debug', '[DashboardController::exportXls] Mulai ambil semua data tanpa limit');
+    // log_message('debug', '[DashboardController::exportXls] Filters: ' . json_encode($filters));
+
+    $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
+    $data = $dataResult['data'] ?? [];
     $tahun = $filters['tahun'] ?? '-';
 
-    $jenisOrder = [
-      'RSU',
-      'RSIA',
-      'RSK Jiwa',
-      'RSK Mata',
-      'RSK GM',
-      'RSK Bedah',
-      'RSK Jantung',
-      'RSK Paru',
-      'RSK Orthopedi',
-      'RSK Kanker',
-      'RSK THT-KL',
-      'RSK Infeksi',
-      'RSK Ginjal',
-      'RS Bergerak',
-      'RSK Otak',
-      'RSKO',
-      'RSK Stroke',
-    ];
+    // log_message('debug', '[DashboardController::exportXls] Total data: ' . count($data));
 
-    usort($data, function ($a, $b) use ($jenisOrder) {
-      $idxA = array_search($a['jenis_rs'] ?? '', $jenisOrder);
-      $idxB = array_search($b['jenis_rs'] ?? '', $jenisOrder);
-
-      if ($idxA !== $idxB) {
-        if ($idxA === false) {
-          return 1;
-        }
-        if ($idxB === false) {
-          return -1;
-        }
-        return $idxA - $idxB;
-      }
-
-      $provCompare = strcmp($a['provinsi'] ?? '', $b['provinsi'] ?? '');
-      if ($provCompare !== 0) {
-        return $provCompare;
-      }
-
-      return strcmp($a['kabupaten_kota'] ?? '', $b['kabupaten_kota'] ?? '');
-    });
+    if (empty($data)) {
+      return $this->response->setJSON(['error' => 'Tidak ada data']);
+    }
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -386,6 +353,10 @@ class Dashboard extends BaseController
     $sheet->getStyle('A1:I1')->getFont()->setBold(true);
     $sheet->setTitle("Data RS {$tahun}");
 
+    // foreach (range('A', 'I') as $col) {
+    //   $sheet->getColumnDimension($col)->setAutoSize(true);
+    // }
+
     $filename = "data_rs_{$tahun}_" . date('Ymd_His') . '.xlsx';
 
     if (ob_get_length()) {
@@ -400,5 +371,13 @@ class Dashboard extends BaseController
     $writer = new Xlsx($spreadsheet);
     $writer->save('php://output');
     exit();
+  }
+
+  private function stringToArray($param)
+  {
+    if (empty($param)) {
+      return null;
+    }
+    return is_array($param) ? $param : explode(',', $param);
   }
 }
