@@ -69,6 +69,14 @@ class Dashboard extends BaseController
     return array_map('trim', explode(',', $param));
   }
 
+  private function stringToArray($param)
+  {
+    if (empty($param)) {
+      return null;
+    }
+    return is_array($param) ? $param : explode(',', $param);
+  }
+
   public function getBarData($kolom = null)
   {
     if (!$kolom) {
@@ -301,9 +309,6 @@ class Dashboard extends BaseController
       'penyelenggara_kategori' => $this->stringToArray($this->request->getGet('penyelenggara_kategori')),
     ];
 
-    // log_message('debug', '[DashboardController::exportXls] Mulai ambil semua data tanpa limit');
-    // log_message('debug', '[DashboardController::exportXls] Filters: ' . json_encode($filters));
-
     $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
     $data = $dataResult['data'] ?? [];
     $tahun = $filters['tahun'] ?? '-';
@@ -353,10 +358,6 @@ class Dashboard extends BaseController
     $sheet->getStyle('A1:I1')->getFont()->setBold(true);
     $sheet->setTitle("Data RS {$tahun}");
 
-    // foreach (range('A', 'I') as $col) {
-    //   $sheet->getColumnDimension($col)->setAutoSize(true);
-    // }
-
     $filename = "data_rs_{$tahun}_" . date('Ymd_His') . '.xlsx';
 
     if (ob_get_length()) {
@@ -371,13 +372,5 @@ class Dashboard extends BaseController
     $writer = new Xlsx($spreadsheet);
     $writer->save('php://output');
     exit();
-  }
-
-  private function stringToArray($param)
-  {
-    if (empty($param)) {
-      return null;
-    }
-    return is_array($param) ? $param : explode(',', $param);
   }
 }

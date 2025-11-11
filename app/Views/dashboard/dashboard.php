@@ -179,7 +179,7 @@
   </div>
 </div>
 
-<!-- CHARTS -->
+<!-- BAR CHARTS -->
 <div id="chartsContainer">
   <!-- BAR CHART JENIS RS -->
   <div class="chart-wrapper position-relative mb-3 border rounded" id="chartJenisWrapper" style="display:none;">
@@ -209,6 +209,7 @@
   </div>
 </div>
 
+<!-- RENTANG TAHUN -->
 <div class="row g-3 mb-3">
   <div class="col-md-3 col-sm-6 mt-3">
     <label class="form-label">Rentang Tahun</label>
@@ -322,21 +323,52 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script>
 const fixedColors = [
-  "#2563eb", "#16a34a", "#dc2626", "#f59e0b", "#9333ea", "#0d9488", "#e11d48",
-  "#52525b", "#84cc16", "#0891b2", "#f43f5e", "#a16207", "#7c3aed", "#15803d",
-  "#c026d3", "#ea580c", "#0284c7"
+  "#2563eb", "#16a34a", "#dc2626", "#f59e0b", "#9333ea", "#0d9488",
+  "#e11d48", "#52525b", "#84cc16", "#0891b2", "#f43f5e", "#a16207",
+  "#7c3aed", "#15803d", "#c026d3", "#ea580c", "#0284c7"
 ];
 
-const jenisRSList = [
-  "RSU", "RSIA", "RSK Jiwa", "RSK Mata", "RSK GM", "RSK Bedah", "RSK Jantung",
-  "RSK Paru", "RSK Orthopedi", "RSK Kanker", "RSK THT-KL", "RSK Infeksi",
-  "RSK Ginjal", "RS Bergerak", "RSK Otak", "RSKO", "RSK Stroke"
-];
+const paletteJenis = {
+  "RSU": "#2563eb",
+  "RSIA": "#16a34a",
+  "RSK Jiwa": "#dc2626",
+  "RSK Mata": "#d97706",
+  "RSK GM": "#9333ea",
+  "RSK Bedah": "#0d9488",
+  "RSK Jantung": "#e11d48",
+  "RSK Paru": "#52525b",
+  "RSK Orthopedi": "#4d7c0f",
+  "RSK Kanker": "#0891b2",
+  "RSK THT-KL": "#be123c",
+  "RSK Infeksi": "#92400e",
+  "RSK Ginjal": "#7c3aed",
+  "RS Bergerak": "#15803d",
+  "RSK Otak": "#9333ea",
+  "RSKO": "#b45309",
+  "RSK Stroke": "#0284c7"
+};
 
-const warnaJenisRS = {};
-jenisRSList.forEach((jenis, index) => {
-  warnaJenisRS[jenis] = fixedColors[index % fixedColors.length];
-});
+const paletteKelas = {
+  "A": "#60a5fa",
+  "B": "#34d399",
+  "C": "#f87171",
+  "D": "#fbbf24",
+  "D Pratama": "#a78bfa",
+  "Belum Ditetapkan": "#22d3ee"
+};
+
+const palettePenyelenggara = {
+  "BUMN": "#3b82f6",
+  "Kementerian Lain": "#10b981",
+  "Kemkes": "#f97316",
+  "Pemkab": "#8b5cf6",
+  "Pemkot": "#ef4444",
+  "Pemprop": "#14b8a6",
+  "POLRI": "#facc15",
+  "Swasta": "#6366f1",
+  "Swasta Non Profit": "#ec4899",
+  "TNI": "#84cc16"
+};
 
 Chart.Tooltip.positioners.middleLine = function(elements) {
   if (!elements.length) return false;
@@ -490,7 +522,7 @@ async function updateKabupatenDropdown(selectedProvinsi) {
 
 let lastFilters = {};
 
-async function applyFilter(isInitial = false) {
+async function applyFilter(isInitial = false, target = "all") {
   const jenis = getCheckedValues("#dropdownListJenis");
   const kelas = getCheckedValues("#dropdownListKelas");
   const penyelenggara = getCheckedValues("#dropdownListPenyelenggara");
@@ -523,29 +555,113 @@ async function applyFilter(isInitial = false) {
   };
 
   lastFilters = filters;
-
   console.log("🎯 [applyFilter] Filter aktif:", filters);
 
-  const chartWrappers = document.querySelectorAll(".chart-wrapper");
-  chartWrappers.forEach(w => w.classList.add("loading"));
+  const wrappers = {
+    bar: document.querySelectorAll(".chart-wrapper-bar"),
+    line: document.querySelectorAll(".chart-wrapper-line"),
+  };
+
+  if (target === "bar" || target === "all") {
+    wrappers.bar.forEach(w => showChartLoading(w));
+  }
+  if (target === "line" || target === "all") {
+    wrappers.line.forEach(w => showChartLoading(w));
+  }
 
   try {
-    await Promise.all([
-      loadBarChartOnly(filters, isInitial),
-      loadLineChartOnly(filters, isInitial)
-    ]);
-    await loadFilteredTable(filters);
+    if (target === "bar") {
+      await loadBarChartOnly(filters, isInitial);
+    } else if (target === "line") {
+      await loadLineChartOnly(filters, isInitial);
+    } else {
+      await Promise.all([
+        loadBarChartOnly(filters, isInitial),
+        loadLineChartOnly(filters, isInitial)
+      ]);
+      await loadFilteredTable(filters);
+    }
   } catch (err) {
-    console.error("❌ Gagal memuat salah satu chart:", err);
+    console.error("❌ Gagal memuat chart:", err);
   } finally {
-    chartWrappers.forEach(w => {
-      w.classList.remove("loading");
-      const overlay = w.querySelector(".loading-overlay");
-      const spinner = w.querySelector(".loading-spinner");
-      if (overlay) overlay.remove();
-      if (spinner) spinner.remove();
-    });
+    document.querySelectorAll(".chart-wrapper").forEach(w => hideChartLoading(w));
   }
+}
+
+document.getElementById("filterTahun")?.addEventListener("change", async (e) => {
+  const tahun = e.target.value;
+  if (!tahun) return;
+  console.log("🔄 Tahun berubah, reload hanya bar chart:", tahun);
+
+  const barWrappers = document.querySelectorAll(".chart-wrapper-bar");
+  barWrappers.forEach(w => showChartLoading(w));
+
+  // Buang properti line agar tidak ikut ke-trigger
+  const {
+    tahun_awal,
+    tahun_akhir,
+    ...rest
+  } = lastFilters;
+  const filters = {
+    ...rest,
+    tahun
+  };
+
+  try {
+    await loadBarChartOnly(filters, false);
+  } catch (err) {
+    console.error("❌ Gagal reload bar chart:", err);
+  } finally {
+    barWrappers.forEach(w => hideChartLoading(w));
+  }
+});
+
+["tahunAwal", "tahunAkhir"].forEach(id => {
+  const input = document.getElementById(id);
+  if (!input) return;
+  input.addEventListener("change", async () => {
+    const tahun_awal = Number(document.getElementById("tahunAwal")?.value) || 2024;
+    const tahun_akhir = Number(document.getElementById("tahunAkhir")?.value) || 2025;
+    console.log(`📈 Rentang tahun diubah: ${tahun_awal} - ${tahun_akhir}`);
+    await applyFilter(false, "line");
+  });
+});
+
+function showChartLoading(wrapper) {
+  if (!wrapper) return;
+  wrapper.style.position = "relative";
+
+  let overlay = wrapper.querySelector(".loading-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.className = "loading-overlay position-absolute w-100 h-100 top-0 start-0";
+    overlay.style.backgroundColor = "rgba(255, 255, 255, 1)";
+    overlay.style.zIndex = "5";
+    overlay.style.borderRadius = "inherit";
+    overlay.style.pointerEvents = "none";
+    wrapper.appendChild(overlay);
+  }
+
+  let spinner = wrapper.querySelector(".loading-spinner");
+  if (!spinner) {
+    spinner = document.createElement("div");
+    spinner.className = "loading-spinner position-absolute d-flex align-items-center justify-content-center";
+    spinner.style.top = "50%";
+    spinner.style.left = "50%";
+    spinner.style.transform = "translate(-50%, -50%)";
+    spinner.style.zIndex = "10";
+    spinner.innerHTML = `
+      <div class="spinner-border text-secondary" role="status" style="width: 2.5rem; height: 2.5rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    `;
+    wrapper.appendChild(spinner);
+  }
+}
+
+function hideChartLoading(wrapper) {
+  if (!wrapper) return;
+  wrapper.querySelectorAll(".loading-overlay, .loading-spinner").forEach(el => el.remove());
 }
 
 async function loadBarChartOnly(filters, isInitial = false) {
@@ -553,47 +669,7 @@ async function loadBarChartOnly(filters, isInitial = false) {
   const chartKelasWrapper = document.getElementById("chartKelasWrapper");
   const chartPenyWrapper = document.getElementById("chartPenyelenggaraWrapper");
 
-  [chartJenisWrapper, chartKelasWrapper, chartPenyWrapper].forEach(w => {
-    if (w) w.style.position = "relative";
-  });
-
-  const showLoading = (wrapper) => {
-    if (!wrapper) return;
-    let overlay = wrapper.querySelector(".loading-overlay");
-    if (!overlay) {
-      overlay = document.createElement("div");
-      overlay.className = "loading-overlay position-absolute w-100 h-100 top-0 start-0";
-      overlay.style.backdropFilter = "blur(4px)";
-      overlay.style.backgroundColor = "rgba(255, 255, 255, 0.4)";
-      overlay.style.zIndex = "5";
-      overlay.style.borderRadius = "inherit";
-      overlay.style.pointerEvents = "none";
-      wrapper.appendChild(overlay);
-    }
-    let spinner = wrapper.querySelector(".loading-spinner");
-    if (!spinner) {
-      spinner = document.createElement("div");
-      spinner.className = "loading-spinner position-absolute d-flex align-items-center justify-content-center";
-      spinner.style.top = "50%";
-      spinner.style.left = "50%";
-      spinner.style.transform = "translate(-50%, -50%)";
-      spinner.style.zIndex = "10";
-      spinner.innerHTML = `
-        <div class="spinner-border text-secondary" role="status" style="width: 2.5rem; height: 2.5rem;">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      `;
-      wrapper.appendChild(spinner);
-    }
-  };
-
-  const hideLoading = (wrapper) => {
-    if (!wrapper) return;
-    wrapper.querySelectorAll(".loading-overlay, .loading-spinner").forEach(e => e.remove());
-  };
-
-  const shouldLoadJenis =
-    (Array.isArray(filters.jenis_rs) && filters.jenis_rs.length > 0) || isInitial;
+  const shouldLoadJenis = (Array.isArray(filters.jenis_rs) && filters.jenis_rs.length > 0) || isInitial;
   const shouldLoadKelas = Array.isArray(filters.kelas_rs) && filters.kelas_rs.length > 0;
   const shouldLoadPeny = Array.isArray(filters.penyelenggara_grup) && filters.penyelenggara_grup.length > 0;
 
@@ -601,9 +677,9 @@ async function loadBarChartOnly(filters, isInitial = false) {
   chartKelasWrapper.style.display = shouldLoadKelas ? "block" : "none";
   chartPenyWrapper.style.display = shouldLoadPeny ? "block" : "none";
 
-  if (shouldLoadJenis) showLoading(chartJenisWrapper);
-  if (shouldLoadKelas) showLoading(chartKelasWrapper);
-  if (shouldLoadPeny) showLoading(chartPenyWrapper);
+  if (shouldLoadJenis) showChartLoading(chartJenisWrapper);
+  if (shouldLoadKelas) showChartLoading(chartKelasWrapper);
+  if (shouldLoadPeny) showChartLoading(chartPenyWrapper);
 
   const params = new URLSearchParams();
   if (filters.tahun) params.append("tahun", filters.tahun);
@@ -620,55 +696,32 @@ async function loadBarChartOnly(filters, isInitial = false) {
   document.getElementById("totalCount").textContent = "0";
 
   try {
-    const promises = [];
-
-    if (shouldLoadJenis)
-      promises.push(fetch(`/dashboard/bar/jenis_rs?${query}`).then(r => r.json()));
-    else
-      promises.push(Promise.resolve([]));
-
-    if (shouldLoadKelas)
-      promises.push(fetch(`/dashboard/bar/kelas_rs?${query}&subkolom=jenis_rs`).then(r => r.json()));
-    else
-      promises.push(Promise.resolve([]));
-
-    if (shouldLoadPeny)
-      promises.push(fetch(`/dashboard/bar/penyelenggara_grup?${query}&subkolom=jenis_rs`).then(r => r.json()));
-    else
-      promises.push(Promise.resolve([]));
+    const promises = [
+      shouldLoadJenis ? fetch(`/dashboard/bar/jenis_rs?${query}`).then(r => r.json()) : Promise.resolve([]),
+      shouldLoadKelas ? fetch(`/dashboard/bar/kelas_rs?${query}&subkolom=jenis_rs`).then(r => r.json()) : Promise
+      .resolve([]),
+      shouldLoadPeny ? fetch(`/dashboard/bar/penyelenggara_grup?${query}&subkolom=jenis_rs`).then(r => r.json()) :
+      Promise.resolve([]),
+    ];
 
     const [dataJenis, dataKelas, dataPeny] = await Promise.all(promises);
 
-    let totalSemua = 0;
-    if (Array.isArray(dataJenis) && dataJenis.length > 0 && dataJenis[0].total_semua) {
-      totalSemua = dataJenis[0].total_semua;
-    } else if (Array.isArray(dataKelas) && dataKelas.length > 0 && dataKelas[0].total_semua) {
-      totalSemua = dataKelas[0].total_semua;
-    } else if (Array.isArray(dataPeny) && dataPeny.length > 0 && dataPeny[0].total_semua) {
-      totalSemua = dataPeny[0].total_semua;
-    }
+    let totalSemua =
+      dataJenis[0]?.total_semua ||
+      dataKelas[0]?.total_semua ||
+      dataPeny[0]?.total_semua || 0;
     document.getElementById("totalCount").textContent = totalSemua.toLocaleString("id-ID");
 
-    if (shouldLoadJenis && Array.isArray(dataJenis) && dataJenis.length > 0) {
-      renderBarChart("jenis", dataJenis, filters);
-    }
-    hideLoading(chartJenisWrapper);
-
-    if (shouldLoadKelas) {
-      const dataKelasFix = Array.isArray(dataKelas) ? dataKelas : (dataKelas.data || []);
-      renderBarChart("kelas", dataKelasFix, filters, true);
-      hideLoading(chartKelasWrapper);
-    }
-
-    if (shouldLoadPeny) {
-      const dataPenyFix = Array.isArray(dataPeny) ? dataPeny : (dataPeny.data || []);
-      renderBarChart("penyelenggara", dataPenyFix, filters, true);
-      hideLoading(chartPenyWrapper);
-    }
+    if (shouldLoadJenis && dataJenis.length) renderBarChart("jenis", dataJenis, filters);
+    if (shouldLoadKelas && dataKelas.length) renderBarChart("kelas", dataKelas, filters, true);
+    if (shouldLoadPeny && dataPeny.length) renderBarChart("penyelenggara", dataPeny, filters, true);
 
   } catch (error) {
     console.error("❌ Gagal memuat data chart:", error);
-    [chartJenisWrapper, chartKelasWrapper, chartPenyWrapper].forEach(hideLoading);
+  } finally {
+    hideChartLoading(chartJenisWrapper);
+    hideChartLoading(chartKelasWrapper);
+    hideChartLoading(chartPenyWrapper);
   }
 }
 
@@ -765,7 +818,7 @@ function renderBarChart(tipe, data, filters = {}, isStackedOverride = false) {
         datasets: sortedSubKeys.map((sub, i) => ({
           label: sub,
           data: sortedLabels.map((l) => grouped[l][sub] || 0),
-          backgroundColor: warnaJenisRS[sub] || fixedColors[i % fixedColors.length],
+          backgroundColor: paletteJenis[sub] || fixedColors[i % fixedColors.length],
         })),
       };
     } else {
@@ -793,7 +846,7 @@ function renderBarChart(tipe, data, filters = {}, isStackedOverride = false) {
           data: sortedLabels.map(
             (l) => (data.find((d) => d[labelKey] === l)?. [sub]) || 0
           ),
-          backgroundColor: warnaJenisRS[sub] || fixedColors[i % fixedColors.length],
+          backgroundColor: paletteJenis[sub] || fixedColors[i % fixedColors.length],
         })),
       };
     }
@@ -818,7 +871,7 @@ function renderBarChart(tipe, data, filters = {}, isStackedOverride = false) {
         data: values,
         borderWidth: 1,
         backgroundColor: labels.map(
-          (label) => warnaJenisRS[label] || "#999999"
+          (label) => paletteJenis[label] || fixedColors[labels.indexOf(label) % fixedColors.length]
         ),
       }, ],
     };
@@ -970,42 +1023,40 @@ async function loadLineChartOnly(filters, isInitial = false) {
   ];
 
   ["lineJenisWrapper", "lineKelasWrapper", "linePenyelenggaraWrapper"].forEach(id => {
-    document.getElementById(id).style.display = "none";
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
   });
 
   const tahunAwal = filters.tahun_awal || 2024;
   const tahunAkhir = filters.tahun_akhir || 2025;
 
   const aktifList = tipeList.filter(t => filters[t.filter] && filters[t.filter].length > 0);
+
   aktifList.forEach(({
     key
   }) => {
-    const wrapperId = `line${key.charAt(0).toUpperCase() + key.slice(1)}Wrapper`;
-    const loadingId = `lineLoading${key.charAt(0).toUpperCase() + key.slice(1)}`;
-    const wrapper = document.getElementById(wrapperId);
-    const loading = document.getElementById(loadingId);
+    const wrapper = document.getElementById(`line${key.charAt(0).toUpperCase() + key.slice(1)}Wrapper`);
+    if (!wrapper) return;
     wrapper.style.display = "block";
-    loading.classList.remove("d-none");
+    wrapper.style.position = "relative";
+    wrapper.style.backgroundColor = "#ffffff";
+    wrapper.style.minHeight = "320px";
+    showChartLoading(wrapper);
   });
 
   const fetchPromises = aktifList.map(async ({
     key,
-    filter,
     endpoint
   }) => {
     const allData = [];
 
     for (let tahun = tahunAwal; tahun <= tahunAkhir; tahun++) {
       const params = new URLSearchParams();
-
       if (filters.provinsi) params.append("provinsi", filters.provinsi);
-      if (!isInitial && filters.kabupaten_kota)
-        params.append("kabupaten_kota", filters.kabupaten_kota);
+      if (!isInitial && filters.kabupaten_kota) params.append("kabupaten_kota", filters.kabupaten_kota);
       if (filters.jenis_rs) params.append("jenis_rs", filters.jenis_rs);
       if (filters.kelas_rs) params.append("kelas_rs", filters.kelas_rs);
-      if (filters.penyelenggara_grup)
-        params.append("penyelenggara_grup", filters.penyelenggara_grup);
-
+      if (filters.penyelenggara_grup) params.append("penyelenggara_grup", filters.penyelenggara_grup);
       params.append("tahun_awal", tahun);
       params.append("tahun_akhir", tahun);
 
@@ -1035,16 +1086,15 @@ async function loadLineChartOnly(filters, isInitial = false) {
       key,
       allData
     }) => {
-      const wrapperId = `line${key.charAt(0).toUpperCase() + key.slice(1)}Wrapper`;
-      const loadingId = `lineLoading${key.charAt(0).toUpperCase() + key.slice(1)}`;
-      const loading = document.getElementById(loadingId);
+      const wrapper = document.getElementById(`line${key.charAt(0).toUpperCase() + key.slice(1)}Wrapper`);
+      if (!wrapper) return;
+      hideChartLoading(wrapper);
 
       if (allData.length === 0) {
         const ctx = document.getElementById(`line${key.charAt(0).toUpperCase() + key.slice(1)}`).getContext("2d");
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.font = "14px Arial";
         ctx.fillText("Tidak ada data untuk ditampilkan", 100, 100);
-        loading.classList.add("d-none");
         return;
       }
 
@@ -1055,16 +1105,23 @@ async function loadLineChartOnly(filters, isInitial = false) {
         grouped[row.nama][row.tahun] = row.total;
       });
 
-      let datasets = Object.entries(grouped).map(([nama, values], i) => ({
-        label: nama,
-        data: tahunLabels.map(th => values[th] || 0),
-        borderColor: warnaJenisRS[nama] || fixedColors[i % fixedColors.length],
-        backgroundColor: warnaJenisRS[nama] || fixedColors[i % fixedColors.length],
-        tension: 0.3,
-        fill: false,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-      }));
+      const datasets = Object.entries(grouped).map(([nama, values], i) => {
+        let color;
+        if (key === "kelas") color = paletteKelas[nama];
+        else if (key === "penyelenggara") color = palettePenyelenggara[nama];
+        else color = fixedColors[i % fixedColors.length];
+
+        return {
+          label: nama,
+          data: tahunLabels.map(th => values[th] || 0),
+          borderColor: color,
+          backgroundColor: color,
+          tension: 0.3,
+          fill: false,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        };
+      });
 
       datasets.sort((a, b) => {
         const totalA = a.data.reduce((sum, n) => sum + n, 0);
@@ -1076,33 +1133,50 @@ async function loadLineChartOnly(filters, isInitial = false) {
         labels: tahunLabels,
         datasets
       });
-      loading.classList.add("d-none");
     });
   } catch (err) {
     console.error("❌ [loadLineChartOnly] Gagal memuat salah satu chart:", err);
-    ["lineLoadingJenis", "lineLoadingKelas", "lineLoadingPenyelenggara"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add("d-none");
+    aktifList.forEach(({
+      key
+    }) => {
+      const wrapper = document.getElementById(`line${key.charAt(0).toUpperCase() + key.slice(1)}Wrapper`);
+      if (wrapper) hideChartLoading(wrapper);
     });
   }
 }
 
 function renderLineChart(tipe, data) {
   let canvasId = "";
+  let palette = {};
+
   switch (tipe) {
     case "jenis":
       canvasId = "lineJenis";
+      palette = paletteJenis;
       break;
     case "kelas":
       canvasId = "lineKelas";
+      palette = paletteKelas;
       break;
     case "penyelenggara":
       canvasId = "linePenyelenggara";
+      palette = palettePenyelenggara;
       break;
     default:
       console.warn("⚠️ [renderLineChart] Tipe tidak dikenal:", tipe);
       return;
   }
+
+  const fixedLegendWidthPlugin = {
+    id: "fixedLegendWidth",
+    beforeInit(chart) {
+      const originalFit = chart.legend.fit;
+      chart.legend.fit = function fit() {
+        originalFit.call(this, chart);
+        this.width = 140;
+      };
+    },
+  };
 
   const canvas = document.getElementById(canvasId);
   if (!canvas) {
@@ -1120,19 +1194,29 @@ function renderLineChart(tipe, data) {
     }
   }
 
-  const datasets = data.datasets.map(ds => ({
-    ...ds,
-    borderWidth: 2,
-    pointStyle: "circle",
-    pointBackgroundColor: ds.backgroundColor,
-    pointBorderColor: "#fff",
-  }));
+  const datasets = data.datasets.map((ds, i) => {
+    const color =
+      palette[ds.label] ||
+      fixedColors[i % fixedColors.length] ||
+      "#999999";
+
+    return {
+      ...ds,
+      borderColor: color,
+      backgroundColor: color,
+      borderWidth: 2,
+      pointStyle: "circle",
+      pointBackgroundColor: color,
+      pointBorderColor: "#fff",
+      tension: 0.3,
+    };
+  });
 
   canvas.chartInstance = new Chart(ctx, {
     type: "line",
     data: {
       labels: data.labels,
-      datasets
+      datasets,
     },
     options: {
       responsive: true,
@@ -1140,24 +1224,34 @@ function renderLineChart(tipe, data) {
       interaction: {
         mode: "index",
         intersect: false,
-        axis: "x"
+        axis: "x",
+      },
+      layout: {
+        padding: {
+          top: 24,
+          right: 8,
+          left: 8
+        },
       },
       plugins: {
         legend: {
           position: "right",
           onClick: null,
           labels: {
-            generateLabels: chart => {
-              const base = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+            generateLabels: (chart) => {
+              const base =
+                Chart.defaults.plugins.legend.labels.generateLabels(chart);
               return base.sort((a, b) => {
-                const da = datasets.find(d => d.label === a.text);
-                const db = datasets.find(d => d.label === b.text);
-                const totalA = da?.data.reduce((s, n) => s + +n, 0) || 0;
-                const totalB = db?.data.reduce((s, n) => s + +n, 0) || 0;
+                const da = datasets.find((d) => d.label === a.text);
+                const db = datasets.find((d) => d.label === b.text);
+                const totalA =
+                  da?.data.reduce((s, n) => s + +n, 0) || 0;
+                const totalB =
+                  db?.data.reduce((s, n) => s + +n, 0) || 0;
                 return totalB - totalA;
               });
-            }
-          }
+            },
+          },
         },
         tooltip: {
           position: "middleLine",
@@ -1179,13 +1273,15 @@ function renderLineChart(tipe, data) {
               items.sort((a, b) => b.parsed.y - a.parsed.y);
             },
             label(ctx) {
-              return `${ctx.dataset.label}: ${Number(ctx.parsed.y).toLocaleString()}`;
-            }
-          }
+              return `${ctx.dataset.label}: ${Number(
+                ctx.parsed.y
+              ).toLocaleString()}`;
+            },
+          },
         },
         datalabels: {
-          display: false
-        }
+          display: false,
+        },
       },
       scales: {
         y: {
@@ -1195,7 +1291,7 @@ function renderLineChart(tipe, data) {
           },
           border: {
             display: false
-          }
+          },
         },
         x: {
           grid: {
@@ -1203,11 +1299,11 @@ function renderLineChart(tipe, data) {
           },
           border: {
             display: false
-          }
-        }
-      }
+          },
+        },
+      },
     },
-    plugins: [ChartDataLabels, verticalLinePlugin]
+    plugins: [ChartDataLabels, verticalLinePlugin, fixedLegendWidthPlugin],
   });
 }
 
