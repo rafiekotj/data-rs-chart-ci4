@@ -58,6 +58,17 @@ class Dashboard extends BaseController
       view('templates/footer');
   }
 
+  private function parseList($param)
+  {
+    if (empty($param)) {
+      return null;
+    }
+    if (is_array($param)) {
+      return $param;
+    }
+    return array_map('trim', explode(',', $param));
+  }
+
   public function getBarData($kolom = null)
   {
     if (!$kolom) {
@@ -82,7 +93,7 @@ class Dashboard extends BaseController
       'filters' => $filters,
     ];
 
-    // log_message('debug', '[Dashboard::getBarData] Payload: ' . json_encode($payload));
+    log_message('debug', '[Dashboard::getBarData] Payload: ' . json_encode($payload));
 
     $data = $this->dashboardModel->getBarData($kolom, $filters, $subkolom);
 
@@ -94,17 +105,6 @@ class Dashboard extends BaseController
     }
 
     return $this->response->setJSON($data);
-  }
-
-  private function parseList($param)
-  {
-    if (empty($param)) {
-      return null;
-    }
-    if (is_array($param)) {
-      return $param;
-    }
-    return array_map('trim', explode(',', $param));
   }
 
   public function getLineData($kolom)
@@ -195,7 +195,7 @@ class Dashboard extends BaseController
       'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
     ];
 
-    // log_message('debug', '[DashboardController::getFilteredTable] Filters diterima: ' . json_encode($filters));
+    log_message('debug', '[DashboardController::getFilteredTable] Filters diterima: ' . json_encode($filters));
 
     $result = $this->dashboardModel->getFilteredTable($kolom, $filters, $subkolom, 500, 0, false);
 
@@ -233,13 +233,13 @@ class Dashboard extends BaseController
         : null,
     ];
 
-    // log_message('debug', '[DashboardController::exportCsv] Mulai ambil semua data tanpa limit');
+    log_message('debug', '[DashboardController::exportCsv] Mulai ambil semua data tanpa limit');
 
     $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
 
     $data = $dataResult['data'] ?? [];
 
-    // log_message('debug', '[DashboardController::exportCsv] Total data: ' . count($data));
+    log_message('debug', '[DashboardController::exportCsv] Total data: ' . count($data));
 
     if (empty($data)) {
       return $this->response->setJSON(['error' => 'Tidak ada data']);
@@ -308,7 +308,7 @@ class Dashboard extends BaseController
     $data = $dataResult['data'] ?? [];
     $tahun = $filters['tahun'] ?? '-';
 
-    // log_message('debug', '[DashboardController::exportXls] Total data: ' . count($data));
+    log_message('debug', '[DashboardController::exportXls] Total data: ' . count($data));
 
     if (empty($data)) {
       return $this->response->setJSON(['error' => 'Tidak ada data']);
