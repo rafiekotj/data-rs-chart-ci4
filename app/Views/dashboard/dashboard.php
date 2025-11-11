@@ -1386,23 +1386,18 @@ function renderTable(data) {
 }
 
 document.getElementById("exportCsvBtn").addEventListener("click", () => {
-  const tahun = document.getElementById("filterTahun")?.value || "-";
-  const provinsi = document.getElementById("filterProvinsi")?.value || "";
-  const kabupaten = document.getElementById("filterKabupaten")?.value || "";
-  const jenis_rs = getSelectedValues("filterJenisRS");
-  const kelas_rs = getSelectedValues("filterKelasRS");
-  const penyelenggara_grup = getSelectedValues("filterPenyelenggaraGrup");
-  const penyelenggara_kategori = getSelectedValues("filterPenyelenggaraKategori");
+  const filters = lastFilters;
 
-  const params = new URLSearchParams({
-    tahun,
-    provinsi,
-    kabupaten_kota: kabupaten,
-    jenis_rs: jenis_rs.join(","),
-    kelas_rs: kelas_rs.join(","),
-    penyelenggara_grup: penyelenggara_grup.join(","),
-    penyelenggara_kategori: penyelenggara_kategori.join(","),
-  });
+  const params = new URLSearchParams();
+
+  if (filters.tahun) params.append("tahun", filters.tahun);
+  if (filters.provinsi) params.append("provinsi", filters.provinsi);
+  if (filters.kabupaten_kota) params.append("kabupaten_kota", filters.kabupaten_kota);
+  if (filters.jenis_rs?.length) params.append("jenis_rs", filters.jenis_rs.join(","));
+  if (filters.kelas_rs?.length) params.append("kelas_rs", filters.kelas_rs.join(","));
+  if (filters.penyelenggara_grup?.length) params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
+  if (filters.penyelenggara_kategori?.length) params.append("penyelenggara_kategori", filters.penyelenggara_kategori
+    .join(","));
 
   const url = `/dashboard/exportCsv?${params.toString()}`;
   console.log("🔗 Export CSV URL:", url);

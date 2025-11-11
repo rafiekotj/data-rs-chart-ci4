@@ -17,7 +17,6 @@ class ModelDashboard extends Model
     $supabaseKey = env('SUPABASE_KEY');
 
     if (empty($supabaseUrl) || empty($supabaseKey)) {
-      log_message('error', 'Supabase credentials are missing in .env file.');
       throw new \RuntimeException('Missing Supabase configuration.');
     }
 
@@ -58,14 +57,12 @@ class ModelDashboard extends Model
       curl_close($ch);
 
       if ($status !== 200 || !$response) {
-        log_message('error', "[callRPC] Status $status untuk {$function}");
         return [];
       }
 
       $data = json_decode($response, true);
 
       if (!is_array($data)) {
-        log_message('error', "[callRPC] Response bukan array untuk {$function}");
         return [];
       }
 
@@ -73,10 +70,8 @@ class ModelDashboard extends Model
         $cache->save($cacheKey, $data, 1800);
       }
 
-      log_message('debug', '[callRPC] Ambil ' . count($data) . " baris dari {$function}");
       return $data;
     } catch (\Throwable $e) {
-      log_message('error', '[callRPC] Gagal: ' . $e->getMessage());
       return [];
     }
   }
@@ -168,14 +163,11 @@ class ModelDashboard extends Model
 
   public function getKabupatenByProvinsi(string $provinsi): array
   {
-    log_message('debug', 'Query kabupaten untuk provinsi: ' . $provinsi);
-
     $cache = cache();
     $cacheKey = 'kabupaten_by_provinsi_' . md5($provinsi);
 
     $cached = $cache->get($cacheKey);
     if (is_array($cached)) {
-      log_message('debug', "Cache hit untuk provinsi: {$provinsi}");
       return $cached;
     }
 
@@ -210,7 +202,6 @@ class ModelDashboard extends Model
     $tahunAkhir = $filters['tahun_akhir'] ?? null;
 
     if (!$tahunAwal || !$tahunAkhir) {
-      log_message('error', '[DashboardModel::getLineData] Tahun awal/akhir belum ditentukan.');
       return [];
     }
 
@@ -234,7 +225,6 @@ class ModelDashboard extends Model
       $response = $this->callRPC('get_rs_summary', $payload);
 
       if (!$response || !is_array($response)) {
-        log_message('debug', "[DashboardModel::getLineData] Tidak ada data untuk tahun {$tahun}");
         continue;
       }
 
@@ -272,16 +262,6 @@ class ModelDashboard extends Model
     ?int $offset = 0,
     bool $fetchAll = false,
   ): array {
-    log_message(
-      'debug',
-      sprintf(
-        '[DashboardModel::getFilteredTable] fetchAll=%s | limit=%d | offset=%d',
-        $fetchAll ? 'true' : 'false',
-        $limit,
-        $offset,
-      ),
-    );
-
     $payloadBase = [
       'kolom' => $kolom,
       'subkolom' => $subkolom,
@@ -306,25 +286,19 @@ class ModelDashboard extends Model
           $payload['offset_rows'] = $offset;
         }
 
-        log_message('debug', "[DashboardModel::getFilteredTable] Ambil batch offset={$offset}");
-
         $batch = $this->callRPC('get_rs_filtered', $payload);
         if (!is_array($batch) || count($batch) === 0) {
-          log_message('debug', "[DashboardModel::getFilteredTable] Batch kosong di offset {$offset}, berhenti loop.");
           break;
         }
 
         $allData = array_merge($allData, $batch);
 
         if (count($batch) < $limit) {
-          log_message('debug', '[DashboardModel::getFilteredTable] Batch terakhir (jumlah ' . count($batch) . ')');
           break;
         }
 
         $offset += $limit;
       }
-
-      log_message('debug', '[DashboardModel::getFilteredTable] Total data terkumpul: ' . count($allData));
 
       return [
         'data' => $allData,
@@ -341,7 +315,6 @@ class ModelDashboard extends Model
     $data = $this->callRPC('get_rs_filtered', $payload);
 
     if (!is_array($data)) {
-      log_message('error', '[DashboardModel::getFilteredTable] Hasil RPC bukan array');
       return ['data' => [], 'total' => 0, 'limited' => false];
     }
 

@@ -20,8 +20,6 @@ class Dashboard extends BaseController
 
   public function index()
   {
-    $this->cache->clean();
-
     $cacheKeys = [
       'listProvinsi' => fn() => $this->dashboardModel->getListProvinsi(),
       'listKabupatenKota' => fn() => $this->dashboardModel->getListKabupatenKota(),
@@ -58,23 +56,12 @@ class Dashboard extends BaseController
       view('templates/footer');
   }
 
-  private function parseList($param)
+  private function toArray($param)
   {
     if (empty($param)) {
       return null;
     }
-    if (is_array($param)) {
-      return $param;
-    }
-    return array_map('trim', explode(',', $param));
-  }
-
-  private function stringToArray($param)
-  {
-    if (empty($param)) {
-      return null;
-    }
-    return is_array($param) ? $param : explode(',', $param);
+    return is_array($param) ? $param : array_map('trim', explode(',', $param));
   }
 
   public function getBarData($kolom = null)
@@ -87,12 +74,12 @@ class Dashboard extends BaseController
 
     $filters = [
       'tahun' => $this->request->getGet('tahun') ?: null,
-      'provinsi' => $this->parseList($this->request->getGet('provinsi')),
-      'kabupaten_kota' => $this->parseList($this->request->getGet('kabupaten_kota')),
-      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
-      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
-      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
-      'penyelenggara_kategori' => $this->parseList($this->request->getGet('kategori_rs')),
+      'provinsi' => $this->toArray($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->toArray($this->request->getGet('kabupaten_kota')),
+      'jenis_rs' => $this->toArray($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->toArray($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->toArray($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->toArray($this->request->getGet('kategori_rs')),
     ];
 
     $payload = [
@@ -100,8 +87,6 @@ class Dashboard extends BaseController
       'subkolom' => $subkolom,
       'filters' => $filters,
     ];
-
-    log_message('debug', '[Dashboard::getBarData] Payload: ' . json_encode($payload));
 
     $data = $this->dashboardModel->getBarData($kolom, $filters, $subkolom);
 
@@ -120,15 +105,13 @@ class Dashboard extends BaseController
     $filters = [
       'tahun_awal' => (int) $this->request->getGet('tahun_awal') ?: null,
       'tahun_akhir' => (int) $this->request->getGet('tahun_akhir') ?: null,
-      'provinsi' => $this->parseList($this->request->getGet('provinsi')),
-      'kabupaten_kota' => $this->parseList($this->request->getGet('kabupaten_kota')),
-      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
-      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
-      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
-      'penyelenggara_kategori' => $this->parseList($this->request->getGet('kategori_rs')),
+      'provinsi' => $this->toArray($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->toArray($this->request->getGet('kabupaten_kota')),
+      'jenis_rs' => $this->toArray($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->toArray($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->toArray($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->toArray($this->request->getGet('kategori_rs')),
     ];
-
-    log_message('debug', '[Dashboard::getLineData] Filter: ' . json_encode($filters));
 
     $data = $this->dashboardModel->getLineData($kolom, $filters);
 
@@ -156,7 +139,6 @@ class Dashboard extends BaseController
             $result = $this->dashboardModel->getKabupatenByProvinsi($prov);
 
             if (!is_array($result)) {
-              log_message('error', "⚠️ getKabupatenByProvinsi('$prov') tidak mengembalikan array");
               continue;
             }
 
@@ -171,14 +153,14 @@ class Dashboard extends BaseController
               }
             }
           } catch (\Throwable $innerErr) {
-            log_message('error', "❌ Error getKabupaten($prov): " . $innerErr->getMessage());
+            // lewati error per-provinsi
+            continue;
           }
         }
       }
 
       return $this->response->setJSON($kabupaten ?: []);
     } catch (\Throwable $e) {
-      log_message('error', '❌ getKabupatenByProvinsi global error: ' . $e->getMessage());
       return $this->response->setJSON([
         'error' => true,
         'message' => $e->getMessage(),
@@ -191,19 +173,15 @@ class Dashboard extends BaseController
     $kolom = $this->request->getGet('kolom') ?? 'kelas_rs';
     $subkolom = $this->request->getGet('subkolom') ?? 'jenis_rs';
 
-    log_message('debug', '[DashboardController::getFilteredTable] Memanggil model getFilteredTable...');
-
     $filters = [
       'tahun' => $this->request->getGet('tahun'),
-      'provinsi' => $this->parseList($this->request->getGet('provinsi')),
-      'kabupaten_kota' => $this->parseList($this->request->getGet('kabupaten_kota')),
-      'jenis_rs' => $this->parseList($this->request->getGet('jenis_rs')),
-      'kelas_rs' => $this->parseList($this->request->getGet('kelas_rs')),
-      'penyelenggara_grup' => $this->parseList($this->request->getGet('penyelenggara_grup')),
-      'penyelenggara_kategori' => $this->parseList($this->request->getGet('penyelenggara_kategori')),
+      'provinsi' => $this->toArray($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->toArray($this->request->getGet('kabupaten_kota')),
+      'jenis_rs' => $this->toArray($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->toArray($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->toArray($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->toArray($this->request->getGet('penyelenggara_kategori')),
     ];
-
-    log_message('debug', '[DashboardController::getFilteredTable] Filters diterima: ' . json_encode($filters));
 
     $result = $this->dashboardModel->getFilteredTable($kolom, $filters, $subkolom, 500, 0, false);
 
@@ -212,13 +190,6 @@ class Dashboard extends BaseController
       'total' => $result['total'] ?? count($result),
       'limited' => $result['limited'] ?? false,
     ];
-
-    if (!empty($response['limited'])) {
-      log_message(
-        'debug',
-        '[DashboardController::getFilteredTable] Hasil dibatasi 500 baris dari total ' . $response['total'],
-      );
-    }
 
     return $this->response->setJSON($response);
   }
@@ -241,13 +212,8 @@ class Dashboard extends BaseController
         : null,
     ];
 
-    log_message('debug', '[DashboardController::exportCsv] Mulai ambil semua data tanpa limit');
-
     $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
-
     $data = $dataResult['data'] ?? [];
-
-    log_message('debug', '[DashboardController::exportCsv] Total data: ' . count($data));
 
     if (empty($data)) {
       return $this->response->setJSON(['error' => 'Tidak ada data']);
@@ -301,19 +267,17 @@ class Dashboard extends BaseController
   {
     $filters = [
       'tahun' => $this->request->getGet('tahun'),
-      'provinsi' => $this->stringToArray($this->request->getGet('provinsi')),
-      'kabupaten_kota' => $this->stringToArray($this->request->getGet('kabupaten_kota')),
-      'jenis_rs' => $this->stringToArray($this->request->getGet('jenis_rs')),
-      'kelas_rs' => $this->stringToArray($this->request->getGet('kelas_rs')),
-      'penyelenggara_grup' => $this->stringToArray($this->request->getGet('penyelenggara_grup')),
-      'penyelenggara_kategori' => $this->stringToArray($this->request->getGet('penyelenggara_kategori')),
+      'provinsi' => $this->ToArray($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->ToArray($this->request->getGet('kabupaten_kota')),
+      'jenis_rs' => $this->ToArray($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->ToArray($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->ToArray($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->ToArray($this->request->getGet('penyelenggara_kategori')),
     ];
 
     $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
     $data = $dataResult['data'] ?? [];
     $tahun = $filters['tahun'] ?? '-';
-
-    log_message('debug', '[DashboardController::exportXls] Total data: ' . count($data));
 
     if (empty($data)) {
       return $this->response->setJSON(['error' => 'Tidak ada data']);
