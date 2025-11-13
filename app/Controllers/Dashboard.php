@@ -199,16 +199,12 @@ class Dashboard extends BaseController
 
     $filters = [
       'tahun' => $this->request->getGet('tahun'),
-      'provinsi' => $this->request->getGet('provinsi'),
-      'kabupaten_kota' => $this->request->getGet('kabupaten_kota'),
-      'jenis_rs' => $this->request->getGet('jenis_rs') ? explode(',', $this->request->getGet('jenis_rs')) : null,
-      'kelas_rs' => $this->request->getGet('kelas_rs') ? explode(',', $this->request->getGet('kelas_rs')) : null,
-      'penyelenggara_grup' => $this->request->getGet('penyelenggara_grup')
-        ? explode(',', $this->request->getGet('penyelenggara_grup'))
-        : null,
-      'penyelenggara_kategori' => $this->request->getGet('penyelenggara_kategori')
-        ? explode(',', $this->request->getGet('penyelenggara_kategori'))
-        : null,
+      'provinsi' => $this->ToArray($this->request->getGet('provinsi')),
+      'kabupaten_kota' => $this->ToArray($this->request->getGet('kabupaten_kota')),
+      'jenis_rs' => $this->ToArray($this->request->getGet('jenis_rs')),
+      'kelas_rs' => $this->ToArray($this->request->getGet('kelas_rs')),
+      'penyelenggara_grup' => $this->ToArray($this->request->getGet('penyelenggara_grup')),
+      'penyelenggara_kategori' => $this->ToArray($this->request->getGet('penyelenggara_kategori')),
     ];
 
     $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
@@ -219,13 +215,11 @@ class Dashboard extends BaseController
     }
 
     $filename = 'Data_RS_' . ($filters['tahun'] ?? '-') . '.csv';
-    header('Content-Type: text/csv; charset=utf-8');
-    header("Content-Disposition: attachment; filename=\"$filename\"");
+    $tempPath = WRITEPATH . 'uploads/' . $filename;
 
-    $output = fopen('php://output', 'w');
-
+    $fp = fopen($tempPath, 'w');
     fputcsv(
-      $output,
+      $fp,
       [
         'Rumah Sakit',
         'Jenis RS',
@@ -242,7 +236,7 @@ class Dashboard extends BaseController
 
     foreach ($data as $row) {
       fputcsv(
-        $output,
+        $fp,
         [
           $row['rumah_sakit'] ?? '-',
           $row['jenis_rs'] ?? '-',
@@ -257,8 +251,19 @@ class Dashboard extends BaseController
         ';',
       );
     }
+    fclose($fp);
 
-    fclose($output);
+    if (ob_get_length()) {
+      ob_end_clean();
+    }
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header("Content-Disposition: attachment; filename=\"{$filename}\"");
+    header('Cache-Control: max-age=0');
+    header('Pragma: public');
+
+    readfile($tempPath);
+    unlink($tempPath);
     exit();
   }
 

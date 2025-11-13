@@ -642,10 +642,8 @@ async function updateKabupatenDropdown(selectedProvinsi) {
         dropdownButton.textContent = "Semua";
       } else if (selected.length === 0) {
         dropdownButton.textContent = "Pilih Kabupaten/Kota";
-      } else if (selected.length === 1) {
-        dropdownButton.textContent = selected[0];
       } else {
-        dropdownButton.textContent = `${selected[0]} +${selected.length - 1}`;
+        dropdownButton.textContent = selected.join(", ");
       }
     }
   }
@@ -682,7 +680,6 @@ async function applyFilter(isInitial = false, target = "all") {
   };
 
   lastFilters = filters;
-  console.log("🎯 [applyFilter] Filter aktif:", filters);
 
   const wrappers = {
     bar: document.querySelectorAll(".chart-wrapper-bar"),
@@ -1015,8 +1012,6 @@ function renderBarChart(tipe, data, filters = {}, isStackedOverride = false) {
 }
 
 async function loadLineChartOnly(filters, isInitial = false) {
-  console.log("📈 [loadLineChartOnly] Muat chart tren berdasarkan filter:", filters);
-
   const wrappers = {
     jenis: document.getElementById("lineJenisWrapper"),
     kelas: document.getElementById("lineKelasWrapper"),
@@ -1311,13 +1306,9 @@ async function loadFilteredTable(filters) {
     const res = await fetch(`/dashboard/getFilteredTable?${params.toString()}`);
     const result = await res.json();
 
-    console.log("🧩 [loadFilteredTable] Hasil mentah backend:", result);
-
     const data = Array.isArray(result) ? result : result.data || [];
     const total = result.total ?? data.length;
     const limited = result.limited ?? false;
-
-    console.log(`✅ [loadFilteredTable] ${data.length} baris diterima (total: ${total}, limited: ${limited})`);
 
     if ((limited || data.length >= 500) && footerEl) {
       footerEl.innerHTML = `
@@ -1454,8 +1445,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const tahun = e.target.value;
       if (!tahun) return;
 
-      console.log("🔄 Tahun berubah, reload hanya bar chart:", tahun);
-
       const barWrappers = document.querySelectorAll(".chart-wrapper-bar");
       barWrappers.forEach(showChartLoading);
 
@@ -1487,7 +1476,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const tahun_awal = Number(document.getElementById("tahunAwal")?.value) || 2024;
       const tahun_akhir = Number(document.getElementById("tahunAkhir")?.value) || 2025;
 
-      console.log(`📈 Rentang tahun diubah: ${tahun_awal} - ${tahun_akhir}`);
       await applyFilter(false, "line");
     });
   });
