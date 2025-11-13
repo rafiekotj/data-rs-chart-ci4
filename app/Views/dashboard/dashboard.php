@@ -370,6 +370,8 @@ const palettePenyelenggara = {
   "TNI": "#84cc16"
 };
 
+let lastFilters = {};
+
 Chart.Tooltip.positioners.middleLine = function(elements) {
   if (!elements.length) return false;
 
@@ -387,14 +389,12 @@ Chart.Tooltip.positioners.middleLine = function(elements) {
     left,
     right
   } = chart.chartArea;
-
-  const midY = (top + bottom) / 2;
   const offset = 10;
 
-  let adjustedX = x + offset;
+  const midY = (top + bottom) / 2;
+  let adjustedX = Math.min(Math.max(x + offset, left + offset), right - offset);
 
-  if (adjustedX > right - offset) adjustedX = x - offset;
-  if (adjustedX < left + offset) adjustedX = x + offset;
+  if (x + offset > right - offset) adjustedX = x - offset;
 
   return {
     x: adjustedX,
@@ -403,27 +403,28 @@ Chart.Tooltip.positioners.middleLine = function(elements) {
 };
 
 const verticalLinePlugin = {
-  id: 'verticalLine',
+  id: "verticalLine",
   beforeDatasetsDraw(chart) {
-    const {
-      ctx,
-      tooltip,
-      scales
-    } = chart;
-    const active = tooltip?._active?. [0];
+    const active = chart.tooltip?._active?. [0];
     if (!active) return;
 
     const {
+      ctx
+    } = chart;
+    const {
       x
     } = active.element;
-    const yAxis = scales.y;
+    const {
+      top,
+      bottom
+    } = chart.scales.y;
 
     ctx.save();
     ctx.beginPath();
-    ctx.moveTo(x, yAxis.top);
-    ctx.lineTo(x, yAxis.bottom);
+    ctx.moveTo(x, top);
+    ctx.lineTo(x, bottom);
     ctx.lineWidth = 2;
-    ctx.strokeStyle = '#e5e7eb';
+    ctx.strokeStyle = "#e5e7eb";
     ctx.setLineDash([8, 4]);
     ctx.stroke();
     ctx.restore();
@@ -431,33 +432,103 @@ const verticalLinePlugin = {
 };
 
 function updateDropdownButtonText(dropdown) {
-  const button = dropdown.querySelector('.custom-select-dropdown');
-  const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
-  const checked = Array.from(checkboxes)
-    .filter(c => c.checked && c.value)
-    .map(c => c.value)
-    .filter(v => v !== "Semua");
+  const button = dropdown.querySelector(".custom-select-dropdown");
+  const checkboxes = [...dropdown.querySelectorAll("input[type='checkbox']")];
+  const checked = checkboxes.filter(c => c.checked && c.value !== "Semua").map(c => c.value);
 
-  let buttonText;
-
-  if (checked.length === 0) {
-    buttonText = button.getAttribute('data-default') || "Pilih";
-  } else if (checked.length === checkboxes.length - 1) {
-    buttonText = "Semua";
-  } else {
-    buttonText = checked.join(', ');
-  }
-
-  button.textContent = buttonText;
+  button.textContent =
+    checked.length === 0 ?
+    button.dataset.default || "Pilih" :
+    checked.length === checkboxes.length - 1 ?
+    "Semua" :
+    checked.join(", ");
 }
 
 function getCheckedValues(selector) {
-  const checkboxes = document.querySelectorAll(`${selector} input[type="checkbox"]:checked`);
-  const values = Array.from(checkboxes)
+  const values = [...document.querySelectorAll(`${selector} input[type="checkbox"]:checked`)]
     .map(cb => cb.value.trim())
-    .filter(v => v !== "" && v !== "Semua");
+    .filter(v => v && v !== "Semua");
 
   return values.length ? values : null;
+}
+
+function getSelectedValues(selectId) {
+  const el = document.getElementById(selectId);
+  if (!el) return [];
+  return Array.from(el.selectedOptions).map(opt => opt.value);
+}
+
+function showChartLoading(wrapper) {
+  if (!wrapper) return;
+  wrapper.style.position = "relative";
+
+  let overlay = wrapper.querySelector(".loading-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.className = "loading-overlay position-absolute w-100 h-100 top-0 start-0";
+    overlay.style.backgroundColor = "rgba(255, 255, 255, 1)";
+    overlay.style.zIndex = "5";
+    overlay.style.borderRadius = "inherit";
+    overlay.style.pointerEvents = "none";
+    wrapper.appendChild(overlay);
+  }
+
+  let spinner = wrapper.querySelector(".loading-spinner");
+  if (!spinner) {
+    spinner = document.createElement("div");
+    spinner.className = "loading-spinner position-absolute d-flex align-items-center justify-content-center";
+    spinner.style.top = "50%";
+    spinner.style.left = "50%";
+    spinner.style.transform = "translate(-50%, -50%)";
+    spinner.style.zIndex = "10";
+    spinner.innerHTML = `
+      <div class="spinner-border text-secondary" role="status" style="width: 2.5rem; height: 2.5rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    `;
+    wrapper.appendChild(spinner);
+  }
+}
+
+function hideChartLoading(wrapper) {
+  if (!wrapper) return;
+  wrapper.querySelectorAll(".loading-overlay, .loading-spinner").forEach(el => el.remove());
+}
+
+function renderTable(data) {
+  const tableBody = document.querySelector("#rsTable tbody");
+  tableBody.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="text-center text-muted py-4">
+          Tidak ada data
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  data.forEach((row) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${row.rumah_sakit ?? '-'}</td>
+      <td>${row.jenis_rs ?? '-'}</td>
+      <td>${row.kelas_rs ?? '-'}</td>
+      <td>${row.alamat ?? '-'}</td>
+      <td>${row.kabupaten_kota ?? '-'}</td>
+      <td>${row.provinsi ?? '-'}</td>
+      <td>${row.penyelenggara_grup ?? '-'}</td>
+      <td>${row.penyelenggara_kategori ?? '-'}</td>
+    `;
+    tableBody.appendChild(tr);
+  });
+}
+
+function appendArrayParam(params, key, value) {
+  if (!value) return;
+  params.append(key, Array.isArray(value) ? value.join(",") : value);
 }
 
 async function updateKabupatenDropdown(selectedProvinsi) {
@@ -501,7 +572,7 @@ async function updateKabupatenDropdown(selectedProvinsi) {
     let html = `
       <li>
         <label class="dropdown-item d-flex align-items-center">
-          <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="">
+          <input type="checkbox" id="checkAllKabupaten" class="form-check-input me-2 kategori-checkbox" value="">
           Semua
         </label>
       </li>`;
@@ -510,17 +581,32 @@ async function updateKabupatenDropdown(selectedProvinsi) {
       html += `
         <li>
           <label class="dropdown-item d-flex align-items-center">
-            <input type="checkbox" class="form-check-input me-2 kategori-checkbox" value="${item.kabupaten_kota}">
+            <input type="checkbox" class="form-check-input me-2 kategori-checkbox kabupaten-item" value="${item.kabupaten_kota}">
             ${item.kabupaten_kota} <small class="text-muted ms-1">(${item.provinsi})</small>
           </label>
         </li>`;
     });
 
     dropdownList.innerHTML = html;
+
+    const checkAll = document.getElementById("checkAllKabupaten");
+    const kabChecks = dropdownList.querySelectorAll(".kabupaten-item");
+
+    checkAll.checked = true;
+    kabChecks.forEach(chk => (chk.checked = true));
+
+    checkAll.addEventListener("change", () => {
+      kabChecks.forEach(chk => (chk.checked = checkAll.checked));
+    });
+
+    kabChecks.forEach(chk => {
+      chk.addEventListener("change", () => {
+        if (!chk.checked) checkAll.checked = false;
+        else if ([...kabChecks].every(c => c.checked)) checkAll.checked = true;
+      });
+    });
   }
 }
-
-let lastFilters = {};
 
 async function applyFilter(isInitial = false, target = "all") {
   const jenis = getCheckedValues("#dropdownListJenis");
@@ -596,7 +682,6 @@ document.getElementById("filterTahun")?.addEventListener("change", async (e) => 
   const barWrappers = document.querySelectorAll(".chart-wrapper-bar");
   barWrappers.forEach(w => showChartLoading(w));
 
-  // Buang properti line agar tidak ikut ke-trigger
   const {
     tahun_awal,
     tahun_akhir,
@@ -627,43 +712,6 @@ document.getElementById("filterTahun")?.addEventListener("change", async (e) => 
   });
 });
 
-function showChartLoading(wrapper) {
-  if (!wrapper) return;
-  wrapper.style.position = "relative";
-
-  let overlay = wrapper.querySelector(".loading-overlay");
-  if (!overlay) {
-    overlay = document.createElement("div");
-    overlay.className = "loading-overlay position-absolute w-100 h-100 top-0 start-0";
-    overlay.style.backgroundColor = "rgba(255, 255, 255, 1)";
-    overlay.style.zIndex = "5";
-    overlay.style.borderRadius = "inherit";
-    overlay.style.pointerEvents = "none";
-    wrapper.appendChild(overlay);
-  }
-
-  let spinner = wrapper.querySelector(".loading-spinner");
-  if (!spinner) {
-    spinner = document.createElement("div");
-    spinner.className = "loading-spinner position-absolute d-flex align-items-center justify-content-center";
-    spinner.style.top = "50%";
-    spinner.style.left = "50%";
-    spinner.style.transform = "translate(-50%, -50%)";
-    spinner.style.zIndex = "10";
-    spinner.innerHTML = `
-      <div class="spinner-border text-secondary" role="status" style="width: 2.5rem; height: 2.5rem;">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    `;
-    wrapper.appendChild(spinner);
-  }
-}
-
-function hideChartLoading(wrapper) {
-  if (!wrapper) return;
-  wrapper.querySelectorAll(".loading-overlay, .loading-spinner").forEach(el => el.remove());
-}
-
 async function loadBarChartOnly(filters, isInitial = false) {
   const chartJenisWrapper = document.getElementById("chartJenisWrapper");
   const chartKelasWrapper = document.getElementById("chartKelasWrapper");
@@ -684,7 +732,7 @@ async function loadBarChartOnly(filters, isInitial = false) {
   const params = new URLSearchParams();
   if (filters.tahun) params.append("tahun", filters.tahun);
   if (filters.provinsi) params.append("provinsi", filters.provinsi);
-  if (filters.kabupaten_kota) params.append("kabupaten", filters.kabupaten_kota);
+  if (filters.kabupaten_kota) params.append("kabupaten_kota", filters.kabupaten_kota.join(","));
   if (Array.isArray(filters.jenis_rs) && filters.jenis_rs.length > 0)
     params.append("jenis_rs", filters.jenis_rs.join(","));
   if (shouldLoadKelas)
@@ -1354,177 +1402,115 @@ async function loadFilteredTable(filters) {
   }
 }
 
-function renderTable(data) {
-  const tableBody = document.querySelector("#rsTable tbody");
-  tableBody.innerHTML = "";
-
-  if (!data || data.length === 0) {
-    tableBody.innerHTML = `
-      <tr>
-        <td colspan="8" class="text-center text-muted py-4">
-          Tidak ada data
-        </td>
-      </tr>
-    `;
-    return;
-  }
-
-  data.forEach((row) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${row.rumah_sakit ?? '-'}</td>
-      <td>${row.jenis_rs ?? '-'}</td>
-      <td>${row.kelas_rs ?? '-'}</td>
-      <td>${row.alamat ?? '-'}</td>
-      <td>${row.kabupaten_kota ?? '-'}</td>
-      <td>${row.provinsi ?? '-'}</td>
-      <td>${row.penyelenggara_grup ?? '-'}</td>
-      <td>${row.penyelenggara_kategori ?? '-'}</td>
-    `;
-    tableBody.appendChild(tr);
-  });
-}
-
-document.getElementById("exportCsvBtn").addEventListener("click", () => {
-  const filters = lastFilters;
-
-  const params = new URLSearchParams();
-
-  if (filters.tahun) params.append("tahun", filters.tahun);
-  if (filters.provinsi) params.append("provinsi", filters.provinsi);
-  if (filters.kabupaten_kota) params.append("kabupaten_kota", filters.kabupaten_kota);
-  if (filters.jenis_rs?.length) params.append("jenis_rs", filters.jenis_rs.join(","));
-  if (filters.kelas_rs?.length) params.append("kelas_rs", filters.kelas_rs.join(","));
-  if (filters.penyelenggara_grup?.length) params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
-  if (filters.penyelenggara_kategori?.length) params.append("penyelenggara_kategori", filters.penyelenggara_kategori
-    .join(","));
-
-  const url = `/dashboard/exportCsv?${params.toString()}`;
-  console.log("🔗 Export CSV URL:", url);
-  window.location.href = url;
-});
-
-function getSelectedValues(selectId) {
-  const el = document.getElementById(selectId);
-  if (!el) return [];
-  return Array.from(el.selectedOptions).map(opt => opt.value);
-}
-
-document.getElementById("exportXlsBtn").addEventListener("click", () => {
-  const filters = lastFilters;
-
-  const params = new URLSearchParams();
-  params.append("kolom", "kelas_rs");
-  params.append("subkolom", "jenis_rs");
-
-  if (filters.tahun) params.append("tahun", filters.tahun);
-  if (filters.provinsi) params.append("provinsi", filters.provinsi);
-  if (filters.kabupaten_kota) params.append("kabupaten_kota", filters.kabupaten_kota);
-  if (filters.jenis_rs?.length) params.append("jenis_rs", filters.jenis_rs.join(","));
-  if (filters.kelas_rs?.length) params.append("kelas_rs", filters.kelas_rs.join(","));
-  if (filters.penyelenggara_grup?.length) params.append("penyelenggara_grup", filters.penyelenggara_grup.join(","));
-  if (filters.penyelenggara_kategori?.length) params.append("penyelenggara_kategori", filters.penyelenggara_kategori
-    .join(","));
-
-  const url = `/dashboard/exportXls?${params.toString()}`;
-  console.log("🔗 Export URL:", url);
-  window.location.href = url;
-});
-
 function initDropdowns() {
-  document.querySelectorAll('.dropdown').forEach(dropdown => {
-    const button = dropdown.querySelector('.custom-select-dropdown');
-    const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
-    const menu = dropdown.querySelector('.dropdown-menu');
+  document.querySelectorAll(".dropdown").forEach(dropdown => {
+    const button = dropdown.querySelector(".custom-select-dropdown");
+    const checkboxes = dropdown.querySelectorAll("input[type='checkbox']");
+    const menu = dropdown.querySelector(".dropdown-menu");
 
-    menu.addEventListener('click', e => e.stopPropagation());
-    button.setAttribute('data-default', button.textContent);
+    if (!button || !menu || !checkboxes.length) return;
+
+    menu.addEventListener("click", e => e.stopPropagation());
+
+    button.setAttribute("data-default", button.textContent);
+
+    const selectAll = checkboxes[0];
+    if (selectAll && !selectAll.value) {
+      selectAll.addEventListener("change", () => {
+        const checked = selectAll.checked;
+        checkboxes.forEach(cb => (cb.checked = checked));
+        updateDropdownButtonText(dropdown);
+      });
+    }
 
     checkboxes.forEach(cb => {
-      cb.addEventListener('change', () => {
-        if (!cb.value) {
-          const checked = cb.checked;
-          checkboxes.forEach(c => c.checked = checked);
+      cb.addEventListener("change", () => {
+        if (cb !== selectAll && selectAll) {
+          selectAll.checked = Array.from(checkboxes)
+            .slice(1)
+            .every(c => c.checked);
         }
         updateDropdownButtonText(dropdown);
       });
     });
-
-    const selectAll = checkboxes[0];
-    if (selectAll) {
-      selectAll.addEventListener('change', () => {
-        checkboxes.forEach(cb => cb.checked = selectAll.checked);
-        updateDropdownButtonText(dropdown);
-      });
-      checkboxes.forEach(cb => {
-        if (cb === selectAll) return;
-        cb.addEventListener('change', () => {
-          selectAll.checked = Array.from(checkboxes).slice(1).every(c => c.checked);
-          updateDropdownButtonText(dropdown);
-        });
-      });
-    }
   });
+
+  document
+    .querySelectorAll("#dropdownListProvinsi input[type='checkbox']")
+    .forEach(cb => {
+      cb.addEventListener("change", async () => {
+        const selectedProvinsi = getCheckedValues("#dropdownListProvinsi");
+        await updateKabupatenDropdown(selectedProvinsi);
+      });
+    });
 }
 
-document.querySelectorAll("#dropdownListProvinsi input[type='checkbox']").forEach(cb => {
-  cb.addEventListener("change", async () => {
-    const selectedProvinsi = getCheckedValues("#dropdownListProvinsi");
-    await updateKabupatenDropdown(selectedProvinsi);
-  });
-});
+function initExportButtons() {
+  const csvBtn = document.getElementById("exportCsvBtn");
+  const xlsBtn = document.getElementById("exportXlsBtn");
 
-document.querySelectorAll('.dropdown').forEach(dropdown => {
-  const button = dropdown.querySelector('.custom-select-dropdown');
-  const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
-  const menu = dropdown.querySelector('.dropdown-menu');
+  if (csvBtn) {
+    csvBtn.addEventListener("click", () => {
+      const filters = lastFilters;
+      const params = new URLSearchParams();
 
-  menu.addEventListener('click', e => e.stopPropagation());
+      appendArrayParam(params, "tahun", filters.tahun);
+      appendArrayParam(params, "provinsi", filters.provinsi);
+      appendArrayParam(params, "kabupaten_kota", filters.kabupaten_kota);
+      appendArrayParam(params, "jenis_rs", filters.jenis_rs);
+      appendArrayParam(params, "kelas_rs", filters.kelas_rs);
+      appendArrayParam(params, "penyelenggara_grup", filters.penyelenggara_grup);
+      appendArrayParam(params, "penyelenggara_kategori", filters.penyelenggara_kategori);
 
-  button.setAttribute('data-default', button.textContent);
-
-  checkboxes.forEach(cb => {
-    cb.addEventListener('change', () => {
-      if (!cb.value) {
-        const isChecked = cb.checked;
-        checkboxes.forEach(c => c.checked = isChecked);
-      }
-
-      const checked = Array.from(checkboxes)
-        .filter(c => c.checked && c.value)
-        .map(c => c.value);
-
-      let buttonText;
-      if (checked.length === 0 || checked.length === checkboxes.length - 1) {
-        buttonText = "Semua";
-      } else {
-        buttonText = checked.join(', ');
-      }
-
-      if (!checked.length && !checkboxes[0].checked) {
-        buttonText = button.getAttribute('data-default');
-      }
-
-      button.textContent = buttonText;
+      const url = `/dashboard/exportCsv?${params.toString()}`;
+      console.log("🔗 Export CSV URL:", url);
+      window.location.href = url;
     });
-  });
-});
+  }
+
+  if (xlsBtn) {
+    xlsBtn.addEventListener("click", () => {
+      const filters = lastFilters;
+      const params = new URLSearchParams();
+
+      params.append("kolom", "kelas_rs");
+      params.append("subkolom", "jenis_rs");
+
+      appendArrayParam(params, "tahun", filters.tahun);
+      appendArrayParam(params, "provinsi", filters.provinsi);
+      appendArrayParam(params, "kabupaten_kota", filters.kabupaten_kota);
+      appendArrayParam(params, "jenis_rs", filters.jenis_rs);
+      appendArrayParam(params, "kelas_rs", filters.kelas_rs);
+      appendArrayParam(params, "penyelenggara_grup", filters.penyelenggara_grup);
+      appendArrayParam(params, "penyelenggara_kategori", filters.penyelenggara_kategori);
+
+      const url = `/dashboard/exportXls?${params.toString()}`;
+      console.log("🔗 Export XLS URL:", url);
+      window.location.href = url;
+    });
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   initDropdowns();
 
-  const defaults = ["#dropdownListJenis", "#dropdownListProvinsi", "#dropdownListKabupatenKota"];
+  const defaults = [
+    "#dropdownListJenis",
+    "#dropdownListProvinsi",
+    "#dropdownListKabupatenKota",
+  ];
   defaults.forEach(id => {
     const menu = document.querySelector(id);
     if (!menu) return;
+    const dropdown = menu.closest(".dropdown");
+    const button = dropdown.querySelector(".custom-select-dropdown");
     const checkboxes = menu.querySelectorAll("input[type='checkbox']");
 
     checkboxes.forEach(cb => (cb.checked = false));
-
-    const dropdown = menu.closest(".dropdown");
-    const button = dropdown.querySelector(".custom-select-dropdown");
     button.textContent = "Semua";
   });
+
+  initExportButtons();
 
   applyFilter(true);
 
