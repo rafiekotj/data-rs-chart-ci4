@@ -153,7 +153,6 @@ class Dashboard extends BaseController
               }
             }
           } catch (\Throwable $innerErr) {
-            // lewati error per-provinsi
             continue;
           }
         }

@@ -145,22 +145,27 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  position: relative;
+  padding-right: 48px;
 }
 
 .custom-select-dropdown::after {
   content: '';
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-color: #fff;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%236c757d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
   background-repeat: no-repeat;
   background-position: center;
-  width: 19px;
-  height: 19px;
-  background-size: contain;
+  background-size: 16px 16px;
+
+  width: 36px;
+  height: 100%;
   position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
+  top: 0;
+  right: 0;
   pointer-events: none;
-  color: #6c757d;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  box-shadow: inset 2px 0 0 #fff;
 }
 
 .dropdown-menu .form-check-label,
@@ -365,5 +370,59 @@ body {
   #sidebar.active ~ #content,
   #sidebar.active ~ .footer {
     margin-left: 240px !important;
+  }
+}
+
+/* Media 496px */
+@media (max-width: 496px) {
+  .navbar,
+  #content,
+  .footer {
+    margin-left: 0 !important;
+    transform: none !important;
+  }
+
+  #sidebar.active ~ .navbar,
+  #sidebar.active ~ #content,
+  #sidebar.active ~ .footer {
+    margin-left: 0 !important;
+  }
+
+  #sidebar {
+    position: fixed !important;
+    transform: translateX(-100%);
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 240px;
+    z-index: 1050;
+    background-color: #f1f5f9;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1040;
+    display: none;
+  }
+
+  .sidebar-overlay.show {
+    display: block;
+  }
+
+  .row.g-3.mb-3 .col-4 {
+    flex: 0 0 30%;
+    max-width: 30%;
+  }
+  .row.g-3.mb-3 .col-4:last-child {
+    flex: 0 0 40%;
+    max-width: 40%;
   }
 }

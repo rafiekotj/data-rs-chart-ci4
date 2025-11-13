@@ -434,14 +434,26 @@ const verticalLinePlugin = {
 function updateDropdownButtonText(dropdown) {
   const button = dropdown.querySelector(".custom-select-dropdown");
   const checkboxes = [...dropdown.querySelectorAll("input[type='checkbox']")];
+  const checkAll = checkboxes.find(c => c.value === "Semua");
   const checked = checkboxes.filter(c => c.checked && c.value !== "Semua").map(c => c.value);
 
-  button.textContent =
-    checked.length === 0 ?
-    button.dataset.default || "Pilih" :
-    checked.length === checkboxes.length - 1 ?
-    "Semua" :
-    checked.join(", ");
+  if (checkAll && checkAll.checked) {
+    button.textContent = "Semua";
+    return;
+  }
+
+  if (checked.length === 0) {
+    button.textContent = button.dataset.default || "Pilih";
+    return;
+  }
+
+  const nonAll = checkboxes.filter(c => c.value !== "Semua");
+  if (checked.length === nonAll.length) {
+    button.textContent = "Semua";
+    return;
+  }
+
+  button.textContent = checked.join(", ");
 }
 
 function getCheckedValues(selector) {
@@ -541,25 +553,27 @@ function appendArrayParam(params, key, value) {
 
 async function updateKabupatenDropdown(selectedProvinsi) {
   const dropdownList = document.getElementById("dropdownListKabupatenKota");
-  if (!dropdownList) return;
+  const dropdownButton = document.getElementById("dropdownKabupatenKota");
+  if (!dropdownList || !dropdownButton) return;
 
-  const setLoading = (html) => dropdownList.innerHTML = html;
+  const setLoading = (html) => (dropdownList.innerHTML = html);
+
+  if (!selectedProvinsi?.length) {
+    setLoading(`
+      <li><label class="dropdown-item text-muted">Pilih provinsi terlebih dahulu</label></li>
+    `);
+    dropdownButton.textContent = "Pilih Kabupaten/Kota";
+    return;
+  }
 
   setLoading(`
     <li class="text-center py-3">
-      <div class="spinner-border text-primary spinner-border-sm" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+      <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
       <div class="small text-muted mt-2">Memuat data kabupaten...</div>
     </li>
   `);
 
   try {
-    if (!selectedProvinsi?.length) {
-      setLoading(`<li><label class="dropdown-item text-muted">Pilih provinsi terlebih dahulu</label></li>`);
-      return;
-    }
-
     const encodedProv = encodeURIComponent(selectedProvinsi.join(","));
     const res = await fetch(`/dashboard/getKabupatenByProvinsi?provinsi=${encodedProv}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -567,6 +581,7 @@ async function updateKabupatenDropdown(selectedProvinsi) {
     const data = await res.json();
     if (!Array.isArray(data) || !data.length) {
       setLoading(`<li><label class="dropdown-item text-muted">Tidak ada data kabupaten</label></li>`);
+      dropdownButton.textContent = "Pilih Kabupaten/Kota";
       return;
     }
 
@@ -574,17 +589,20 @@ async function updateKabupatenDropdown(selectedProvinsi) {
   } catch (err) {
     console.error("❌ Gagal memuat kabupaten:", err);
     setLoading(`<li><label class="dropdown-item text-danger">Gagal memuat data</label></li>`);
+    dropdownButton.textContent = "Pilih Kabupaten/Kota";
   }
 
   function renderKabupatenList(data) {
-    const items = data.map(item => `
+    const items = data.map(
+      (item) => `
       <li>
         <label class="dropdown-item d-flex align-items-center">
           <input type="checkbox" class="form-check-input me-2 kategori-checkbox kabupaten-item" value="${item.kabupaten_kota}">
           ${item.kabupaten_kota} <small class="text-muted ms-1">(${item.provinsi})</small>
         </label>
       </li>
-    `).join("");
+    `
+    ).join("");
 
     dropdownList.innerHTML = `
       <li>
@@ -600,17 +618,36 @@ async function updateKabupatenDropdown(selectedProvinsi) {
     const kabChecks = dropdownList.querySelectorAll(".kabupaten-item");
 
     checkAll.checked = true;
-    kabChecks.forEach(chk => chk.checked = true);
+    kabChecks.forEach((chk) => (chk.checked = true));
+    updateButtonText();
 
-    checkAll.addEventListener("change", () =>
-      kabChecks.forEach(chk => chk.checked = checkAll.checked)
+    checkAll.addEventListener("change", () => {
+      kabChecks.forEach((chk) => (chk.checked = checkAll.checked));
+      updateButtonText();
+    });
+
+    kabChecks.forEach((chk) =>
+      chk.addEventListener("change", () => {
+        checkAll.checked = [...kabChecks].every((c) => c.checked);
+        updateButtonText();
+      })
     );
 
-    kabChecks.forEach(chk => {
-      chk.addEventListener("change", () => {
-        checkAll.checked = [...kabChecks].every(c => c.checked);
-      });
-    });
+    function updateButtonText() {
+      const selected = [...kabChecks]
+        .filter((c) => c.checked)
+        .map((c) => c.value);
+
+      if (checkAll.checked || selected.length === kabChecks.length) {
+        dropdownButton.textContent = "Semua";
+      } else if (selected.length === 0) {
+        dropdownButton.textContent = "Pilih Kabupaten/Kota";
+      } else if (selected.length === 1) {
+        dropdownButton.textContent = selected[0];
+      } else {
+        dropdownButton.textContent = `${selected[0]} +${selected.length - 1}`;
+      }
+    }
   }
 }
 
