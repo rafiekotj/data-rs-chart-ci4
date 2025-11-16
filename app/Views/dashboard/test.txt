@@ -1,1 +1,0 @@
-http://localhost:8080/dashboard/bar/jenis_rs?subkolom=kelas_rs&tahun=2025&jenis_rs=RSU,RSIA,RSK%20Jiwa,RSK%20Mata,RSK%20GM,RSK%20Bedah,RSK%20Jantung,RSK%20Paru,RSK%20Orthopedi,RSK%20Kanker,RSK%20THT-KL,RSK%20Infeksi,RSK%20Ginjal%20RS%20Bergerak,RSK%20Otak,RSKO,RSK%20Stroke&kelas_rs=A,B,C,D,D%20PRATAMA,Belum%20Ditetapkan

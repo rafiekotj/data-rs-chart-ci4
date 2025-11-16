@@ -209,12 +209,14 @@ class Dashboard extends BaseController
 
     $dataResult = $this->dashboardModel->getFilteredTable('kelas_rs', $filters, 'jenis_rs', 500, 0, true);
     $data = $dataResult['data'] ?? [];
+    $tahun = $filters['tahun'] ?? '-';
 
     if (empty($data)) {
       return $this->response->setJSON(['error' => 'Tidak ada data']);
     }
 
-    $filename = 'Data_RS_' . ($filters['tahun'] ?? '-') . '.csv';
+    date_default_timezone_set('Asia/Jakarta');
+    $filename = "data_rs_{$tahun}_" . date('Ymd_His') . '.csv';
     $tempPath = WRITEPATH . 'uploads/' . $filename;
 
     $fp = fopen($tempPath, 'w');
@@ -326,6 +328,7 @@ class Dashboard extends BaseController
     $sheet->getStyle('A1:I1')->getFont()->setBold(true);
     $sheet->setTitle("Data RS {$tahun}");
 
+    date_default_timezone_set('Asia/Jakarta');
     $filename = "data_rs_{$tahun}_" . date('Ymd_His') . '.xlsx';
 
     if (ob_get_length()) {

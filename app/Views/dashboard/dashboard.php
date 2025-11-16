@@ -163,7 +163,7 @@
   <!-- PERTAHUN -->
   <div class="col-md-3 col-sm-6 mt-0">
     <label for="filterTahun" class="form-label">Per Tahun</label>
-    <select id="filterTahun" class="form-select">
+    <select id="filterTahun" class="form-select tahun-select">
       <?php usort($listTahun, fn($a, $b) => $b['tahun'] <=> $a['tahun']); ?>
       <?php foreach ($listTahun as $thn): ?>
       <option value="<?= esc($thn['tahun']) ?>"><?= esc($thn['tahun']) ?></option>
@@ -214,15 +214,15 @@
   <div class="col-md-3 col-sm-6 mt-3">
     <label class="form-label">Rentang Tahun</label>
     <div class="d-flex align-items-center">
-      <select id="tahunAwal" class="form-select me-2" style="max-width:120px;">
+      <select id="tahunAwal" class="form-select me-2 tahun-range" style="max-width:120px;">
         <?php foreach ($listTahun as $thn): ?>
         <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $minTahun ? 'selected' : '' ?>>
           <?= esc($thn['tahun']) ?>
         </option>
         <?php endforeach; ?>
       </select>
-      <span class="mx-2">sampai</span>
-      <select id="tahunAkhir" class="form-select ms-2" style="max-width:120px;">
+      <span class="mx-2" style="font-size: 14px;">sampai</span>
+      <select id="tahunAkhir" class="form-select ms-2 tahun-range" style="max-width:120px;">
         <?php foreach ($listTahun as $thn): ?>
         <option value="<?= esc($thn['tahun']) ?>" <?= $thn['tahun'] == $maxTahun ? 'selected' : '' ?>>
           <?= esc($thn['tahun']) ?>
